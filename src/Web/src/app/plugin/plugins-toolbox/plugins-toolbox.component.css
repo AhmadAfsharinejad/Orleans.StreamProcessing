@@ -1,0 +1,5 @@
+.plugins-toolbox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

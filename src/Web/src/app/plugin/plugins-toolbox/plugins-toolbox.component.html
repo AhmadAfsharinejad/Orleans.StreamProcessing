@@ -1,0 +1,8 @@
+<div class="plugins-toolbox">
+    <app-plugin-toolbox *ngFor="let plugin of plugins"
+                        [draggable]="true"
+                        [plugin]="plugin"
+                        draggable="true"
+                        (dragstart)="onPluginDragStarted($event, plugin.pluginTypeId)">
+    </app-plugin-toolbox>
+</div>

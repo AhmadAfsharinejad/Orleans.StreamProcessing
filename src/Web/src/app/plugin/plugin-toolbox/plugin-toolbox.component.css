@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-wrapper {
+    height: 5rem;
+    width: 5rem;
+    position: relative;
+}

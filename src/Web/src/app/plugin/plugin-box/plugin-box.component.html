@@ -1,0 +1,17 @@
+<div *ngIf="plugin" class="container">
+
+    <div *ngIf="plugin.iconPath"
+         class="image-wrapper">
+
+        <img ngSrc="{{plugin.iconPath}}"
+             alt="{{plugin.label}} plugin icon"
+             fill="true"
+             priority="true"
+        />
+
+    </div>
+
+    <div>
+        {{plugin.label}}
+    </div>
+</div>
