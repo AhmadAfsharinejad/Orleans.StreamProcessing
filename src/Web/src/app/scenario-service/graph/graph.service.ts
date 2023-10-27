@@ -34,8 +34,8 @@ export class GraphService {
             y: (y - 30),
             id: pluginId.value,
             label: 'world',
-            width: 60,
-            height: 60,
+            width: 100,
+            height: 100,
             data: {
                 ngArguments: {
                     plugin: plugin
