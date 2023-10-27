@@ -1,7 +1,19 @@
-.container{
+:host {
+    display: block;
+    height: 100%;
 }
 
-.footer{
+.spinner {
+    display: flex;
+    height: 100%;
+}
+
+.container {
+    height: 100%;
+    display: block;
+}
+
+.footer {
     border-top: 1px solid #f0f0f0;
     padding-top: 9px;
     display: flex;
@@ -9,7 +21,7 @@
     align-self: flex-end;
 }
 
-.container{
+.template {
     padding-bottom: 20px;
     flex-grow: 1;
 }
