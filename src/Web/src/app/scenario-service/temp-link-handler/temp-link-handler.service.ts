@@ -20,7 +20,7 @@ export class TempLinkHandlerService {
         this.graph = graph;
         this.graphService = graphService;
 
-        graph.on('node:click', ({e, x, y, node, view}) => this.nodeClicked(x, y, node.id));
+        graph.on('node:click', ({x, y, node}) => this.nodeClicked(x, y, node.id));
 
         this.container = document.getElementById(graphContainerId);
     }
@@ -86,7 +86,7 @@ export class TempLinkHandlerService {
         this.moveTempLink(e.offsetX, e.offsetY);
     };
 
-    mouseLeaveHandler = (e: MouseEvent): void => {
+    mouseLeaveHandler = (): void => {
         this.clear();
     };
 }
