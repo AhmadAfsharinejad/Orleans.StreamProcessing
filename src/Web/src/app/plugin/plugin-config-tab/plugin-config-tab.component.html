@@ -1,5 +1,7 @@
-<nz-tabset nzType="card">
-    <nz-tab *ngFor="let tab of pluginTabs" [nzTitle]="tab.name">
-        <app-plugin-config [configs]="tab.configs" />
-    </nz-tab>
-</nz-tabset>
+<app-base-plugin (confirmed)="confirmed()">
+    <nz-tabset nzType="card">
+        <nz-tab *ngFor="let tab of config.configTabs" [nzTitle]="tab.name">
+            <app-plugin-properties [properties]="tab.properties"/>
+        </nz-tab>
+    </nz-tabset>
+</app-base-plugin>

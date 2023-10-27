@@ -1,6 +1,6 @@
-import {PluginConfig} from "./plugin-config";
+import {PluginProperty} from "./plugin-property";
 
 export interface PluginConfigTab {
     name: string;
-    configs: PluginConfig[];
+    properties: PluginProperty[];
 }

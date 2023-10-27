@@ -1,41 +1,33 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit, ViewChild} from '@angular/core';
 import {PluginConfigTab} from "../../plugin-dto/plugin-config-tab";
-import {PluginConfigType} from "../../plugin-dto/plugin-config-type";
+import {BasePluginComponent} from "../base-plugin/base-plugin.component";
+import {NZ_MODAL_DATA} from "ng-zorro-antd/modal";
+import {PluginConfigSetService} from "../../plugin-service/plugin-config-set/plugin-config-set.service";
+import {PluginConfig} from "../../plugin-dto/plugin-config";
 
 @Component({
-  selector: 'app-plugin-config-tab',
-  templateUrl: './plugin-config-tab.component.html',
-  styleUrls: ['./plugin-config-tab.component.css']
+    selector: 'app-plugin-properties-tab',
+    templateUrl: './plugin-config-tab.component.html',
+    styleUrls: ['./plugin-config-tab.component.css']
 })
-export class PluginConfigTabComponent implements OnInit {
-@Input() pluginTabs!:PluginConfigTab[];
+export class PluginConfigTabComponent {
+    readonly config: PluginConfig = inject(NZ_MODAL_DATA);
 
-//TODO
-  ngOnInit(): void {
-    this.pluginTabs = [{
-      configs: [{
-        name: 'c1',
-        type : PluginConfigType.BOOLEAN,
-        value: true
-      },
-        {
-          name: 'c2222222222',
-          type : PluginConfigType.INTEGER,
-          value: 12
-        }],
-      name: 't1'
-    },{
-      configs: [{
-        name: 'c1',
-        type : PluginConfigType.TEXT,
-        value: 'sdasda'
-      },
-        {
-          name: 'c2',
-          type : PluginConfigType.FLOAT,
-          value: 12.2
-        }],
-      name: 'tab2222'
-    }];
-  }
+    @ViewChild(BasePluginComponent) child!: BasePluginComponent;
+
+    constructor(private pluginConfigSetService: PluginConfigSetService) {
+    }
+
+    async confirmed() {
+        this.child.startProgress();
+
+        try {
+            await this.pluginConfigSetService.set(this.config);
+            this.child.closeModal();
+        } catch (error) {
+            //TODO
+        } finally {
+            this.child.endProgress();
+        }
+    }
 }

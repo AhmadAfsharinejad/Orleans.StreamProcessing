@@ -16,7 +16,7 @@ export class TempLinkHandlerService {
     constructor() {
     }
 
-    init(graphService: GraphService, graph: Graph, graphContainerId: string): void {
+    initGraph(graphService: GraphService, graph: Graph, graphContainerId: string): void {
         this.graph = graph;
         this.graphService = graphService;
 

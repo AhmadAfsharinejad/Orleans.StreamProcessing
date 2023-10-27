@@ -1,0 +1,15 @@
+.container{
+}
+
+.footer{
+    border-top: 1px solid #f0f0f0;
+    padding-top: 9px;
+    display: flex;
+    gap: 7px;
+    align-self: flex-end;
+}
+
+.container{
+    padding-bottom: 20px;
+    flex-grow: 1;
+}
