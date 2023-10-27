@@ -1,0 +1,12 @@
+<table>
+    <tbody>
+    <tr *ngFor="let config of configs">
+        <td>{{config.name}}</td>
+        <td>
+            <input *ngIf="config.type == PluginConfigType.TEXT" type="text" [(ngModel)]="config.value"/>
+            <input *ngIf="config.type == PluginConfigType.NUMBER" type="number" [(ngModel)]="config.value"/>
+            <input *ngIf="config.type == PluginConfigType.BOOLEAN" type="checkbox" [(ngModel)]="config.value"/>
+        </td>
+    </tr>
+    </tbody>
+</table>

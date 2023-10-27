@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { ScenarioDesignerComponent } from './scenario/scenario-designer/scenario-designer.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -11,6 +10,10 @@ import { PluginsToolboxComponent } from './plugin/plugins-toolbox/plugins-toolbo
 import { PluginToolboxComponent } from './plugin/plugin-toolbox/plugin-toolbox.component';
 import {NgOptimizedImage} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
+import { PluginConfigComponent } from './plugin/plugin-config/plugin-config.component';
+import {NzTabsModule} from "ng-zorro-antd/tabs";
+import { PluginConfigTabComponent } from './plugin/plugin-config-tab/plugin-config-tab.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -20,13 +23,17 @@ import {RouterOutlet} from "@angular/router";
     ScenarioPanelComponent,
     PluginBoxComponent,
     PluginsToolboxComponent,
-    PluginToolboxComponent
+    PluginToolboxComponent,
+    PluginConfigComponent,
+    PluginConfigTabComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgOptimizedImage,
-    RouterOutlet
+    RouterOutlet,
+    NzTabsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
