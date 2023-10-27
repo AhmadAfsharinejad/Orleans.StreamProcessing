@@ -23,7 +23,7 @@ export class ScenarioDesignerComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.registerShape();
 
-    this.graphService.init(this.graph!);
+    this.graphService.init(this.graph!, 'container');
   }
 
   registerShape(): void {
