@@ -1,7 +1,7 @@
-import {PluginConfigType} from "./plugin-config-type";
+import {PluginUiType} from "./plugin-ui-type";
 
 export interface PluginProperty {
     name: string;
     value: any;
-    type: PluginConfigType;
+    type: PluginUiType;
 }

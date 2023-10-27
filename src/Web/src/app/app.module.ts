@@ -12,7 +12,7 @@ import {NgOptimizedImage} from "@angular/common";
 import {RouterOutlet} from "@angular/router";
 import { PluginPropertiesComponent } from './plugin/plugin-properties/plugin-properties.component';
 import {NzTabsModule} from "ng-zorro-antd/tabs";
-import { PluginConfigTabComponent } from './plugin/plugin-config-tab/plugin-config-tab.component';
+import { PluginPropertiesTabComponent } from './plugin/plugin-properties-tab/plugin-properties-tab.component';
 import {FormsModule} from "@angular/forms";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzTimePickerModule} from "ng-zorro-antd/time-picker";
@@ -34,7 +34,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     PluginsToolboxComponent,
     PluginToolboxComponent,
     PluginPropertiesComponent,
-    PluginConfigTabComponent,
+    PluginPropertiesTabComponent,
     BasePluginComponent
   ],
     imports: [

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {PluginId} from "../../plugin-dto/plugin-id";
 import {PluginConfigGetService} from "../plugin-config-get/plugin-config-get.service";
 import {NzModalService} from "ng-zorro-antd/modal";
-import {PluginConfigTabComponent} from "../../plugin/plugin-config-tab/plugin-config-tab.component";
+import {PluginPropertiesTabComponent} from "../../plugin/plugin-properties-tab/plugin-properties-tab.component";
 
 @Injectable({
     providedIn: 'root'
@@ -19,7 +19,7 @@ export class PluginConfigShowService {
 
         this.modalService.create({
             nzTitle: 'cnf',
-            nzContent: PluginConfigTabComponent,
+            nzContent: PluginPropertiesTabComponent,
             nzFooter: null,
             nzClosable: false,
             nzMaskClosable: false,

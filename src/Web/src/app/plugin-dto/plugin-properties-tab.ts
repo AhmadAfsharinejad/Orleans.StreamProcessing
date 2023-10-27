@@ -1,6 +1,6 @@
 import {PluginProperty} from "./plugin-property";
 
-export interface PluginConfigTab {
+export interface PluginPropertiesTab {
     name: string;
     properties: PluginProperty[];
 }

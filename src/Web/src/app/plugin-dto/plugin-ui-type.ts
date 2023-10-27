@@ -1,4 +1,4 @@
-export enum PluginConfigType {
+export enum PluginUiType {
     TEXT = 0,
     INTEGER = 1,
     FLOAT = 2,

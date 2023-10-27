@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {PluginProperty} from "../../plugin-dto/plugin-property";
-import {PluginConfigType} from "../../plugin-dto/plugin-config-type";
+import {PluginUiType} from "../../plugin-dto/plugin-ui-type";
 
 @Component({
     selector: 'app-plugin-properties',
@@ -9,5 +9,5 @@ import {PluginConfigType} from "../../plugin-dto/plugin-config-type";
 })
 export class PluginPropertiesComponent {
     @Input() properties!: PluginProperty[];
-    protected readonly PluginConfigType = PluginConfigType;
+    protected readonly PluginUiType = PluginUiType;
 }

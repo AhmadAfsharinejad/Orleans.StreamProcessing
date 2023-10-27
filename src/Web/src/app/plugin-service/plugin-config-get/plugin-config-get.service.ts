@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
-import {PluginConfigTab} from "../../plugin-dto/plugin-config-tab";
-import {PluginConfigType} from "../../plugin-dto/plugin-config-type";
+import {PluginUiType} from "../../plugin-dto/plugin-ui-type";
 import {PluginId} from "../../plugin-dto/plugin-id";
 import {PluginConfig} from "../../plugin-dto/plugin-config";
 
@@ -16,27 +15,27 @@ export class PluginConfigGetService {
         //TODO
         return {
             id: id,
-            configTabs: [{
+            propertiesTabs: [{
                 properties: [{
                     name: 'c1',
-                    type: PluginConfigType.BOOLEAN,
+                    type: PluginUiType.BOOLEAN,
                     value: true
                 },
                     {
                         name: 'c2222222222',
-                        type: PluginConfigType.INTEGER,
+                        type: PluginUiType.INTEGER,
                         value: 12
                     }],
                 name: 't1'
             }, {
                 properties: [{
                     name: 'c1',
-                    type: PluginConfigType.TEXT,
+                    type: PluginUiType.TEXT,
                     value: 'Hi'
                 },
                     {
                         name: 'c2',
-                        type: PluginConfigType.FLOAT,
+                        type: PluginUiType.FLOAT,
                         value: 12.2
                     }],
                 name: 'tab2222'
