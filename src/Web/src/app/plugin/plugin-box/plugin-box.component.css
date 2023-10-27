@@ -3,3 +3,14 @@
     flex-direction: column;
     align-items: center;
 }
+
+.image-wrapper {
+  margin-bottom: 10px;
+  height: 5rem;
+  width: 5rem;
+  position: relative;
+}
+
+.label {
+  text-align: center;
+}
