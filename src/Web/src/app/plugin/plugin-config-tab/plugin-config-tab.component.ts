@@ -20,7 +20,7 @@ export class PluginConfigTabComponent implements OnInit {
       },
         {
           name: 'c2222222222',
-          type : PluginConfigType.NUMBER,
+          type : PluginConfigType.INTEGER,
           value: 12
         }],
       name: 't1'
@@ -32,7 +32,7 @@ export class PluginConfigTabComponent implements OnInit {
       },
         {
           name: 'c2',
-          type : PluginConfigType.NUMBER,
+          type : PluginConfigType.FLOAT,
           value: 12.2
         }],
       name: 'tab2222'

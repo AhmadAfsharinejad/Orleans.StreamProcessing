@@ -14,6 +14,10 @@ import { PluginConfigComponent } from './plugin/plugin-config/plugin-config.comp
 import {NzTabsModule} from "ng-zorro-antd/tabs";
 import { PluginConfigTabComponent } from './plugin/plugin-config-tab/plugin-config-tab.component';
 import {FormsModule} from "@angular/forms";
+import {NzInputModule} from "ng-zorro-antd/input";
+import {NzTimePickerModule} from "ng-zorro-antd/time-picker";
+import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
+import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 
 @NgModule({
   declarations: [
@@ -27,14 +31,18 @@ import {FormsModule} from "@angular/forms";
     PluginConfigComponent,
     PluginConfigTabComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    NgOptimizedImage,
-    RouterOutlet,
-    NzTabsModule,
-    FormsModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        NgOptimizedImage,
+        RouterOutlet,
+        NzTabsModule,
+        FormsModule,
+        NzInputModule,
+        NzTimePickerModule,
+        NzDatePickerModule,
+        NzInputNumberModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

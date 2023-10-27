@@ -3,9 +3,17 @@
     <tr *ngFor="let config of configs">
         <td>{{config.name}}</td>
         <td>
-            <input *ngIf="config.type == PluginConfigType.TEXT" type="text" [(ngModel)]="config.value"/>
-            <input *ngIf="config.type == PluginConfigType.NUMBER" type="number" [(ngModel)]="config.value"/>
-            <input *ngIf="config.type == PluginConfigType.BOOLEAN" type="checkbox" [(ngModel)]="config.value"/>
+            <input nz-input nzSize="default" *ngIf="config.type == PluginConfigType.TEXT" [(ngModel)]="config.value"/>
+            <nz-input-number [nzPrecision]=0 *ngIf="config.type == PluginConfigType.INTEGER"
+                             [(ngModel)]="config.value"/>
+            <nz-input-number *ngIf="config.type == PluginConfigType.FLOAT" [(ngModel)]="config.value"/>
+            <nz-checkbox *ngIf="config.type == PluginConfigType.BOOLEAN" [(ngModel)]="config.value"></nz-checkbox>
+            <textarea nz-input *ngIf="config.type == PluginConfigType.LargeTEXT" [(ngModel)]="config.value"></textarea>
+            <nz-time-picker *ngIf="config.type == PluginConfigType.TimeSpan"
+                            [(ngModel)]="config.value"></nz-time-picker>
+            <nz-date-picker *ngIf="config.type == PluginConfigType.Date" [(ngModel)]="config.value"></nz-date-picker>
+            <nz-date-picker [nzShowTime]="true" *ngIf="config.type == PluginConfigType.DateTime"
+                            [(ngModel)]="config.value"></nz-date-picker>
         </td>
     </tr>
     </tbody>
