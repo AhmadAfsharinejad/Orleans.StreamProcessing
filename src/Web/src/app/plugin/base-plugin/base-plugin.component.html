@@ -1,4 +1,9 @@
-<nz-spin [nzSpinning]="isSpinning" class="spinner">
+<div class="main">
+    <div *ngIf="isSpinning" class="spinnerContainer">
+        <nz-spin [nzSpinning]="isSpinning" class="spinner">
+        </nz-spin>
+    </div>
+
     <div class="container">
         <div class="template">
             <ng-content></ng-content>
@@ -9,4 +14,5 @@
             <button nz-button nzType="primary" (click)="confirmClicked()">Confirm</button>
         </div>
     </div>
-</nz-spin>
+</div>
+

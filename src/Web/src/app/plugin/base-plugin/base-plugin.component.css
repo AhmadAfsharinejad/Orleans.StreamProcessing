@@ -2,6 +2,19 @@
     display: block;
     height: 100%;
 }
+.main{
+    display: block;
+    height: 100%;
+    position: relative;
+}
+
+.spinnerContainer{
+    background-color: #edededed;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
 
 .spinner {
     display: flex;
@@ -9,8 +22,11 @@
 }
 
 .container {
+    display: flex;
+    #position: absolute;
+    flex-direction: column;
+    width: 100%;
     height: 100%;
-    display: block;
 }
 
 .footer {
@@ -18,10 +34,10 @@
     padding-top: 9px;
     display: flex;
     gap: 7px;
-    align-self: flex-end;
+    #align-self: flex-end;
 }
 
 .template {
     padding-bottom: 20px;
-    flex-grow: 1;
+    flex: 1;
 }
