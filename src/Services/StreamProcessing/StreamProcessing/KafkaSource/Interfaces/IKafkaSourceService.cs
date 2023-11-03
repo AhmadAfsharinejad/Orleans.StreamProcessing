@@ -5,5 +5,5 @@ namespace StreamProcessing.KafkaSource.Interfaces;
 
 internal interface IKafkaSourceService
 {
-    IEnumerable<PluginRecord> Consume(KafkaSourceConfig config, CancellationToken cancellationToken);
+    IEnumerable<PluginRecord> Consume(KafkaSourceConfig config, int partitionId, CancellationToken cancellationToken);
 }

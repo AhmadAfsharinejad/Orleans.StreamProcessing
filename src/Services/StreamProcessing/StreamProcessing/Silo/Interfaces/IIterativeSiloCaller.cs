@@ -2,7 +2,9 @@
 
 namespace StreamProcessing.Silo.Interfaces;
 
-//Run source plugin in silos Iteratively
+/// <summary>
+/// Run source plugin in silos Iteratively
+/// </summary>
 internal interface IIterativeSiloCaller
 {
     Task Start([Immutable] Type startingPluginType, 

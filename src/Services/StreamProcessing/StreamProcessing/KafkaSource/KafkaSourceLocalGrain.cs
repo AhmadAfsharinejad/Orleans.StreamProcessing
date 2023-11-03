@@ -1,5 +1,6 @@
 ﻿using Orleans.Concurrency;
 using Orleans.Placement;
+using Orleans.Runtime;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.KafkaSource.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
@@ -41,10 +42,17 @@ internal sealed class KafkaSourceLocalGrain : Grain, IKafkaSourceLocalGrain
 
         var outPluginContext = GetOutPluginContext(pluginContext, config.OutputFieldName);
 
-        foreach (var record in _kafkaSourceService.Consume(config, cancellationToken.CancellationToken))
+        var partitionId = GetKafkaPartitionId();
+        
+        foreach (var record in _kafkaSourceService.Consume(config, partitionId, cancellationToken.CancellationToken))
         {
             await _pluginOutputCaller.CallOutputs(outPluginContext, record, cancellationToken);
         }
+    }
+
+    private static int GetKafkaPartitionId()
+    {
+        return (int)RequestContext.Get(KafkaSourceConsts.KafkaSourcePartitionId);
     }
 
     private static PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext, string outputFieldName)

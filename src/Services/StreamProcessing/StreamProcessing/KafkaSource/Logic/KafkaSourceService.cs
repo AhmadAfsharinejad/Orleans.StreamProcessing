@@ -7,13 +7,12 @@ namespace StreamProcessing.KafkaSource.Logic;
 
 internal sealed class KafkaSourceService : IKafkaSourceService
 {
-    public IEnumerable<PluginRecord> Consume(KafkaSourceConfig config, CancellationToken cancellationToken)
+    public IEnumerable<PluginRecord> Consume(KafkaSourceConfig config, int partitionId, CancellationToken cancellationToken)
     {
         var consumerConfig = GetConsumerConfig(config);
 
         using var consumer = new ConsumerBuilder<string, string>(consumerConfig).Build();
-        //TODO
-        //consumer.Assign(new TopicPartitionOffset(config.Topic, partition, Offset.Beginning));
+        consumer.Assign(new TopicPartitionOffset(config.Topic, partitionId, Offset.Beginning));
         
         while (!cancellationToken.IsCancellationRequested)
         {

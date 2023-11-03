@@ -42,10 +42,15 @@ internal sealed class HttpResponseGrain : PluginGrain, IHttpResponseGrain
 
         var response = _httpResponseService.GetResponse(config, pluginRecord);
 
-        var listenerGrainId = (Guid)RequestContext.Get(HttpListenerConsts.ListenerGrainId);
+        var listenerGrainId = GetListenerGrainId();
 
         var grain = _grainFactory.GetGrain<IHttpListenerResponseLocalGrain>(listenerGrainId);
         await grain.SetResponse(response, cancellationToken);
+    }
+
+    private static Guid GetListenerGrainId()
+    {
+        return (Guid)RequestContext.Get(HttpListenerConsts.ListenerGrainId);
     }
 
     [ReadOnly]
