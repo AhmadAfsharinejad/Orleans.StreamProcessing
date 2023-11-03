@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 #pragma warning disable CS4014
 #pragma warning disable CS8321
 
-string url = "http://localhost:1380/index/";
+string url = "http://localhost:2185/index/";
 HttpListener listener;
 
 Console.WriteLine("Start");
 
-await Run();
+//await Run();
 
 //Task.Run(Run);
-//Task.Run(Start);
+Task.Run(Start);
 
 Console.WriteLine("Finish");
 
