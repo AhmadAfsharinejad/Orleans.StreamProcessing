@@ -12,5 +12,6 @@ internal sealed class KafkaSinkDiAdder : IServiceAdder
     {
         collection.AddSingleton<IPluginGrainIntroducer, KafkaSinkGrainIntroducer>();
         collection.AddSingleton<IKafkaSinkServiceFactory, KafkaSinkServiceFactory>();
+        collection.AddSingleton<IKafkaProducerFactory, KafkaProducerFactory>();
     }
 }

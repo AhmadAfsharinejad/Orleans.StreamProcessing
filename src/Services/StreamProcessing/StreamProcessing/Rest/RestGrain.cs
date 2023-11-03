@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest.Domain;
@@ -85,11 +86,13 @@ internal sealed class RestGrain : Grain, IRestGrain
         await _pluginOutputCaller.CallOutputs(GetOutPluginContext(pluginContext), record, cancellationToken);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext)
     {
         return pluginContext with { InputFieldTypes = _outputFieldTypes };
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void Init(PluginExecutionContext pluginContext, RestConfig config)
     {
         if (_httpClient is not null)

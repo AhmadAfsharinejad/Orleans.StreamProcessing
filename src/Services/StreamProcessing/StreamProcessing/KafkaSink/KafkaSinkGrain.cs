@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.PluginCommon;
@@ -59,6 +60,7 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
         _KafkaSinkService!.Produce(pluginRecord);
     }
     
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task Init(PluginExecutionContext pluginContext)
     {
         if (_hasBeenInitialized) return;

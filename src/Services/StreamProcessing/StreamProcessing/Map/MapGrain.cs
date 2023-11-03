@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using StreamProcessing.Map.Domain;
 using StreamProcessing.Map.Interfaces;
 using StreamProcessing.PluginCommon;
@@ -65,6 +66,7 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
             cancellationToken);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task Init(PluginExecutionContext pluginContext)
     {
         if (_hasBeenInitialized) return;
@@ -78,6 +80,7 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
         _hasBeenInitialized = true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext)
     {
         return pluginContext with { InputFieldTypes = _outputFieldTypes };

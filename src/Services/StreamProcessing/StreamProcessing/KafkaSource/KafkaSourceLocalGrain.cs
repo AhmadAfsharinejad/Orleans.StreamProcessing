@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.KafkaSource.Domain;
@@ -50,11 +51,13 @@ internal sealed class KafkaSourceLocalGrain : Grain, IKafkaSourceLocalGrain
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static int GetKafkaPartitionId()
     {
         return (int)RequestContext.Get(KafkaSourceConsts.KafkaSourcePartitionId);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext, string outputFieldName)
     {
         return pluginContext with { InputFieldTypes = new Dictionary<string, FieldType> { { outputFieldName, FieldType.Text } } };

@@ -5,6 +5,7 @@ using StreamProcessing.Filter.Domain;
 using StreamProcessing.Filter.Interfaces;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpResponse.Domain;
+using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.Map.Domain;
 using StreamProcessing.PluginCommon.Domain;
@@ -211,13 +212,28 @@ internal sealed class StartingHost : BackgroundService
         var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10));
         configs.Add(dummyOutputPluginConfig);
 
+        var kafkaSinkPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetKafkaSinkConfig());
+        configs.Add(kafkaSinkPluginConfig);
+
         relations.Add(new LinkConfig(kafkaSourcePluginConfig.Id, dummyOutputPluginConfig.Id));
+        relations.Add(new LinkConfig(kafkaSourcePluginConfig.Id, kafkaSinkPluginConfig.Id));
 
         return new ScenarioConfig
         {
             Id = Guid.NewGuid(),
             Configs = configs,
             Relations = relations
+        };
+    }
+    
+    private static KafkaSinkConfig GetKafkaSinkConfig()
+    {
+        return new KafkaSinkConfig
+        {
+            BootstrapServers = "localhost:9092",
+            Topic = "topic2",
+            StaticMessageKeyFieldName ="k1", 
+            MessageValueFieldName = "f2" 
         };
     }
     

@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
@@ -48,6 +49,7 @@ internal sealed class HttpResponseGrain : PluginGrain, IHttpResponseGrain
         await grain.SetResponse(response, cancellationToken);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Guid GetListenerGrainId()
     {
         return (Guid)RequestContext.Get(HttpListenerConsts.ListenerGrainId);
