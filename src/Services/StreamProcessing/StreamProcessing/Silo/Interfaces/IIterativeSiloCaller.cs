@@ -2,8 +2,10 @@
 
 namespace StreamProcessing.Silo.Interfaces;
 
-//Run source plugin in all silo
-internal interface IEachSiloCaller
+/// <summary>
+/// Run source plugin in silos Iteratively
+/// </summary>
+internal interface IIterativeSiloCaller
 {
     Task Start([Immutable] Type startingPluginType, 
         [Immutable] PluginExecutionContext pluginContext,

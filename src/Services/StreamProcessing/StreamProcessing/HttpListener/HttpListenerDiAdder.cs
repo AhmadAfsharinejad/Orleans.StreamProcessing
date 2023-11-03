@@ -6,7 +6,7 @@ using StreamProcessing.PluginCommon.Interfaces;
 
 namespace StreamProcessing.HttpListener;
 
-internal sealed  class HttpListenerDiAdder : IServiceAdder
+internal sealed class HttpListenerDiAdder : IServiceAdder
 {
     public void AddService(IServiceCollection collection)
     {

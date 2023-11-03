@@ -8,6 +8,7 @@ internal sealed class SiloDiAdder : IServiceAdder
 {
     public void AddService(IServiceCollection collection)
     {
-        collection.AddSingleton<IEachSiloCaller, EachSiloCaller>();
+        collection.AddSingleton<IEverySiloCaller, EverySiloCaller>();
+        collection.AddTransient<IIterativeSiloCaller, IterativeSiloCaller>();
     }
 }

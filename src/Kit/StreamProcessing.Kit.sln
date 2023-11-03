@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Redis.Sample", "Redis.Sampl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rest.Sample", "Rest.Sample\Rest.Sample.csproj", "{AB45B929-A151-4FB6-B1A7-E26069D53432}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaSample", "KafkaSample\KafkaSample.csproj", "{24188358-8434-4C2D-9ED7-8111B401FA07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{AB45B929-A151-4FB6-B1A7-E26069D53432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB45B929-A151-4FB6-B1A7-E26069D53432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB45B929-A151-4FB6-B1A7-E26069D53432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24188358-8434-4C2D-9ED7-8111B401FA07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24188358-8434-4C2D-9ED7-8111B401FA07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24188358-8434-4C2D-9ED7-8111B401FA07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24188358-8434-4C2D-9ED7-8111B401FA07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

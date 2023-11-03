@@ -39,7 +39,7 @@ internal sealed class HttpResponseService : IHttpResponseService
 
         foreach (var header in config.Headers)
         {
-            headers.Add(new KeyValuePair<string, string>(header.NameInHeader, record.Record[header.FieldName].ToString()!));
+            headers.Add(new KeyValuePair<string, string>(header.NameInHeader, record.Record[header.FieldName]?.ToString()!));
         }
 
         return headers;
