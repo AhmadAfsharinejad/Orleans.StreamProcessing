@@ -10,5 +10,6 @@ public enum PluginTypeNames
     HttpResponse,
     Rest,
     Map,
-    KafkaSource
+    KafkaSource,
+    KafkaSink
 }

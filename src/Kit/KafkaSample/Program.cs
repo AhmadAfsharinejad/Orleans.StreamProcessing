@@ -39,7 +39,7 @@ async Task Write()
 
     var tasks = new List<Task>
     {
-        //Produce(producer, 0),
+        Produce(producer, 0),
         Produce(producer, 1),
         Produce(producer, 2),
         Produce(producer, 3),
