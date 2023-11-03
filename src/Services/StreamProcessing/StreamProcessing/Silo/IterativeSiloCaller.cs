@@ -25,10 +25,7 @@ internal sealed class IterativeSiloCaller : IIterativeSiloCaller
         AddToCalledLocalSiloGrainIds(notCalledLocalSiloGrainId, localSiloGrainIds);
 
         var grain = _grainFactory.GetGrain<ILocalSiloGrain>(notCalledLocalSiloGrainId);
-#pragma warning disable CS4014
-        //Dont await source plugins
-        grain.StartPlugin(startingPluginType, pluginContext, cancellationToken);
-#pragma warning restore CS4014
+        await grain.StartPlugin(startingPluginType, pluginContext, cancellationToken);
     }
 
     private Guid GetNotCalledLocalSiloGrainId(IReadOnlyCollection<Guid> localSiloGrainIds)

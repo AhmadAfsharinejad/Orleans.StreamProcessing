@@ -21,10 +21,7 @@ internal sealed class EverySiloCaller : IEverySiloCaller
         foreach (var localSiloGrainId in localSiloGrainIds)
         {
             var grain = _grainFactory.GetGrain<ILocalSiloGrain>(localSiloGrainId);
-#pragma warning disable CS4014
-            //Dont await source plugins
-            grain.StartPlugin(startingPluginType, pluginContext, cancellationToken);
-#pragma warning restore CS4014
+            await grain.StartPlugin(startingPluginType, pluginContext, cancellationToken);
         }
     }
 

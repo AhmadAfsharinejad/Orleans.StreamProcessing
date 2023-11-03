@@ -5,6 +5,7 @@ using StreamProcessing.Filter.Domain;
 using StreamProcessing.Filter.Interfaces;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpResponse.Domain;
+using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.Map.Domain;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.RandomGenerator.Domain;
@@ -32,9 +33,10 @@ internal sealed class StartingHost : BackgroundService
         Console.WriteLine($"Start {DateTime.Now}");
 
         //await RunScenario();
-        await RunScenario2();
-        //await RunScenario3();
-        //await RunScenario4();
+        //await RunScenario_Http();
+        //await RunScenario_Rest();
+        //await RunScenario_Map();
+        await RunScenario_Kafka();
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");
@@ -72,7 +74,7 @@ internal sealed class StartingHost : BackgroundService
         var sqlExecutorConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.SqlExecutor), Guid.NewGuid(), GetSqlExecutorConfig());
         configs.Add(sqlExecutorConfig);
 
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig());
+        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10_000));
         configs.Add(dummyOutputPluginConfig);
 
         relations.Add(new LinkConfig(randomPluginConfig.Id, filterPluginConfig.Id));
@@ -91,13 +93,13 @@ internal sealed class StartingHost : BackgroundService
         };
     }
 
-    private async Task RunScenario2()
+    private async Task RunScenario_Http()
     {
-        var config = GetScenarioConfig2();
+        var config = GetScenarioConfig_Http();
         await _scenarioRunner.Run(config);
     }
 
-    private static ScenarioConfig GetScenarioConfig2()
+    private static ScenarioConfig GetScenarioConfig_Http()
     {
         var configs = new List<PluginConfig>();
         var relations = new List<LinkConfig>();
@@ -118,13 +120,13 @@ internal sealed class StartingHost : BackgroundService
         };
     }
 
-    private async Task RunScenario3()
+    private async Task RunScenario_Rest()
     {
-        var config = GetScenarioConfig3();
+        var config = GetScenarioConfig_Rest();
         await _scenarioRunner.Run(config);
     }
 
-    private static ScenarioConfig GetScenarioConfig3()
+    private static ScenarioConfig GetScenarioConfig_Rest()
     {
         var configs = new List<PluginConfig>();
         var relations = new List<LinkConfig>();
@@ -135,7 +137,7 @@ internal sealed class StartingHost : BackgroundService
         var restConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Rest), Guid.NewGuid(), GetRestConfig());
         configs.Add(restConfig);
 
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig());
+        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10_000));
         configs.Add(dummyOutputPluginConfig);
 
         relations.Add(new LinkConfig(randomPluginConfig.Id, restConfig.Id));
@@ -149,14 +151,13 @@ internal sealed class StartingHost : BackgroundService
         };
     }
 
-
-    private async Task RunScenario4()
+    private async Task RunScenario_Map()
     {
-        var config = GetScenarioConfig4();
+        var config = GetScenarioConfig_Map();
         await _scenarioRunner.Run(config);
     }
 
-    private static ScenarioConfig GetScenarioConfig4()
+    private static ScenarioConfig GetScenarioConfig_Map()
     {
         var configs = new List<PluginConfig>();
         var relations = new List<LinkConfig>();
@@ -176,7 +177,7 @@ internal sealed class StartingHost : BackgroundService
         var mapConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Map), Guid.NewGuid(), GetMapConfig());
         configs.Add(mapConfig);
         
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig());
+        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(100_000));
         configs.Add(dummyOutputPluginConfig);
 
         relations.Add(new LinkConfig(randomPluginConfig.Id, mapConfig.Id));
@@ -193,6 +194,44 @@ internal sealed class StartingHost : BackgroundService
         };
     }
 
+    private async Task RunScenario_Kafka()
+    {
+        var config = GetScenarioConfig_Kafka();
+        await _scenarioRunner.Run(config);
+    }
+
+    private static ScenarioConfig GetScenarioConfig_Kafka()
+    {
+        var configs = new List<PluginConfig>();
+        var relations = new List<LinkConfig>();
+
+        var kafkaSourcePluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.KafkaSource), Guid.NewGuid(), GetKafkaSourceConfig());
+        configs.Add(kafkaSourcePluginConfig);
+
+        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10));
+        configs.Add(dummyOutputPluginConfig);
+
+        relations.Add(new LinkConfig(kafkaSourcePluginConfig.Id, dummyOutputPluginConfig.Id));
+
+        return new ScenarioConfig
+        {
+            Id = Guid.NewGuid(),
+            Configs = configs,
+            Relations = relations
+        };
+    }
+    
+    private static KafkaSourceConfig GetKafkaSourceConfig()
+    {
+        return new KafkaSourceConfig
+        {
+            BootstrapServers = "localhost:9092",
+            Topic = "topic2",
+            GroupId = "g1",
+            OutputFieldName = "f1",
+        };
+    }
+    
     private static RestConfig GetRestConfig()
     {
         return new RestConfig
@@ -204,7 +243,7 @@ internal sealed class StartingHost : BackgroundService
             StaticQueryStrings = new[] { new KeyValuePair<string, string>("a", "1") },
             RequestStaticHeaders = new[] { new KeyValuePair<string, string>("Accept", "application/json") },
             ResponseContentFieldName = "response",
-            StatusFieldName = "status",
+            StatusFieldName = "status"
         };
     }
 
@@ -300,12 +339,12 @@ internal sealed class StartingHost : BackgroundService
         };
     }
 
-    private static DummyOutputConfig GetDummyOutputConfig()
+    private static DummyOutputConfig GetDummyOutputConfig(int recordCountInterval)
     {
         return new DummyOutputConfig
         {
             IsWriteEnabled = true,
-            RecordCountInterval = 100_000
+            RecordCountInterval = recordCountInterval
         };
     }
 

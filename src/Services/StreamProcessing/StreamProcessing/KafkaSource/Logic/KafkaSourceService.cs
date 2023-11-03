@@ -17,7 +17,7 @@ internal sealed class KafkaSourceService : IKafkaSourceService
         while (!cancellationToken.IsCancellationRequested)
         {
             var result = consumer.Consume(cancellationToken);
-            yield return new PluginRecord(new Dictionary<string, object> { { config.OutputFieldName, result } });
+            yield return new PluginRecord(new Dictionary<string, object> { { config.OutputFieldName, result?.Message?.Value! } });
         }
     }
 

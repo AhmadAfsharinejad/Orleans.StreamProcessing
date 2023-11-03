@@ -12,5 +12,6 @@ internal sealed class KafkaSourceDiAdder : IServiceAdder
     {
         collection.AddSingleton<IPluginGrainIntroducer, KafkaSourceGrainIntroducer>();
         collection.AddSingleton<IKafkaSourceService, KafkaSourceService>();
+        collection.AddSingleton<IKafkaPartition, KafkaPartition>();
     }
 }
