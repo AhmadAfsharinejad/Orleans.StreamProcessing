@@ -212,7 +212,7 @@ internal sealed class StartingHost : BackgroundService
         var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10));
         configs.Add(dummyOutputPluginConfig);
 
-        var kafkaSinkPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetKafkaSinkConfig());
+        var kafkaSinkPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.KafkaSink), Guid.NewGuid(), GetKafkaSinkConfig());
         configs.Add(kafkaSinkPluginConfig);
 
         relations.Add(new LinkConfig(kafkaSourcePluginConfig.Id, dummyOutputPluginConfig.Id));
@@ -231,9 +231,9 @@ internal sealed class StartingHost : BackgroundService
         return new KafkaSinkConfig
         {
             BootstrapServers = "localhost:9092",
-            Topic = "topic2",
+            Topic = "topic3",
             StaticMessageKeyFieldName ="k1", 
-            MessageValueFieldName = "f2" 
+            MessageValueFieldName = "f1" 
         };
     }
     
