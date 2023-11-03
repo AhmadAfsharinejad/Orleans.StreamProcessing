@@ -1,4 +1,5 @@
 ﻿using Orleans.Runtime;
+using StreamProcessing.Domain.Storage;
 using StreamProcessing.Silo.Interfaces;
 
 namespace StreamProcessing.Silo;
@@ -8,7 +9,7 @@ internal sealed class LocalGrainCoordinator : Grain, ILocalGrainCoordinator
     private readonly IPersistentState<HashSet<Guid>> _state;
 
     public LocalGrainCoordinator(
-        [PersistentState(stateName: "localGrainIds", storageName: SiloConsts.StorageName)]
+        [PersistentState(stateName: "localGrainIds", storageName: StorageConsts.StorageName)]
         IPersistentState<HashSet<Guid>> state)
     {
         _state = state ?? throw new ArgumentNullException(nameof(state));

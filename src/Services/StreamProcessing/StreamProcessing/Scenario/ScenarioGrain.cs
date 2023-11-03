@@ -1,9 +1,9 @@
 ﻿using Orleans.Concurrency;
 using Orleans.Runtime;
+using StreamProcessing.Domain.Storage;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
-using StreamProcessing.Silo;
 
 namespace StreamProcessing.Scenario;
 
@@ -12,7 +12,7 @@ internal sealed class ScenarioGrain : Grain, IScenarioGrain
     private readonly IPersistentState<ScenarioConfig> _configState;
 
     public ScenarioGrain(
-        [PersistentState(stateName: "scenarioConfigState", storageName: SiloConsts.StorageName)] IPersistentState<ScenarioConfig> configState)
+        [PersistentState(stateName: "scenarioConfigState", storageName: StorageConsts.StorageName)] IPersistentState<ScenarioConfig> configState)
     {
         _configState = configState;
     }
