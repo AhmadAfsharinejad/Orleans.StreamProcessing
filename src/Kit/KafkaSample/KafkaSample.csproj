@@ -5,9 +5,8 @@
         <TargetFramework>net7.0</TargetFramework>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="System.Data.Odbc" Version="7.0.0" />
-    </ItemGroup>
 
+    <ItemGroup>
+        <PackageReference Include="Confluent.Kafka" Version="2.2.0" />
+    </ItemGroup>
 </Project>
