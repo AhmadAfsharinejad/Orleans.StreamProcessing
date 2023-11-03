@@ -46,6 +46,18 @@ internal sealed class PluginGrainFactory : IPluginGrainFactory
         return sourceGrain;
     }
     
+    public ISourcePluginGrain GetOrCreateSourcePlugin(Type pluginType, Guid grainId, string keyExtension)
+    {
+        var grain = _grainFactory.GetGrain(pluginType, grainId, keyExtension);
+        if (grain is not ISourcePluginGrain sourceGrain)
+        {
+            throw new InvalidCastException($"Plugin with type '{pluginType}' and keyExtension '{keyExtension}' is not a 'ISourcePluginGrain'.");
+        }
+        
+        return sourceGrain;
+    }
+
+    
     private IGrain GetGrain(PluginTypeId pluginTypeId, Guid grainId)
     {
         if (!_pluginGrainTypeById.TryGetValue(pluginTypeId, out var grainType))
