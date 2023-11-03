@@ -36,13 +36,4 @@ internal sealed class LocalSiloGrain : Grain, ILocalSiloGrain
         var grain = _pluginGrainFactory.GetOrCreateSourcePlugin(startingPluginType, Guid.NewGuid());
         await grain.Start(pluginContext, cancellationToken);
     }
-    
-    public async Task StartPlugin([Immutable] Type startingPluginType, 
-        [Immutable] PluginExecutionContext pluginContext, 
-        [Immutable] string keyExtension,
-        GrainCancellationToken cancellationToken)
-    {
-        var grain = _pluginGrainFactory.GetOrCreateSourcePlugin(startingPluginType, pluginContext.PluginId, keyExtension);
-        await grain.Start(pluginContext, cancellationToken);
-    }
 }

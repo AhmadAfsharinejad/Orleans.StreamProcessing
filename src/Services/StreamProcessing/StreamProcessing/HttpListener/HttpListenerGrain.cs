@@ -8,11 +8,11 @@ namespace StreamProcessing.HttpListener;
 [StatelessWorker]
 internal sealed class HttpListenerGrain : Grain, IHttpListenerGrain
 {
-    private readonly IEachSiloCaller _eachSiloCaller;
+    private readonly IEverySiloCaller _everySiloCaller;
 
-    public HttpListenerGrain(IEachSiloCaller eachSiloCaller)
+    public HttpListenerGrain(IEverySiloCaller everySiloCaller)
     {
-        _eachSiloCaller = eachSiloCaller ?? throw new ArgumentNullException(nameof(eachSiloCaller));
+        _everySiloCaller = everySiloCaller ?? throw new ArgumentNullException(nameof(everySiloCaller));
     }
     
     public override Task OnActivateAsync(CancellationToken cancellationToken)
@@ -25,6 +25,6 @@ internal sealed class HttpListenerGrain : Grain, IHttpListenerGrain
     public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
-        await _eachSiloCaller.Start(typeof(IHttpListenerLocalGrain), pluginContext, cancellationToken);
+        await _everySiloCaller.Start(typeof(IHttpListenerLocalGrain), pluginContext, cancellationToken);
     }
 }

@@ -13,9 +13,4 @@ internal interface ILocalSiloGrain : IGrainWithGuidKey
     Task StartPlugin([Immutable] Type startingPluginType,
         [Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken);
-    
-    Task StartPlugin([Immutable] Type startingPluginType,
-        [Immutable] PluginExecutionContext pluginContext,
-        [Immutable] string keyExtension,
-        GrainCancellationToken cancellationToken);
 }
