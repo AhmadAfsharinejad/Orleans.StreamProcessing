@@ -9,5 +9,6 @@ public enum PluginTypeNames
     HttpListener,
     HttpResponse,
     Rest,
-    Map
+    Map,
+    KafkaSource
 }
