@@ -19,7 +19,7 @@ public class KafkaSinkServiceTests
     }
 
     [Fact]
-    public void Produce_ShouldProduceWithStaticValue_WhenStaticMessageKeyFieldNameIsNotNull()
+    public void Produce_ShouldProduceWithStaticKey_WhenStaticMessageKeyFieldNameIsNotNull()
     {
         // Arrange
         var config = new KafkaSinkConfig
@@ -31,7 +31,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string, string> >();
+        var producer = Substitute.For<IProducer<string?, string?>>();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -42,13 +42,13 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string, string>>(x => x.Key == "k11" && x.Value == "v22"));
+            Arg.Is<Message<string?, string?>>(x => x.Key == "k11" && x.Value == "v22"));
     }
     
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void Produce_ShouldProduceWithFieldValue_WhenStaticMessageKeyFieldNameIsNullOrWhiteSpace(string? staticMessageKeyFieldName)
+    public void Produce_ShouldProduceWithFieldKeyValue_WhenStaticMessageKeyFieldNameIsNullOrWhiteSpace(string? staticMessageKeyFieldName)
     {
         // Arrange
         var config = new KafkaSinkConfig
@@ -60,7 +60,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string, string> >();
+        var producer = Substitute.For<IProducer<string?, string?> >();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -71,7 +71,32 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string, string>>(x => x.Key == "k1" && x.Value == "v22"));
+            Arg.Is<Message<string?, string?>>(x => x.Key == "k1" && x.Value == "v22"));
+    }
+    
+    [Fact]
+    public void Produce_ShouldProduceWithNullKey_WhenStaticMessageKeyFieldNameAndMessageKeyFieldNameAreNull()
+    {
+        // Arrange
+        var config = new KafkaSinkConfig
+        {
+            Topic = "topic",
+            StaticMessageValueFieldName = "v22"
+        };
+        var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
+        
+        var producer = Substitute.For<IProducer<string?, string?>>();
+        _kafkaProducerFactory.Create(config).Returns(producer);
+        
+        var sut = new KafkaSinkService(_kafkaProducerFactory, config);
+        sut.BuildProducer();
+
+        // Act
+        sut.Produce(record);
+
+        // Assert
+        producer.Received(1).Produce(config.Topic, 
+            Arg.Is<Message<string?, string?>>(x => x.Key == null && x.Value == "v22"));
     }
     
     [Fact]
@@ -87,7 +112,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string, string> >();
+        var producer = Substitute.For<IProducer<string?, string?> >();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -98,13 +123,13 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string, string>>(x => x.Key == "k11" && x.Value == "v22"));
+            Arg.Is<Message<string?, string?>>(x => x.Key == "k11" && x.Value == "v22"));
     }
     
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void Produce_ShouldProduceWithStaticValue_WhenStaticMessageValueFieldNameIsNullOrWhiteSpace(string staticMessageValueFieldName)
+    public void Produce_ShouldProduceWithFieldValue_WhenStaticMessageValueFieldNameIsNullOrWhiteSpace(string staticMessageValueFieldName)
     {
         // Arrange
         var config = new KafkaSinkConfig
@@ -116,7 +141,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string, string> >();
+        var producer = Substitute.For<IProducer<string?, string?> >();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -127,6 +152,6 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string, string>>(x => x.Key == "k11" && x.Value == "v2"));
+            Arg.Is<Message<string?, string?>>(x => x.Key == "k11" && x.Value == "v2"));
     }
 }
