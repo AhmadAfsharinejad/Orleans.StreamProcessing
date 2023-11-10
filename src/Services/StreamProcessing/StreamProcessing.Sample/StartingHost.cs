@@ -8,12 +8,14 @@ using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.Map.Domain;
-using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.RandomGenerator.Domain;
 using StreamProcessing.Rest.Domain;
 using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
 using StreamProcessing.SqlExecutor.Domain;
+using Workflow.Domain;
+using Workflow.Domain.Plugins;
+using Workflow.Domain.Plugins.Common;
 
 // ReSharper disable UnusedMember.Local
 

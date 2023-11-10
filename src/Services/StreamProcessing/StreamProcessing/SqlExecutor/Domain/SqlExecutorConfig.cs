@@ -1,9 +1,10 @@
 ﻿using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.Common;
 
 namespace StreamProcessing.SqlExecutor.Domain;
 
 [Immutable]
-public record struct SqlExecutorConfig : IPluginConfig
+public record struct SqlExecutorConfig : IStreamPluginConfig
 {
     public string ConnectionString { get; set; }
     public IReadOnlyCollection<DmlCommand>? DmlCommands { get; set; }

@@ -3,7 +3,7 @@ using FluentAssertions;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.HttpListener.Logic;
-using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.Common;
 using Xunit;
 
 namespace StreamProcessing.Tests.HttpListener.Logic;

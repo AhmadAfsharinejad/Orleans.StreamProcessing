@@ -3,7 +3,7 @@
 namespace StreamProcessing.DummyOutput.Domain;
 
 [Immutable]
-public record struct DummyOutputConfig : IPluginConfig
+public record struct DummyOutputConfig : IStreamPluginConfig
 {
     public DummyOutputConfig()
     {

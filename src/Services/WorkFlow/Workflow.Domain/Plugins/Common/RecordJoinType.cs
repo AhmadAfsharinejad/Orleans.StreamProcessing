@@ -1,4 +1,4 @@
-﻿namespace StreamProcessing.PluginCommon.Domain;
+﻿namespace Workflow.Domain.Plugins.Common;
 
 public enum RecordJoinType
 {

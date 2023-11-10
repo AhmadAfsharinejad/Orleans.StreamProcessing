@@ -3,7 +3,7 @@
 namespace StreamProcessing.HttpListener.Domain;
 
 [Immutable]
-public record struct HttpListenerConfig : IPluginConfig
+public record struct HttpListenerConfig : IStreamPluginConfig
 {
     public string Uri { get; set; }
     public IReadOnlyCollection<HeaderField>? Headers { get; set; }

@@ -13,13 +13,13 @@ namespace StreamProcessing.Tests.PluginCommon.Logic;
 
 public class PluginConfigFetcherTests
 {
-    private readonly IPluginConfigFetcher<MockPluginConfig> _sut;
+    private readonly IPluginConfigFetcher<MockStreamPluginConfig> _sut;
     private readonly IGrainFactory _grainFactory;
 
     public PluginConfigFetcherTests()
     {
         _grainFactory = Substitute.For<IGrainFactory>();
-        _sut = new PluginConfigFetcher<MockPluginConfig>(_grainFactory);
+        _sut = new PluginConfigFetcher<MockStreamPluginConfig>(_grainFactory);
     }
 
     [Fact]
@@ -31,7 +31,7 @@ public class PluginConfigFetcherTests
         
         var scenarioGrain = Substitute.For<IScenarioGrain>();
         _grainFactory.GetGrain<IScenarioGrain>(scenarioId).Returns(scenarioGrain);
-        scenarioGrain.GetPluginConfig(pluginId).Returns(new MockPluginConfig());
+        scenarioGrain.GetPluginConfig(pluginId).Returns(new MockStreamPluginConfig());
         
         //Act
         _sut.GetConfig(scenarioId, pluginId);
@@ -51,7 +51,7 @@ public class PluginConfigFetcherTests
 
         var scenarioGrain = Substitute.For<IScenarioGrain>();
         _grainFactory.GetGrain<IScenarioGrain>(scenarioId).Returns(scenarioGrain);
-        scenarioGrain.GetPluginConfig(pluginId).Returns(new MockPluginConfig());
+        scenarioGrain.GetPluginConfig(pluginId).Returns(new MockStreamPluginConfig());
         
         //Act
         _sut.GetConfig(scenarioId, pluginId);
@@ -71,7 +71,7 @@ public class PluginConfigFetcherTests
 
         var scenarioGrain = Substitute.For<IScenarioGrain>();
         _grainFactory.GetGrain<IScenarioGrain>(scenarioId).Returns(scenarioGrain);
-        scenarioGrain.GetPluginConfig(pluginId).Returns(new OtherMockPluginConfig());
+        scenarioGrain.GetPluginConfig(pluginId).Returns(new OtherMockStreamPluginConfig());
         
         //Act
         var act = async () => await _sut.GetConfig(scenarioId, pluginId);

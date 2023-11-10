@@ -4,7 +4,7 @@ using StreamProcessing.PluginCommon.Domain;
 namespace StreamProcessing.HttpResponse.Domain;
 
 [Immutable]
-public record struct HttpResponseConfig : IPluginConfig
+public record struct HttpResponseConfig : IStreamPluginConfig
 {
     public IReadOnlyCollection<HeaderField>? Headers { get; set; }
     public IReadOnlyCollection<KeyValuePair<string, string>>? StaticHeaders { get; set; }

@@ -6,6 +6,7 @@ using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.PluginCommon.Logic;
 using StreamProcessing.Scenario.Interfaces;
+using Workflow.Domain;
 using Xunit;
 
 namespace StreamProcessing.Tests.PluginCommon.Logic;

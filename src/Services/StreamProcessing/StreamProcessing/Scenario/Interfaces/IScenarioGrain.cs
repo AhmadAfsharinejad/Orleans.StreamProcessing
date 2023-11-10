@@ -10,7 +10,7 @@ internal interface IScenarioGrain : IGrainWithGuidKey
     
     [AlwaysInterleave]
     [ReadOnly]
-    Task<IPluginConfig> GetPluginConfig(Guid pluginId);
+    Task<IStreamPluginConfig> GetPluginConfig(Guid pluginId);
 
     [AlwaysInterleave]
     [ReadOnly]

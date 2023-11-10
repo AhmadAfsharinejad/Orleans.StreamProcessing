@@ -1,6 +1,6 @@
 ﻿namespace StreamProcessing.PluginCommon.Domain;
 
-public interface IPluginConfig
+public interface IStreamPluginConfig
 {
     
 }

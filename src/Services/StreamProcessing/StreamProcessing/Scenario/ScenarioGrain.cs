@@ -24,7 +24,7 @@ internal sealed class ScenarioGrain : Grain, IScenarioGrain
     }
     
     [ReadOnly]
-    public Task<IPluginConfig> GetPluginConfig(Guid pluginId)
+    public Task<IStreamPluginConfig> GetPluginConfig(Guid pluginId)
     {
         var config = _configState.State.Configs.FirstOrDefault(x => x.Id == pluginId);
 

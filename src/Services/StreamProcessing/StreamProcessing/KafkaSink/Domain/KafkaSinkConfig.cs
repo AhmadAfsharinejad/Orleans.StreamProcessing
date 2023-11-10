@@ -3,7 +3,7 @@
 namespace StreamProcessing.KafkaSink.Domain;
 
 [Immutable]
-public record struct KafkaSinkConfig : IPluginConfig
+public record struct KafkaSinkConfig : IStreamPluginConfig
 {
     public string BootstrapServers { get; init; }
     public string Topic { get; init; }

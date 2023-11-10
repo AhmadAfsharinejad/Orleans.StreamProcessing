@@ -1,5 +1,5 @@
-﻿using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.PluginCommon.Interfaces;
+﻿using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.Common;
 
 namespace StreamProcessing.PluginCommon.Logic;
 

@@ -8,6 +8,7 @@ using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
 using StreamProcessing.SqlExecutor.Logic;
+using Workflow.Domain.Plugins.Common;
 using Xunit;
 
 namespace StreamProcessing.Tests.SqlExecutor.Logic;

@@ -1,10 +1,11 @@
 ﻿using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.Common;
 
 namespace StreamProcessing.Rest.Domain;
 
 [Immutable]
-public record struct RestConfig : IPluginConfig
+public record struct RestConfig : IStreamPluginConfig
 {
     public HttpMethod HttpMethod { get; set; }
     public RecordJoinType JoinType { get; set; }

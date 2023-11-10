@@ -3,11 +3,11 @@
 
 namespace StreamProcessing.Tests.PluginCommon.Logic.Mock;
 
-public class MockPluginConfig : IPluginConfig
+public class MockStreamPluginConfig : IStreamPluginConfig
 {
 }
 
-public class OtherMockPluginConfig : IPluginConfig
+public class OtherMockStreamPluginConfig : IStreamPluginConfig
 {
     
 }

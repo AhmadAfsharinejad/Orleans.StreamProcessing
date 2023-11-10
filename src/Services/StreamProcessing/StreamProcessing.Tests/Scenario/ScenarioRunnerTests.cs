@@ -7,6 +7,7 @@ using StreamProcessing.Scenario;
 using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
 using StreamProcessing.Tests.PluginCommon.Logic.Mock;
+using Workflow.Domain;
 using Xunit;
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
@@ -29,10 +30,10 @@ public class ScenarioRunnerTests
     public void Run_ShouldCallStart_WhenPluginIsSource()
     {
         //Arrange
-        var source1 = new PluginConfig(new PluginTypeId("source"), Guid.NewGuid(), new MockPluginConfig());
-        var source2 = new PluginConfig(new PluginTypeId("source2"), Guid.NewGuid(), new MockPluginConfig());
-        var middle = new PluginConfig(new PluginTypeId("middle"), Guid.NewGuid(), new MockPluginConfig());
-        var target = new PluginConfig(new PluginTypeId("target"), Guid.NewGuid(), new MockPluginConfig());
+        var source1 = new PluginConfig(new PluginTypeId("source"), Guid.NewGuid(), new MockStreamPluginConfig());
+        var source2 = new PluginConfig(new PluginTypeId("source2"), Guid.NewGuid(), new MockStreamPluginConfig());
+        var middle = new PluginConfig(new PluginTypeId("middle"), Guid.NewGuid(), new MockStreamPluginConfig());
+        var target = new PluginConfig(new PluginTypeId("target"), Guid.NewGuid(), new MockStreamPluginConfig());
 
         var config = new ScenarioConfig
         {

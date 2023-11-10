@@ -5,7 +5,7 @@ using StreamProcessing.Scenario.Interfaces;
 namespace StreamProcessing.PluginCommon.Logic;
 
 internal sealed class PluginConfigFetcher<TConfig> : IPluginConfigFetcher<TConfig>
-where TConfig : IPluginConfig
+where TConfig : IStreamPluginConfig
 {
     private TConfig? _config;
     private readonly IGrainFactory _grainFactory;

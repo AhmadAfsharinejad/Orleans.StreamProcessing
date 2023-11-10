@@ -1,4 +1,4 @@
-﻿using StreamProcessing.PluginCommon.Domain;
+﻿using Workflow.Domain;
 
 namespace StreamProcessing.PluginCommon.Interfaces;
 

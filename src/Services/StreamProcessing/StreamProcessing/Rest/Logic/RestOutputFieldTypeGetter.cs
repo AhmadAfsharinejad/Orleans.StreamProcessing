@@ -2,6 +2,7 @@
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
+using Workflow.Domain.Plugins.Common;
 
 namespace StreamProcessing.Rest.Logic;
 

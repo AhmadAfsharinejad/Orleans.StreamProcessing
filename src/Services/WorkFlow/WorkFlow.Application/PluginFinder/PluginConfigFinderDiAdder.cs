@@ -8,6 +8,6 @@ internal sealed class PluginConfigFinderDiAdder : IServiceAdder
 {
     public void AddService(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddTransient<IPluginConfigFinder, PluginConfigFinder>();
+        serviceCollection.AddSingleton<IPluginConfigFinder, PluginConfigFinder>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace StreamProcessing.PluginCommon.Domain;
+﻿namespace Workflow.Domain.Plugins;
 
 public enum PluginTypeNames
 {

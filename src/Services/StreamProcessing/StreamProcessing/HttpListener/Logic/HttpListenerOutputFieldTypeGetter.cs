@@ -1,6 +1,6 @@
 ﻿using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
-using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.Common;
 
 namespace StreamProcessing.HttpListener.Logic;
 

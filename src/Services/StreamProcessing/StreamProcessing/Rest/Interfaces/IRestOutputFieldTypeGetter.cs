@@ -1,5 +1,6 @@
 ﻿using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.Rest.Domain;
+using Workflow.Domain.Plugins.Common;
 
 namespace StreamProcessing.Rest.Interfaces;
 

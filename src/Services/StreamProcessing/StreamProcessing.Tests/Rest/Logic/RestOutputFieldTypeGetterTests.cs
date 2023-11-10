@@ -8,6 +8,7 @@ using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
 using StreamProcessing.Rest.Logic;
+using Workflow.Domain.Plugins.Common;
 using Xunit;
 
 namespace StreamProcessing.Tests.Rest.Logic;

@@ -3,7 +3,7 @@
 namespace StreamProcessing.RandomGenerator.Domain;
 
 [Immutable]
-public record struct RandomGeneratorConfig : IPluginConfig
+public record struct RandomGeneratorConfig : IStreamPluginConfig
 {
     public RandomGeneratorConfig()
     {
