@@ -1,4 +1,4 @@
-﻿namespace StreamProcessing.Domain.Storage;
+﻿namespace StreamProcessing.Storage;
 
 public static class StorageConsts
 {

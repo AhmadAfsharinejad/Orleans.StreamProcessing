@@ -1,6 +1,6 @@
 ﻿using Orleans.Runtime;
-using StreamProcessing.Domain.Storage;
 using StreamProcessing.Silo.Interfaces;
+using StreamProcessing.Storage;
 
 namespace StreamProcessing.Silo;
 

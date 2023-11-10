@@ -3,8 +3,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Orleans.Configuration;
 using StreamProcessing.Di;
-using StreamProcessing.Domain.Storage;
 using StreamProcessing.Sample;
+using StreamProcessing.Storage;
 
 
 var host = CreateHost(12111, 30000).Build();

@@ -1,9 +1,9 @@
 ﻿using Orleans.Concurrency;
 using Orleans.Runtime;
-using StreamProcessing.Domain.Storage;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
+using StreamProcessing.Storage;
 
 namespace StreamProcessing.Scenario;
 
