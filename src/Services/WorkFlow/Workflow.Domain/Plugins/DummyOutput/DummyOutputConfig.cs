@@ -1,5 +1,8 @@
-﻿namespace Workflow.Domain.Plugins.DummyOutput;
+﻿using Workflow.Domain.Plugins.Attributes;
 
+namespace Workflow.Domain.Plugins.DummyOutput;
+
+[Config(PluginTypeNames.DummyOutput)]
 public record struct DummyOutputConfig : IPluginConfig
 {
     public DummyOutputConfig()

@@ -1,7 +1,9 @@
-﻿using Workflow.Domain.Plugins.Common;
+﻿using Workflow.Domain.Plugins.Attributes;
+using Workflow.Domain.Plugins.Common;
 
 namespace Workflow.Domain.Plugins.SqlExecutor;
 
+[Config(PluginTypeNames.SqlExecutor)]
 public record struct SqlExecutorConfig : IPluginConfig
 {
     public string ConnectionString { get; init; }

@@ -1,5 +1,8 @@
-﻿namespace Workflow.Domain.Plugins.HttpListener;
+﻿using Workflow.Domain.Plugins.Attributes;
 
+namespace Workflow.Domain.Plugins.HttpListener;
+
+[Config(PluginTypeNames.HttpListener)]
 public record struct HttpListenerConfig : IPluginConfig
 {
     public string Uri { get; init; }

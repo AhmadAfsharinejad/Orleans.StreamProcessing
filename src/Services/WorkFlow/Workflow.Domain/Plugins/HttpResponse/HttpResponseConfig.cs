@@ -1,7 +1,9 @@
-﻿using Workflow.Domain.Plugins.HttpListener;
+﻿using Workflow.Domain.Plugins.Attributes;
+using Workflow.Domain.Plugins.HttpListener;
 
 namespace Workflow.Domain.Plugins.HttpResponse;
 
+[Config(PluginTypeNames.HttpResponse)]
 public record struct HttpResponseConfig : IPluginConfig
 {
     public IReadOnlyCollection<HeaderField>? Headers { get; set; }

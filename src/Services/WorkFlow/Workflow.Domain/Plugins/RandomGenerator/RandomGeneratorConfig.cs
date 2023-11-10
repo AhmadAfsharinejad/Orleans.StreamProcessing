@@ -1,5 +1,8 @@
-﻿namespace Workflow.Domain.Plugins.RandomGenerator;
+﻿using Workflow.Domain.Plugins.Attributes;
 
+namespace Workflow.Domain.Plugins.RandomGenerator;
+
+[Config(PluginTypeNames.Random)]
 public record struct RandomGeneratorConfig : IPluginConfig
 {
     public RandomGeneratorConfig()

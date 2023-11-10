@@ -1,5 +1,8 @@
-﻿namespace Workflow.Domain.Plugins.KafkaSink;
+﻿using Workflow.Domain.Plugins.Attributes;
 
+namespace Workflow.Domain.Plugins.KafkaSink;
+
+[Config(PluginTypeNames.KafkaSink)]
 public record struct KafkaSinkConfig : IPluginConfig
 {
     public string BootstrapServers { get; init; }

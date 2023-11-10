@@ -1,8 +1,10 @@
-﻿using Workflow.Domain.Plugins.Common;
+﻿using Workflow.Domain.Plugins.Attributes;
+using Workflow.Domain.Plugins.Common;
 using Workflow.Domain.Plugins.HttpListener;
 
 namespace Workflow.Domain.Plugins.Rest;
 
+[Config(PluginTypeNames.Rest)]
 public record struct RestConfig : IPluginConfig
 {
     public HttpMethod HttpMethod { get; set; }

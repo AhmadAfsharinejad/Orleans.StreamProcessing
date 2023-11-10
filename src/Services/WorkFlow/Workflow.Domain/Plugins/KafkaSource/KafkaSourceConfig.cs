@@ -1,5 +1,8 @@
-﻿namespace Workflow.Domain.Plugins.KafkaSource;
+﻿using Workflow.Domain.Plugins.Attributes;
 
+namespace Workflow.Domain.Plugins.KafkaSource;
+
+[Config(PluginTypeNames.KafkaSource)]
 public record struct KafkaSourceConfig : IPluginConfig
 {
     public string BootstrapServers { get; init; }
