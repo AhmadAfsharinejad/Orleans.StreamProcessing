@@ -1,21 +1,20 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
-using StreamProcessing.DummyOutput.Domain;
-using StreamProcessing.Filter.Domain;
-using StreamProcessing.Filter.Interfaces;
-using StreamProcessing.HttpListener.Domain;
-using StreamProcessing.HttpResponse.Domain;
-using StreamProcessing.KafkaSink.Domain;
-using StreamProcessing.KafkaSource.Domain;
-using StreamProcessing.Map.Domain;
-using StreamProcessing.RandomGenerator.Domain;
-using StreamProcessing.Rest.Domain;
 using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
-using StreamProcessing.SqlExecutor.Domain;
 using Workflow.Domain;
 using Workflow.Domain.Plugins;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.DummyOutput;
+using Workflow.Domain.Plugins.Filter;
+using Workflow.Domain.Plugins.HttpListener;
+using Workflow.Domain.Plugins.HttpResponse;
+using Workflow.Domain.Plugins.KafkaSink;
+using Workflow.Domain.Plugins.KafkaSource;
+using Workflow.Domain.Plugins.Map;
+using Workflow.Domain.Plugins.RandomGenerator;
+using Workflow.Domain.Plugins.Rest;
+using Workflow.Domain.Plugins.SqlExecutor;
 
 // ReSharper disable UnusedMember.Local
 

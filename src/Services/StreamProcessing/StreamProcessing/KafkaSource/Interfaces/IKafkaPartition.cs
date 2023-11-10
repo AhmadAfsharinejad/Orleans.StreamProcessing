@@ -1,4 +1,4 @@
-﻿using StreamProcessing.KafkaSource.Domain;
+﻿using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource.Interfaces;
 

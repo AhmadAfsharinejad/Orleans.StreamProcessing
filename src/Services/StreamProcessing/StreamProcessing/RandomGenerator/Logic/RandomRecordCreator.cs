@@ -1,7 +1,7 @@
 ﻿using Bogus;
 using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.RandomGenerator.Domain;
 using StreamProcessing.RandomGenerator.Interfaces;
+using Workflow.Domain.Plugins.RandomGenerator;
 
 namespace StreamProcessing.RandomGenerator.Logic;
 

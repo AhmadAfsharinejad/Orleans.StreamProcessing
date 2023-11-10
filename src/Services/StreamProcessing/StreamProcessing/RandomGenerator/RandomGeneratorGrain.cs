@@ -2,8 +2,8 @@
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.RandomGenerator.Domain;
 using StreamProcessing.RandomGenerator.Interfaces;
+using Workflow.Domain.Plugins.RandomGenerator;
 
 namespace StreamProcessing.RandomGenerator;
 

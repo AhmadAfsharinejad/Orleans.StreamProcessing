@@ -1,11 +1,11 @@
 ﻿using System.Data;
 using System.Runtime.CompilerServices;
 using Orleans.Concurrency;
-using StreamProcessing.Filter.Domain;
 using StreamProcessing.Filter.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.Filter;
 
 namespace StreamProcessing.Filter;
 

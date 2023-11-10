@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.HttpListener;
 
 namespace StreamProcessing.HttpListener.Logic;
 

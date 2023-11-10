@@ -1,11 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
 using Orleans.Concurrency;
-using StreamProcessing.Map.Domain;
 using StreamProcessing.Map.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.Map;
 
 namespace StreamProcessing.Map;
 

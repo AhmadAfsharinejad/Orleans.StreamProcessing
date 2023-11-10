@@ -3,11 +3,11 @@ using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
-using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.HttpResponse.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpResponse;
 
 namespace StreamProcessing.HttpResponse;
 

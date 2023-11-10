@@ -1,10 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using Orleans.Concurrency;
-using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.KafkaSink;
 
 namespace StreamProcessing.KafkaSink;
 

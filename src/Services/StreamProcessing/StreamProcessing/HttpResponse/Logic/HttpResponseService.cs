@@ -3,6 +3,7 @@ using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.HttpResponse.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpResponse;
 
 namespace StreamProcessing.HttpResponse.Logic;
 

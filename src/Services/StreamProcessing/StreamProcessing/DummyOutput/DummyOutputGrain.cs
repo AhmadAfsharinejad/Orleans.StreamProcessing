@@ -1,9 +1,9 @@
 ﻿using Orleans.Concurrency;
-using StreamProcessing.DummyOutput.Domain;
 using StreamProcessing.DummyOutput.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.DummyOutput;
 
 namespace StreamProcessing.DummyOutput;
 

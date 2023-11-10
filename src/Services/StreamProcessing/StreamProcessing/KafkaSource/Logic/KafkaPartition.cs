@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
-using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.KafkaSource.Interfaces;
+using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource.Logic;
 

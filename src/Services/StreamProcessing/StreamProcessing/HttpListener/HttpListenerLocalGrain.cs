@@ -1,9 +1,9 @@
 ﻿using Orleans.Concurrency;
 using Orleans.Placement;
-using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpListener;
 
 namespace StreamProcessing.HttpListener;
 

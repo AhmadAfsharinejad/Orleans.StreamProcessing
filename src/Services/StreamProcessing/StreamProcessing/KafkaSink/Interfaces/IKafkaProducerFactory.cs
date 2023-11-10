@@ -1,5 +1,5 @@
 ﻿using Confluent.Kafka;
-using StreamProcessing.KafkaSink.Domain;
+using Workflow.Domain.Plugins.KafkaSink;
 
 namespace StreamProcessing.KafkaSink.Interfaces;
 

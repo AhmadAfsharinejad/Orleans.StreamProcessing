@@ -2,8 +2,8 @@
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest;
-using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
+using Workflow.Domain.Plugins.Rest;
 using Xunit;
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 

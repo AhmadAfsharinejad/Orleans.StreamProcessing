@@ -6,10 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
 using StreamProcessing.SqlExecutor.Logic;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.SqlExecutor;
 using Xunit;
 
 // ReSharper disable ReturnValueOfPureMethodIsNotUsed

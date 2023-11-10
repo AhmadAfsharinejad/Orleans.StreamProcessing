@@ -9,9 +9,9 @@ using Orleans;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.SqlExecutor;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.SqlExecutor;
 using Xunit;
 
 namespace StreamProcessing.Tests.SqlExecutor;

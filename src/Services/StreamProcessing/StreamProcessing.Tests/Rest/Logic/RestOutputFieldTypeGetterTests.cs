@@ -2,13 +2,13 @@
 using System.Linq;
 using FluentAssertions;
 using NSubstitute;
-using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
 using StreamProcessing.Rest.Logic;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.HttpListener;
+using Workflow.Domain.Plugins.Rest;
 using Xunit;
 
 namespace StreamProcessing.Tests.Rest.Logic;

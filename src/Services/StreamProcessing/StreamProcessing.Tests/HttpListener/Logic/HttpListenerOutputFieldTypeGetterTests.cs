@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.HttpListener.Logic;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.HttpListener;
 using Xunit;
 
 namespace StreamProcessing.Tests.HttpListener.Logic;

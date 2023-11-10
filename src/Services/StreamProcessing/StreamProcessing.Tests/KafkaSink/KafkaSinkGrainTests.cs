@@ -1,9 +1,9 @@
 ﻿using NSubstitute;
 using StreamProcessing.KafkaSink;
-using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.KafkaSink;
 using Xunit;
 
 namespace StreamProcessing.Tests.KafkaSink;

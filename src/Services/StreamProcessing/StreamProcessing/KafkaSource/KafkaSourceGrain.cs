@@ -5,6 +5,7 @@ using StreamProcessing.KafkaSource.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Silo.Interfaces;
+using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource;
 

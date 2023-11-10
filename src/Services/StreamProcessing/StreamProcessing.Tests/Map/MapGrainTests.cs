@@ -1,10 +1,10 @@
 ﻿using NSubstitute;
 using StreamProcessing.Map;
-using StreamProcessing.Map.Domain;
 using StreamProcessing.Map.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.Map;
 using Xunit;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable

@@ -1,5 +1,5 @@
-﻿using StreamProcessing.KafkaSink.Domain;
-using StreamProcessing.KafkaSink.Interfaces;
+﻿using StreamProcessing.KafkaSink.Interfaces;
+using Workflow.Domain.Plugins.KafkaSink;
 
 namespace StreamProcessing.KafkaSink.Logic;
 
