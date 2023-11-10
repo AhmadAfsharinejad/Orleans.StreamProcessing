@@ -3,27 +3,27 @@ using NSubstitute;
 using Orleans;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Scenario;
-using StreamProcessing.Scenario.Interfaces;
 using StreamProcessing.Tests.PluginCommon.Logic.Mock;
+using StreamProcessing.WorkFlow;
+using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 using Xunit;
 
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
-namespace StreamProcessing.Tests.Scenario;
+namespace StreamProcessing.Tests.Workflow;
 
-public class ScenarioRunnerTests
+public class WorkflowRunnerTests
 {
-    private readonly IScenarioRunner _sut;
+    private readonly IWorkflowRunner _sut;
     private readonly IGrainFactory _grainFactory;
     private readonly IPluginGrainFactory _pluginGrainFactory;
 
-    public ScenarioRunnerTests()
+    public WorkflowRunnerTests()
     {
         _grainFactory = Substitute.For<IGrainFactory>();
         _pluginGrainFactory = Substitute.For<IPluginGrainFactory>();
-        _sut = new ScenarioRunner(_grainFactory, _pluginGrainFactory);
+        _sut = new WorkflowRunner(_grainFactory, _pluginGrainFactory);
     }
 
     [Fact]

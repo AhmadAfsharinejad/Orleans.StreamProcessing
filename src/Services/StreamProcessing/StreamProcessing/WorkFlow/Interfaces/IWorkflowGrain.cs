@@ -3,11 +3,11 @@ using StreamProcessing.Common;
 using StreamProcessing.PluginCommon.Domain;
 using Workflow.Domain;
 
-namespace StreamProcessing.Scenario.Interfaces;
+namespace StreamProcessing.WorkFlow.Interfaces;
 
-internal interface IScenarioGrain : IGrainWithStringKey
+internal interface IWorkflowGrain : IGrainWithStringKey
 {
-    Task AddScenario(ImmutableWrapper<WorkflowDesign> config);
+    Task Add(ImmutableWrapper<WorkflowDesign> config);
     
     [AlwaysInterleave]
     [ReadOnly]

@@ -1,18 +1,18 @@
 ﻿using StreamProcessing.Common;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Scenario.Interfaces;
+using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 
-namespace StreamProcessing.Scenario;
+namespace StreamProcessing.WorkFlow;
 
 //TODO add stop - cancellation token
-internal class ScenarioRunner : IScenarioRunner
+internal class WorkflowRunner : IWorkflowRunner
 {
     private readonly IGrainFactory _grainFactory;
     private readonly IPluginGrainFactory _pluginGrainFactory;
 
-    public ScenarioRunner(IGrainFactory grainFactory, IPluginGrainFactory pluginGrainFactory)
+    public WorkflowRunner(IGrainFactory grainFactory, IPluginGrainFactory pluginGrainFactory)
     {
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginGrainFactory = pluginGrainFactory ?? throw new ArgumentNullException(nameof(pluginGrainFactory));
@@ -24,8 +24,8 @@ internal class ScenarioRunner : IScenarioRunner
         
         var runTasks = new List<Task>();
 
-        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(config.Id.Value);
-        await scenarioGrain.AddScenario(new ImmutableWrapper<WorkflowDesign>(config));
+        var workflowGrain = _grainFactory.GetGrain<IWorkflowGrain>(config.Id.Value);
+        await workflowGrain.Add(new ImmutableWrapper<WorkflowDesign>(config));
 
         foreach (var plugin in FindSourcePlugins(config))
         {

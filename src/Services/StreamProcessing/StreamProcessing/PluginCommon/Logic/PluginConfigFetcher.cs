@@ -1,5 +1,5 @@
 ﻿using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Scenario.Interfaces;
+using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 
 namespace StreamProcessing.PluginCommon.Logic;
@@ -19,8 +19,8 @@ where TConfig : IPluginConfig
     {
         if (!(_config is null || _config!.Equals(default(TConfig)))) return _config;
 
-        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(workflowId);
-        var config = await scenarioGrain.GetPluginConfig(pluginId);
+        var workflowGrain = _grainFactory.GetGrain<IWorkflowGrain>(workflowId);
+        var config = await workflowGrain.GetPluginConfig(pluginId);
 
         if (config.Config is not TConfig tConfig) throw new InvalidCastException($"Can't cast plugin '{pluginId}' to specific type.");
 

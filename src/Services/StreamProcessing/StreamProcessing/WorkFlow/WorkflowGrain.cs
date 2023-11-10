@@ -2,23 +2,23 @@
 using Orleans.Runtime;
 using StreamProcessing.Common;
 using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.Scenario.Interfaces;
 using StreamProcessing.Storage;
+using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 
-namespace StreamProcessing.Scenario;
+namespace StreamProcessing.WorkFlow;
 
-internal sealed class ScenarioGrain : Grain, IScenarioGrain
+internal sealed class WorkflowGrain : Grain, IWorkflowGrain
 {
     private readonly IPersistentState<WorkflowDesign> _configState;
 
-    public ScenarioGrain(
-        [PersistentState(stateName: "scenarioConfigState", storageName: StorageConsts.StorageName)] IPersistentState<WorkflowDesign> configState)
+    public WorkflowGrain(
+        [PersistentState(stateName: "workflowConfigState", storageName: StorageConsts.StorageName)] IPersistentState<WorkflowDesign> configState)
     {
         _configState = configState;
     }
     
-    public async Task AddScenario(ImmutableWrapper<WorkflowDesign> config)
+    public async Task Add(ImmutableWrapper<WorkflowDesign> config)
     {
         _configState.State = config.Config; 
         await _configState.WriteStateAsync();

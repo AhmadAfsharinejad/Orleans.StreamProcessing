@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
-using StreamProcessing.Scenario.Interfaces;
+using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 using Workflow.Domain.Plugins;
 using Workflow.Domain.Plugins.Common;
@@ -21,11 +21,11 @@ namespace StreamProcessing.Sample;
 
 internal sealed class StartingHost : BackgroundService
 {
-    private readonly IScenarioRunner _scenarioRunner;
+    private readonly IWorkflowRunner _workflowRunner;
 
-    public StartingHost(IScenarioRunner scenarioRunner)
+    public StartingHost(IWorkflowRunner workflowRunner)
     {
-        _scenarioRunner = scenarioRunner ?? throw new ArgumentNullException(nameof(scenarioRunner));
+        _workflowRunner = workflowRunner ?? throw new ArgumentNullException(nameof(workflowRunner));
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,23 +34,23 @@ internal sealed class StartingHost : BackgroundService
         sw.Start();
         Console.WriteLine($"Start {DateTime.Now}");
 
-        //await RunScenario();
-        //await RunScenario_Http();
-        //await RunScenario_Rest();
-        await RunScenario_Map();
-        //await RunScenario_Kafka();
+        //await RunWorkflow();
+        //await RunWorkflow_Http();
+        //await RunWorkflow_Rest();
+        await RunWorkflow_Map();
+        //await RunWorkflow_Kafka();
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");
     }
 
-    private async Task RunScenario()
+    private async Task RunWorkflow()
     {
-        var config = GetScenarioConfig();
-        await _scenarioRunner.Run(config);
+        var config = GetWorkflowConfig();
+        await _workflowRunner.Run(config);
     }
 
-    private static WorkflowDesign GetScenarioConfig()
+    private static WorkflowDesign GetWorkflowConfig()
     {
         var plugins = new List<Plugin>();
         var links = new List<Link>();
@@ -104,13 +104,13 @@ internal sealed class StartingHost : BackgroundService
         return new WorkflowDesign( new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunScenario_Http()
+    private async Task RunWorkflow_Http()
     {
-        var config = GetScenarioConfig_Http();
-        await _scenarioRunner.Run(config);
+        var config = GetWorkflowConfig_Http();
+        await _workflowRunner.Run(config);
     }
 
-    private static WorkflowDesign GetScenarioConfig_Http()
+    private static WorkflowDesign GetWorkflowConfig_Http()
     {
         var plugins = new List<Plugin>();
         var links = new List<Link>();
@@ -128,13 +128,13 @@ internal sealed class StartingHost : BackgroundService
         return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunScenario_Rest()
+    private async Task RunWorkflow_Rest()
     {
-        var config = GetScenarioConfig_Rest();
-        await _scenarioRunner.Run(config);
+        var config = GetWorkflowConfig_Rest();
+        await _workflowRunner.Run(config);
     }
 
-    private static WorkflowDesign GetScenarioConfig_Rest()
+    private static WorkflowDesign GetWorkflowConfig_Rest()
     {
         var plugins = new List<Plugin>();
         var links = new List<Link>();
@@ -158,13 +158,13 @@ internal sealed class StartingHost : BackgroundService
         return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunScenario_Map()
+    private async Task RunWorkflow_Map()
     {
-        var config = GetScenarioConfig_Map();
-        await _scenarioRunner.Run(config);
+        var config = GetWorkflowConfig_Map();
+        await _workflowRunner.Run(config);
     }
 
-    private static WorkflowDesign GetScenarioConfig_Map()
+    private static WorkflowDesign GetWorkflowConfig_Map()
     {
         var plugins = new List<Plugin>();
         var links = new List<Link>();
@@ -206,13 +206,13 @@ internal sealed class StartingHost : BackgroundService
         return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunScenario_Kafka()
+    private async Task RunWorkflow_Kafka()
     {
-        var config = GetScenarioConfig_Kafka();
-        await _scenarioRunner.Run(config);
+        var config = GetWorkflowConfig_Kafka();
+        await _workflowRunner.Run(config);
     }
 
-    private static WorkflowDesign GetScenarioConfig_Kafka()
+    public static WorkflowDesign GetWorkflowConfig_Kafka()
     {
         var plugins = new List<Plugin>();
         var links = new List<Link>();

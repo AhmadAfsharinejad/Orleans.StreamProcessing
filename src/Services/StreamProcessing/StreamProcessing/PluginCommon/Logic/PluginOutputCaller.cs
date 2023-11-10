@@ -1,6 +1,6 @@
 ﻿using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Scenario.Interfaces;
+using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 
 namespace StreamProcessing.PluginCommon.Logic;
@@ -63,8 +63,8 @@ internal sealed class PluginOutputCaller : IPluginOutputCaller
     {
         if (_outputs is not null) return _outputs;
         
-        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(workflowId);
-        _outputs = await scenarioGrain.GetOutputTypes(pluginId);
+        var workflowGrain = _grainFactory.GetGrain<IWorkflowGrain>(workflowId);
+        _outputs = await workflowGrain.GetOutputTypes(pluginId);
         return _outputs;
     }
 }
