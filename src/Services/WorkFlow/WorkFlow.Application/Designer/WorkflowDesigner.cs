@@ -23,7 +23,7 @@ internal sealed class WorkflowDesigner : IWorkflowDesigner
     {
         if (_plugins.TryGetValue(pluginId, out _))
         {
-            throw new DuplicateElementIdException(pluginId.Value);
+            throw new DuplicateElementIdException(pluginId.Value.ToString());
         }
 
         var config = _pluginConfigFinder.GetConfig(pluginTypeId);
@@ -34,7 +34,7 @@ internal sealed class WorkflowDesigner : IWorkflowDesigner
     {
         if (!_plugins.TryGetValue(pluginId, out _))
         {
-            throw new NotExistsElementId(pluginId.Value);
+            throw new NotExistsElementId(pluginId.Value.ToString());
         }
 
         _plugins.Remove(pluginId);
@@ -44,7 +44,7 @@ internal sealed class WorkflowDesigner : IWorkflowDesigner
     {
         if (!_plugins.TryGetValue(pluginId, out var plugin))
         {
-            throw new NotExistsElementId(pluginId.Value);
+            throw new NotExistsElementId(pluginId.Value.ToString());
         }
 
         return plugin.Config;
@@ -54,7 +54,7 @@ internal sealed class WorkflowDesigner : IWorkflowDesigner
     {
         if (!_plugins.TryGetValue(pluginId, out var plugin))
         {
-            throw new NotExistsElementId(pluginId.Value);
+            throw new NotExistsElementId(pluginId.Value.ToString());
         }
 
         _plugins[pluginId] = plugin with { Config = config };
