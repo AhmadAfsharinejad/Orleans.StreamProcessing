@@ -31,7 +31,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string?, string?>>();
+        var producer = Substitute.For<IProducer<string, string>>();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -42,7 +42,7 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string?, string?>>(x => x.Key == "k11" && x.Value == "v22"));
+            Arg.Is<Message<string, string>>(x => x.Key == "k11" && x.Value == "v22"));
     }
     
     [Theory]
@@ -60,7 +60,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string?, string?> >();
+        var producer = Substitute.For<IProducer<string, string> >();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -71,7 +71,7 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string?, string?>>(x => x.Key == "k1" && x.Value == "v22"));
+            Arg.Is<Message<string, string>>(x => x.Key == "k1" && x.Value == "v22"));
     }
     
     [Fact]
@@ -85,7 +85,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string?, string?>>();
+        var producer = Substitute.For<IProducer<string, string>>();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -96,7 +96,7 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string?, string?>>(x => x.Key == null && x.Value == "v22"));
+            Arg.Is<Message<string, string>>(x => x.Key == string.Empty && x.Value == "v22"));
     }
     
     [Fact]
@@ -112,7 +112,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string?, string?> >();
+        var producer = Substitute.For<IProducer<string, string> >();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -123,7 +123,7 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string?, string?>>(x => x.Key == "k11" && x.Value == "v22"));
+            Arg.Is<Message<string, string>>(x => x.Key == "k11" && x.Value == "v22"));
     }
     
     [Theory]
@@ -141,7 +141,7 @@ public class KafkaSinkServiceTests
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "k1" }, { "f2", "v2" } });
         
-        var producer = Substitute.For<IProducer<string?, string?> >();
+        var producer = Substitute.For<IProducer<string, string> >();
         _kafkaProducerFactory.Create(config).Returns(producer);
         
         var sut = new KafkaSinkService(_kafkaProducerFactory, config);
@@ -152,6 +152,6 @@ public class KafkaSinkServiceTests
 
         // Assert
         producer.Received(1).Produce(config.Topic, 
-            Arg.Is<Message<string?, string?>>(x => x.Key == "k11" && x.Value == "v2"));
+            Arg.Is<Message<string, string>>(x => x.Key == "k11" && x.Value == "v2"));
     }
 }

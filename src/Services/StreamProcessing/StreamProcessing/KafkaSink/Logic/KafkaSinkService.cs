@@ -10,7 +10,7 @@ internal sealed class KafkaSinkService : IKafkaSinkService
 {
     private readonly IKafkaProducerFactory _kafkaProducerFactory;
     private readonly KafkaSinkConfig _config;
-    private IProducer<string?, string?>? _producer;
+    private IProducer<string, string>? _producer;
 
     public KafkaSinkService(IKafkaProducerFactory kafkaProducerFactory, KafkaSinkConfig config)
     {
@@ -25,7 +25,7 @@ internal sealed class KafkaSinkService : IKafkaSinkService
 
     public void Produce(PluginRecord pluginRecord)
     {
-        _producer!.Produce(_config.Topic, new Message<string?, string?>
+        _producer!.Produce(_config.Topic, new Message<string, string>
         {
             Key = GetMessageKey(pluginRecord),
             Value = GetMessageValue(pluginRecord)
@@ -33,7 +33,7 @@ internal sealed class KafkaSinkService : IKafkaSinkService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private string? GetMessageValue(PluginRecord pluginRecord)
+    private string GetMessageValue(PluginRecord pluginRecord)
     {
         if (!string.IsNullOrWhiteSpace(_config.StaticMessageValueFieldName))
         {
@@ -44,7 +44,7 @@ internal sealed class KafkaSinkService : IKafkaSinkService
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private string? GetMessageKey(PluginRecord pluginRecord)
+    private string GetMessageKey(PluginRecord pluginRecord)
     {
         if (!string.IsNullOrWhiteSpace(_config.StaticMessageKeyFieldName))
         {
@@ -53,7 +53,7 @@ internal sealed class KafkaSinkService : IKafkaSinkService
         
         if (string.IsNullOrWhiteSpace(_config.MessageKeyFieldName))
         {
-            return null;
+            return string.Empty;
         }
 
         return pluginRecord.Record[_config.MessageKeyFieldName!].ToString()!;
