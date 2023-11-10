@@ -1,6 +1,5 @@
 ﻿using Mediator;
 using Workflow.Application.Coordinator.Interfaces;
-using Workflow.Application.DesignCoordinator.Interfaces;
 
 namespace Workflow.Application.Coordinator.Commands.CreateWorkflow;
 

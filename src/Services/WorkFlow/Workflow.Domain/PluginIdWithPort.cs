@@ -1,3 +1,3 @@
-﻿namespace Workflow.Application.Designer.Domain;
+﻿namespace Workflow.Domain;
 
 public record struct PluginIdWithPort(PluginId Id, PortId Port);

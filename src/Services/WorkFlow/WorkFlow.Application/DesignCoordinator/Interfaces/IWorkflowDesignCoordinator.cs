@@ -1,5 +1,5 @@
-﻿using Workflow.Application.Designer.Domain;
-using Workflow.Application.Designer.Interfaces;
+﻿using Workflow.Application.Designer.Interfaces;
+using Workflow.Domain;
 
 namespace Workflow.Application.DesignCoordinator.Interfaces;
 

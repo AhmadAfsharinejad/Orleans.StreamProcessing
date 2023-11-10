@@ -1,21 +1,21 @@
 ﻿using Mediator;
 using Workflow.Application.DesignCoordinator.Interfaces;
 
-namespace Workflow.Application.DesignCoordinator.Commands.RemovePlugin;
+namespace Workflow.Application.DesignCoordinator.Commands.RemoveLink;
 
-public sealed class RemovePluginHandler : IRequestHandler<RemovePluginCommandConfig, Unit>
+public sealed class RemoveLinkHandler : IRequestHandler<RemoveLinkCommandConfig, Unit>
 {
     private readonly IWorkflowDesignCoordinator _workflowDesignCoordinator;
 
-    public RemovePluginHandler(IWorkflowDesignCoordinator workflowDesignCoordinator)
+    public RemoveLinkHandler(IWorkflowDesignCoordinator workflowDesignCoordinator)
     {
         _workflowDesignCoordinator = workflowDesignCoordinator ?? throw new ArgumentNullException(nameof(workflowDesignCoordinator));
     }
     
-    public ValueTask<Unit> Handle(RemovePluginCommandConfig request, CancellationToken cancellationToken)
+    public ValueTask<Unit> Handle(RemoveLinkCommandConfig request, CancellationToken cancellationToken)
     {
         var designer = _workflowDesignCoordinator.GetDesigner(request.WorkflowId);
-        designer.RemovePlugin(request.PluginId);
+        designer.RemoveLink(request.LinkId);
         
         return Unit.ValueTask;
     }

@@ -1,6 +1,6 @@
 ﻿using StronglyTypedIds;
 
-namespace Workflow.Application.Designer.Domain;
+namespace Workflow.Domain;
 
 [StronglyTypedId(backingType: StronglyTypedIdBackingType.String)]
 public partial struct WorkflowId

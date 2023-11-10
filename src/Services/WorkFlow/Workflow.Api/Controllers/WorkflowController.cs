@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Workflow.Application.Coordinator.Commands.CreateWorkflow;
 using Workflow.Application.DesignCoordinator.Commands.AddPlugin;
 using Workflow.Application.DesignCoordinator.Commands.RemovePlugin;
-using Workflow.Application.Designer.Domain;
+using Workflow.Application.ExecuteCoordinator.Commands.Run;
+using Workflow.Application.ExecuteCoordinator.Commands.Stop;
+using Workflow.Domain;
 
 namespace Workflow.Api.Controllers;
 
@@ -36,6 +38,18 @@ public class WorkflowController : ControllerBase
     [HttpPut]
     public async Task RemovePlugin(WorkflowId workflowId, PluginId pluginId)
     {
-        await _mediator.Send(new RemovePluginConfig(workflowId, pluginId));
+        await _mediator.Send(new RemovePluginCommandConfig(workflowId, pluginId));
+    }
+    
+    [HttpPost]
+    public async Task Run(WorkflowId workflowId)
+    {
+        await _mediator.Send(new RunCommandConfig(workflowId));
+    }
+    
+    [HttpPost]
+    public async Task Stop(WorkflowId workflowId)
+    {
+        await _mediator.Send(new StopCommandConfig(workflowId));
     }
 }

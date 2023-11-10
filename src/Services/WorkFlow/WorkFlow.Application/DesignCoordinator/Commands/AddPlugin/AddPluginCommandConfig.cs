@@ -1,6 +1,6 @@
 ﻿using Mediator;
-using Workflow.Application.Designer.Domain;
+using Workflow.Domain;
 
 namespace Workflow.Application.DesignCoordinator.Commands.AddPlugin;
 
-public sealed record AddPluginCommandConfig(WorkflowId WorkflowId, PluginTypeId PluginTypeId, PluginId PluginId) : IRequest;
+public record struct AddPluginCommandConfig(WorkflowId WorkflowId, PluginTypeId PluginTypeId, PluginId PluginId) : IRequest;

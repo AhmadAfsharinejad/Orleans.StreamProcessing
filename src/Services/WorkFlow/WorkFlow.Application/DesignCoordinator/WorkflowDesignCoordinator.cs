@@ -1,7 +1,6 @@
 ﻿using Workflow.Application.DesignCoordinator.Interfaces;
-using Workflow.Application.Designer;
-using Workflow.Application.Designer.Domain;
 using Workflow.Application.Designer.Interfaces;
+using Workflow.Domain;
 
 // ReSharper disable InconsistentlySynchronizedField
 
@@ -9,10 +8,12 @@ namespace Workflow.Application.DesignCoordinator;
 
 internal sealed class WorkflowDesignCoordinator : IWorkflowDesignCoordinator
 {
-    private readonly Dictionary<WorkflowId, WorkflowDesigner> _designers;
+    private readonly IWorkflowDesignerFactory _workflowDesignerFactory;
+    private readonly Dictionary<WorkflowId, IWorkflowDesigner> _designers;
 
-    public WorkflowDesignCoordinator()
+    public WorkflowDesignCoordinator(IWorkflowDesignerFactory workflowDesignerFactory)
     {
+        _workflowDesignerFactory = workflowDesignerFactory ?? throw new ArgumentNullException(nameof(workflowDesignerFactory));
         _designers = new();
     }
     
@@ -20,7 +21,7 @@ internal sealed class WorkflowDesignCoordinator : IWorkflowDesignCoordinator
     {
         lock (_designers)
         {
-            _designers.Add(id, new WorkflowDesigner());
+            _designers.Add(id, _workflowDesignerFactory.Create());
         }
     }
 

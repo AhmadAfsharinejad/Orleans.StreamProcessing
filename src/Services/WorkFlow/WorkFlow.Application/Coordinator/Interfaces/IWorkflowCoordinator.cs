@@ -1,4 +1,4 @@
-﻿using Workflow.Application.Designer.Domain;
+﻿using Workflow.Domain;
 
 namespace Workflow.Application.Coordinator.Interfaces;
 

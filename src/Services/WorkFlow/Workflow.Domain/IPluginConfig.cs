@@ -1,4 +1,4 @@
-﻿namespace Workflow.Domain.Plugin;
+﻿namespace Workflow.Domain;
 
 public interface IPluginConfig
 {
