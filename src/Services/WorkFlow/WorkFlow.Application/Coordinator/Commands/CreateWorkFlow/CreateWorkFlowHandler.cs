@@ -1,9 +1,10 @@
 ﻿using Mediator;
 using Workflow.Application.Coordinator.Interfaces;
+using Workflow.Application.DesignCoordinator.Interfaces;
 
 namespace Workflow.Application.Coordinator.Commands.CreateWorkflow;
 
-public sealed class CreateWorkflowHandler : IRequestHandler<CreateWorkflowConfig, Unit>
+public sealed class CreateWorkflowHandler : IRequestHandler<CreateWorkflowCommandConfig, Unit>
 {
     private readonly IWorkflowCoordinator _workflowCoordinator;
 
@@ -12,9 +13,9 @@ public sealed class CreateWorkflowHandler : IRequestHandler<CreateWorkflowConfig
         _workflowCoordinator = workflowCoordinator ?? throw new ArgumentNullException(nameof(workflowCoordinator));
     }
     
-    public ValueTask<Unit> Handle(CreateWorkflowConfig request, CancellationToken cancellationToken)
+    public ValueTask<Unit> Handle(CreateWorkflowCommandConfig request, CancellationToken cancellationToken)
     {
-        _workflowCoordinator.Created(request.Id);
+        _workflowCoordinator.Create(request.Id);
         
         return Unit.ValueTask;
     }

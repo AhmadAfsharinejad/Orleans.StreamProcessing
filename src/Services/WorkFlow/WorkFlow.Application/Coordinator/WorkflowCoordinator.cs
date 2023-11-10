@@ -1,31 +1,20 @@
 ﻿using Workflow.Application.Coordinator.Interfaces;
-using Workflow.Application.Designer;
+using Workflow.Application.DesignCoordinator.Interfaces;
 using Workflow.Application.Designer.Domain;
-using Workflow.Application.Designer.Interfaces;
-
-// ReSharper disable InconsistentlySynchronizedField
 
 namespace Workflow.Application.Coordinator;
 
 internal sealed class WorkflowCoordinator : IWorkflowCoordinator
 {
-    private readonly Dictionary<WorkflowId, WorkflowDesigner> _designers;
+    private readonly IWorkflowDesignCoordinator _workflowDesignCoordinator;
 
-    public WorkflowCoordinator()
+    public WorkflowCoordinator(IWorkflowDesignCoordinator workflowDesignCoordinator)
     {
-        _designers = new();
+        _workflowDesignCoordinator = workflowDesignCoordinator ?? throw new ArgumentNullException(nameof(workflowDesignCoordinator));
     }
     
-    public void Created(WorkflowId id)
+    public void Create(WorkflowId id)
     {
-        lock (_designers)
-        {
-            _designers.Add(id, new WorkflowDesigner());
-        }
-    }
-
-    public IWorkflowDesigner GetDesigner(WorkflowId id)
-    {
-        return _designers[id];
+        _workflowDesignCoordinator.Create(id);
     }
 }

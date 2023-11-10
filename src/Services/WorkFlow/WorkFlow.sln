@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow.Application", "Wor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow.Api", "Workflow.Api\Workflow.Api.csproj", "{1309548D-0DF7-406C-B470-6E0C0661C521}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow.Domain", "Workflow.Domain\Workflow.Domain.csproj", "{CA4E0FD2-68FF-43A5-A580-44EA2B08A34D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{1309548D-0DF7-406C-B470-6E0C0661C521}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1309548D-0DF7-406C-B470-6E0C0661C521}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1309548D-0DF7-406C-B470-6E0C0661C521}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA4E0FD2-68FF-43A5-A580-44EA2B08A34D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4E0FD2-68FF-43A5-A580-44EA2B08A34D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4E0FD2-68FF-43A5-A580-44EA2B08A34D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4E0FD2-68FF-43A5-A580-44EA2B08A34D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
