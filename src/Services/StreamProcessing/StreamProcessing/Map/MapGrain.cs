@@ -72,7 +72,7 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
     {
         if (_hasBeenInitialized) return;
 
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         _func = _compiler.CreateFunction(config.Code, config.FullClassName, config.FunctionName);
 

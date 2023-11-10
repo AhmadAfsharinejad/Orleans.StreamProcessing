@@ -1,16 +1,17 @@
 ﻿using Orleans.Concurrency;
+using StreamProcessing.Common;
 using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.Scenario.Domain;
+using Workflow.Domain;
 
 namespace StreamProcessing.Scenario.Interfaces;
 
-internal interface IScenarioGrain : IGrainWithGuidKey
+internal interface IScenarioGrain : IGrainWithStringKey
 {
-    Task AddScenario(ScenarioConfig config);
+    Task AddScenario(ImmutableWrapper<WorkflowDesign> config);
     
     [AlwaysInterleave]
     [ReadOnly]
-    Task<IStreamPluginConfig> GetPluginConfig(Guid pluginId);
+    Task<ImmutableWrapper<IPluginConfig>> GetPluginConfig(Guid pluginId);
 
     [AlwaysInterleave]
     [ReadOnly]

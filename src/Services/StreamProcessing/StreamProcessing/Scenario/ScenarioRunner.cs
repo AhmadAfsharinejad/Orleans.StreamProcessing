@@ -1,7 +1,8 @@
-﻿using StreamProcessing.PluginCommon.Domain;
+﻿using StreamProcessing.Common;
+using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
+using Workflow.Domain;
 
 namespace StreamProcessing.Scenario;
 
@@ -17,18 +18,18 @@ internal class ScenarioRunner : IScenarioRunner
         _pluginGrainFactory = pluginGrainFactory ?? throw new ArgumentNullException(nameof(pluginGrainFactory));
     }
 
-    public async Task Run(ScenarioConfig config)
+    public async Task Run(WorkflowDesign config)
     {
         using var tcs = new GrainCancellationTokenSource();
         
         var runTasks = new List<Task>();
 
-        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(config.Id);
-        await scenarioGrain.AddScenario(config);
+        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(config.Id.Value);
+        await scenarioGrain.AddScenario(new ImmutableWrapper<WorkflowDesign>(config));
 
         foreach (var plugin in FindSourcePlugins(config))
         {
-            var grain = _pluginGrainFactory.GetOrCreateSourcePlugin(plugin.PluginTypeId, plugin.Id);
+            var grain = _pluginGrainFactory.GetOrCreateSourcePlugin(plugin.PluginTypeId, plugin.Id.Value);
             var runTask = grain.Start(
                 new PluginExecutionContext(config.Id, plugin.Id, null), tcs.Token);
             runTasks.Add(runTask);
@@ -37,9 +38,9 @@ internal class ScenarioRunner : IScenarioRunner
         await Task.WhenAll(runTasks);
     }
 
-    private static IEnumerable<PluginConfig> FindSourcePlugins(ScenarioConfig config)
+    private static IEnumerable<Plugin> FindSourcePlugins(WorkflowDesign config)
     {
-        var destinationIds = config.Relations.Select(x => x.DestinationId).ToHashSet();
-        return config.Configs.Where(x => !destinationIds.Contains(x.Id));
+        var destinationIds = config.PluginAndLinks.Links.Select(x => x.Target.Id).ToHashSet();
+        return config.PluginAndLinks.Plugins.Where(x => !destinationIds.Contains(x.Id));
     }
 }

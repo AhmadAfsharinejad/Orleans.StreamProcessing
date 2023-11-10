@@ -39,7 +39,7 @@ internal sealed class HttpResponseGrain : PluginGrain, IHttpResponseGrain
         [Immutable] PluginRecord pluginRecord,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         var response = _httpResponseService.GetResponse(config, pluginRecord);
 

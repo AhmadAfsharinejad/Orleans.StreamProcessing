@@ -138,7 +138,7 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task<SqlExecutorConfig> Init(PluginExecutionContext pluginContext, CancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         await Init(pluginContext, config, cancellationToken);
         return config;
     }

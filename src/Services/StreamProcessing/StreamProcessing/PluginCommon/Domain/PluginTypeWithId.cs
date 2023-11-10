@@ -3,4 +3,4 @@
 namespace StreamProcessing.PluginCommon.Domain;
 
 [Immutable]
-internal record struct PluginTypeWithId(Guid PluginId, PluginTypeId PluginTypeId);
+internal record struct PluginTypeWithId(PluginId PluginId, PluginTypeId PluginTypeId);

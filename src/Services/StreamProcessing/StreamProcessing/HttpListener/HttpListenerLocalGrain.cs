@@ -37,7 +37,7 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
     public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         var outPluginContext = pluginContext with { InputFieldTypes = _httpListenerOutputFieldTypeGetter.GetOutputs(config) };
 

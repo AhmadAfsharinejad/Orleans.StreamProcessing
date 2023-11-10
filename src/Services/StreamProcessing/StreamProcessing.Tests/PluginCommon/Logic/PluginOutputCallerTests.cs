@@ -30,8 +30,8 @@ public class PluginOutputCallerTests
         //Arrange
         var pluginContext = new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid()
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid())
         };
         var record = new PluginRecord();
 
@@ -40,8 +40,8 @@ public class PluginOutputCallerTests
         _sut.CallOutputs(pluginContext, record, default!);
 
         //Assert
-        _grainFactory.Received(1).GetGrain<IScenarioGrain>(pluginContext.ScenarioId);
-        _grainFactory.ReceivedWithAnyArgs(1).GetGrain<IScenarioGrain>(pluginContext.ScenarioId);
+        _grainFactory.Received(1).GetGrain<IScenarioGrain>(pluginContext.WorkFlowId);
+        _grainFactory.ReceivedWithAnyArgs(1).GetGrain<IScenarioGrain>(pluginContext.WorkFlowId);
     }
 
     [Fact]
@@ -50,8 +50,8 @@ public class PluginOutputCallerTests
         //Arrange
         var pluginContext = new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid()
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid())
         };
         var records = new List<PluginRecord>();
 
@@ -59,8 +59,8 @@ public class PluginOutputCallerTests
         _sut.CallOutputs(pluginContext, records, default!);
 
         //Assert
-        _grainFactory.Received(1).GetGrain<IScenarioGrain>(pluginContext.ScenarioId);
-        _grainFactory.ReceivedWithAnyArgs(1).GetGrain<IScenarioGrain>(pluginContext.ScenarioId);
+        _grainFactory.Received(1).GetGrain<IScenarioGrain>(pluginContext.WorkFlowId);
+        _grainFactory.ReceivedWithAnyArgs(1).GetGrain<IScenarioGrain>(pluginContext.WorkFlowId);
     }
 
     [Fact]
@@ -69,8 +69,8 @@ public class PluginOutputCallerTests
         //Arrange
         var pluginContext = new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid()
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid())
         };
         var record = new PluginRecord();
 
@@ -88,8 +88,8 @@ public class PluginOutputCallerTests
         //Arrange
         var pluginContext = new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid()
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid())
         };
         var records = new List<PluginRecord>();
 
@@ -106,18 +106,18 @@ public class PluginOutputCallerTests
         //Arrange
         var pluginContext = new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid()
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid())
         };
         var record = new PluginRecord();
 
         var scenarioGrain = Substitute.For<IScenarioGrain>();
-        _grainFactory.GetGrain<IScenarioGrain>(pluginContext.ScenarioId).Returns(scenarioGrain);
+        _grainFactory.GetGrain<IScenarioGrain>(pluginContext.WorkFlowId).Returns(scenarioGrain);
 
         var pluginTypes = new List<PluginTypeWithId>
         {
-            new(Guid.NewGuid(), new PluginTypeId()),
-            new(Guid.NewGuid(), new PluginTypeId())
+            new( new PluginId(Guid.NewGuid()), new PluginTypeId()),
+            new(new PluginId(Guid.NewGuid()), new PluginTypeId())
         };
         scenarioGrain.GetOutputTypes(pluginContext.PluginId).Returns(pluginTypes);
 
@@ -148,18 +148,18 @@ public class PluginOutputCallerTests
         //Arrange
         var pluginContext = new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid()
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid())
         };
         var records = new List<PluginRecord>();
 
         var scenarioGrain = Substitute.For<IScenarioGrain>();
-        _grainFactory.GetGrain<IScenarioGrain>(pluginContext.ScenarioId).Returns(scenarioGrain);
+        _grainFactory.GetGrain<IScenarioGrain>(pluginContext.WorkFlowId).Returns(scenarioGrain);
 
         var pluginTypes = new List<PluginTypeWithId>
         {
-            new(Guid.NewGuid(), new PluginTypeId()),
-            new(Guid.NewGuid(), new PluginTypeId())
+            new(new PluginId(Guid.NewGuid()), new PluginTypeId()),
+            new(new PluginId(Guid.NewGuid()), new PluginTypeId())
         };
         scenarioGrain.GetOutputTypes(pluginContext.PluginId).Returns(pluginTypes);
 

@@ -1,8 +1,8 @@
-﻿using StreamProcessing.Scenario.Domain;
+﻿using Workflow.Domain;
 
 namespace StreamProcessing.Scenario.Interfaces;
 
 public interface IScenarioRunner
 {
-    Task Run(ScenarioConfig config);
+    Task Run(WorkflowDesign config);
 }

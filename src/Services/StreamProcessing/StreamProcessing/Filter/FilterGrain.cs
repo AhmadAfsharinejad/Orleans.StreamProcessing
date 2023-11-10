@@ -70,6 +70,6 @@ internal sealed class FilterGrain : PluginGrain, IFilterGrain
     {
         if (pluginContext.InputFieldTypes is null) throw new NoNullAllowedException("'InputFieldTypes' can't be null.");
 
-        return await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        return await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
     }
 }

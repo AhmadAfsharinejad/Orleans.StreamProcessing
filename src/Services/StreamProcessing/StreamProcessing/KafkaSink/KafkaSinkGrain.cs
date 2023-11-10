@@ -65,7 +65,7 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
     {
         if (_hasBeenInitialized) return;
 
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         _KafkaSinkService = _kafkaSinkServiceFactory.Create(config);
         _KafkaSinkService.BuildProducer();

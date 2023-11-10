@@ -4,11 +4,11 @@ using Orleans;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Scenario;
-using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
 using StreamProcessing.Tests.PluginCommon.Logic.Mock;
 using Workflow.Domain;
 using Xunit;
+
 // ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
 
 namespace StreamProcessing.Tests.Scenario;
@@ -30,29 +30,30 @@ public class ScenarioRunnerTests
     public void Run_ShouldCallStart_WhenPluginIsSource()
     {
         //Arrange
-        var source1 = new PluginConfig(new PluginTypeId("source"), Guid.NewGuid(), new MockStreamPluginConfig());
-        var source2 = new PluginConfig(new PluginTypeId("source2"), Guid.NewGuid(), new MockStreamPluginConfig());
-        var middle = new PluginConfig(new PluginTypeId("middle"), Guid.NewGuid(), new MockStreamPluginConfig());
-        var target = new PluginConfig(new PluginTypeId("target"), Guid.NewGuid(), new MockStreamPluginConfig());
+        var source1 = new Plugin(new PluginTypeId("source"), new PluginId(Guid.NewGuid()), new MockStreamPluginConfig());
+        var source2 = new Plugin(new PluginTypeId("source2"), new PluginId(Guid.NewGuid()), new MockStreamPluginConfig());
+        var middle = new Plugin(new PluginTypeId("middle"), new PluginId(Guid.NewGuid()), new MockStreamPluginConfig());
+        var target = new Plugin(new PluginTypeId("target"), new PluginId(Guid.NewGuid()), new MockStreamPluginConfig());
 
-        var config = new ScenarioConfig
-        {
-            Id = Guid.NewGuid(),
-            Configs = new[] { source1, source2, middle, target },
-            Relations = new[]
-            {
-                new LinkConfig(source1.Id, middle.Id),
-                new LinkConfig(middle.Id, target.Id),
-                new LinkConfig(source2.Id, target.Id)
-            }
-        };
+        var config = new WorkflowDesign(
+             new WorkflowId(Guid.NewGuid()),
+            new PluginAndLinks(new[] { source1, source2, middle, target },
+                new[]
+                {
+                    new Link(new LinkId(), new PluginIdWithPort(source1.Id, new PortId()),
+                        new PluginIdWithPort(middle.Id, new PortId())),
+                    new Link(new LinkId(), new PluginIdWithPort(middle.Id, new PortId()),
+                        new PluginIdWithPort(target.Id, new PortId())),
+                    new Link(new LinkId(), new PluginIdWithPort(source2.Id, new PortId()),
+                        new PluginIdWithPort(target.Id, new PortId())),
+                }));
 
         var sourcePlugin1 = Substitute.For<ISourcePluginGrain>();
         _pluginGrainFactory.GetOrCreateSourcePlugin(source1.PluginTypeId, source1.Id).Returns(sourcePlugin1);
 
         var sourcePlugin2 = Substitute.For<ISourcePluginGrain>();
         _pluginGrainFactory.GetOrCreateSourcePlugin(source2.PluginTypeId, source2.Id).Returns(sourcePlugin2);
-        
+
         //Act
         _sut.Run(config);
 

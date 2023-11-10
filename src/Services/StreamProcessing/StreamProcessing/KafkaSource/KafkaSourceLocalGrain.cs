@@ -41,7 +41,7 @@ internal sealed class KafkaSourceLocalGrain : Grain, IKafkaSourceLocalGrain
     public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         var outPluginContext = GetOutPluginContext(pluginContext, config.OutputFieldName);
 

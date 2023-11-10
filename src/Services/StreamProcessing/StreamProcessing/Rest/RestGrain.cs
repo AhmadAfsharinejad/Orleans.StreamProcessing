@@ -59,7 +59,7 @@ internal sealed class RestGrain : Grain, IRestGrain
         [Immutable] PluginRecords pluginRecords,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         Init(pluginContext, config);
 
         var records = new List<PluginRecord>(pluginRecords.Records.Count);
@@ -79,7 +79,7 @@ internal sealed class RestGrain : Grain, IRestGrain
         [Immutable] PluginRecord pluginRecord,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         Init(pluginContext, config);
 
         var record = await _restService.Call(_httpClient!, config, pluginRecord, cancellationToken.CancellationToken);

@@ -1,6 +1,7 @@
 ﻿using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Scenario.Interfaces;
+using Workflow.Domain;
 
 namespace StreamProcessing.PluginCommon.Logic;
 
@@ -20,7 +21,7 @@ internal sealed class PluginOutputCaller : IPluginOutputCaller
         List<PluginRecord> records, 
         GrainCancellationToken cancellationToken)
     {
-        var outputs = await GetOutputs(pluginContext.ScenarioId, pluginContext.PluginId);
+        var outputs = await GetOutputs(pluginContext.WorkFlowId, pluginContext.PluginId);
         if (outputs.Count == 0) return;
 
         var outputRecords = new PluginRecords { Records = records };
@@ -42,7 +43,7 @@ internal sealed class PluginOutputCaller : IPluginOutputCaller
         PluginRecord record, 
         GrainCancellationToken cancellationToken)
     {
-        var outputs = await GetOutputs(pluginContext.ScenarioId, pluginContext.PluginId);
+        var outputs = await GetOutputs(pluginContext.WorkFlowId, pluginContext.PluginId);
         if (outputs.Count == 0) return;
         
         var tasks = new List<Task>(outputs.Count);
@@ -58,11 +59,11 @@ internal sealed class PluginOutputCaller : IPluginOutputCaller
         await Task.WhenAll(tasks);
     }
 
-    private async Task<IReadOnlyCollection<PluginTypeWithId>> GetOutputs(Guid scenarioId, Guid pluginId)
+    private async Task<IReadOnlyCollection<PluginTypeWithId>> GetOutputs(WorkflowId workflowId, Guid pluginId)
     {
         if (_outputs is not null) return _outputs;
         
-        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(scenarioId);
+        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(workflowId);
         _outputs = await scenarioGrain.GetOutputTypes(pluginId);
         return _outputs;
     }
