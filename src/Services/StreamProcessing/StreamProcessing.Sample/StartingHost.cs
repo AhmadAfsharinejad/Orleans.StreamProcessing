@@ -37,8 +37,8 @@ internal sealed class StartingHost : BackgroundService
         //await RunScenario();
         //await RunScenario_Http();
         //await RunScenario_Rest();
-        //await RunScenario_Map();
-        await RunScenario_Kafka();
+        await RunScenario_Map();
+        //await RunScenario_Kafka();
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");
@@ -232,7 +232,8 @@ internal sealed class StartingHost : BackgroundService
         return new KafkaSinkConfig
         {
             BootstrapServers = "localhost:9092",
-            Topic = "topic8",
+            Topic = "topic3",
+            StaticMessageKeyFieldName ="k1", 
             MessageValueFieldName = "f1" 
         };
     }
