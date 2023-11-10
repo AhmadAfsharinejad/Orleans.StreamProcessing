@@ -14,9 +14,10 @@ using StreamProcessing.Rest.Domain;
 using StreamProcessing.Scenario.Domain;
 using StreamProcessing.Scenario.Interfaces;
 using StreamProcessing.SqlExecutor.Domain;
+
 // ReSharper disable UnusedMember.Local
 
-namespace StreamProcessing;
+namespace StreamProcessing.Sample;
 
 internal sealed class StartingHost : BackgroundService
 {
@@ -36,8 +37,8 @@ internal sealed class StartingHost : BackgroundService
         //await RunScenario();
         //await RunScenario_Http();
         //await RunScenario_Rest();
-        //await RunScenario_Map();
-        await RunScenario_Kafka();
+        await RunScenario_Map();
+        //await RunScenario_Kafka();
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");

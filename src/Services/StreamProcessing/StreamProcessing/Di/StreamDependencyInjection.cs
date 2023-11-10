@@ -1,10 +1,19 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using StreamProcessing.Silo;
 
 namespace StreamProcessing.Di;
 
 public static class StreamDependencyInjection
 {
-    public static IServiceCollection AddStreamServices(this IServiceCollection collection)
+    public static ISiloBuilder AddStreamServices(this ISiloBuilder siloBuilder)
+    {
+        siloBuilder.Services.AddStreamServices();
+        siloBuilder.AddGrainService<LocalGrainIntroducerService>();
+        
+        return siloBuilder;
+    }
+    
+    private static IServiceCollection AddStreamServices(this IServiceCollection collection)
     {
         var serviceAdders = FindDependencyIntroducers();
         foreach (var serviceAdder in serviceAdders)

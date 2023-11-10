@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kafka", "Kafka", "{9A0D68F6
 		Docker\Kafka\docker-compose.yml = Docker\Kafka\docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Sample", "StreamProcessing.Sample\StreamProcessing.Sample.csproj", "{5751B59D-CA34-467A-9098-C34735605E78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{5FB0C07F-E11E-472E-85FC-B442D1B757D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FB0C07F-E11E-472E-85FC-B442D1B757D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FB0C07F-E11E-472E-85FC-B442D1B757D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F21D3036-7C5B-4F3E-BDC9-E4B8ECD4E168} = {36C064CC-4279-41FB-BA0C-0EAD91F67126}

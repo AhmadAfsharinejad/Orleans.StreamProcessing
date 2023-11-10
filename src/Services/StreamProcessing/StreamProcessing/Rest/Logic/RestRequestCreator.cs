@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Web;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest.Domain;
