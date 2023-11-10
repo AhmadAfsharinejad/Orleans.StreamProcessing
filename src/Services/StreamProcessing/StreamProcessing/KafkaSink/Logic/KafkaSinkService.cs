@@ -35,26 +35,30 @@ internal sealed class KafkaSinkService : IKafkaSinkService
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private string GetMessageValue(PluginRecord pluginRecord)
     {
-        return Get(pluginRecord, _config.MessageValueFieldName, _config.StaticMessageValueFieldName);
+        if (!string.IsNullOrWhiteSpace(_config.StaticMessageValueFieldName))
+        {
+            return _config.StaticMessageValueFieldName;
+        }
+        
+        return pluginRecord.Record[_config.MessageValueFieldName!].ToString()!;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private string GetMessageKey(PluginRecord pluginRecord)
     {
-        return Get(pluginRecord, _config.MessageKeyFieldName, _config.StaticMessageKeyFieldName);
-    }
-    
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string Get(PluginRecord pluginRecord, string? recordKey, string? staticValue)
-    {
-        if (!string.IsNullOrWhiteSpace(staticValue))
+        if (!string.IsNullOrWhiteSpace(_config.StaticMessageKeyFieldName))
         {
-            return staticValue;
+            return _config.StaticMessageKeyFieldName;
         }
         
-        return pluginRecord.Record[recordKey!].ToString()!;
-    }
+        if (string.IsNullOrWhiteSpace(_config.MessageKeyFieldName))
+        {
+            return string.Empty;
+        }
 
+        return pluginRecord.Record[_config.MessageKeyFieldName!].ToString()!;
+    }
+    
     public void Dispose()
     {
         _producer?.Dispose();
