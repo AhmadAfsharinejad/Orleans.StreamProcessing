@@ -55,7 +55,7 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
         {
             response.Close();            
         }
-        
-        //TODO deavtive grain
+                
+        DeactivateOnIdle(); // deactivate grain on finish.
     }
 }
