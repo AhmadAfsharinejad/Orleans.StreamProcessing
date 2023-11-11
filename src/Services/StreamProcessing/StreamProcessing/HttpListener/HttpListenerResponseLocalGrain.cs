@@ -46,13 +46,15 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
             response.AddHeader(header.Key, header.Value);
         }
 
+        // returning response 
         if (responseTuple.ContentBytes is not null)
         {
-            await using var output = response.OutputStream;
-            await output.WriteAsync(responseTuple.ContentBytes);
+            response.Close(responseTuple.ContentBytes,false);
         }
-
-        response.Close();
+        else
+        {
+            response.Close();            
+        }
         
         //TODO deavtive grain
     }
