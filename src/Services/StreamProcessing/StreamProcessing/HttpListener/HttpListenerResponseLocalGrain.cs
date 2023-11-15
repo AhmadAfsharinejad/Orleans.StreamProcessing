@@ -35,6 +35,7 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
         RequestContext.Set(HttpListenerConsts.RequestId, reqId);
         
         _httpListenerContextDictionary.TryAdd(reqId,httpListenerContext);
+        
         //Dont await response
         _pluginOutputCaller.CallOutputs(pluginContext, record, cancellationToken);
     }
@@ -63,6 +64,5 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
                 response.Close();            
             }
         }
-        // deactivate grain on finish.
     }
 }
