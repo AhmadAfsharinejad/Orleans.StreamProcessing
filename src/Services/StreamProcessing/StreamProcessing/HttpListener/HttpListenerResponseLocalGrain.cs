@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Concurrent;
+using System.Net;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
@@ -16,8 +17,8 @@ namespace StreamProcessing.HttpListener;
 internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
-    private HttpListenerContext? _httpListenerContext;
-
+    private readonly ConcurrentDictionary<Guid,HttpListenerContext> _httpListenerContextDictionary = new(); 
+    
     public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
@@ -28,10 +29,12 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
         [Immutable] HttpListenerContext httpListenerContext,
         GrainCancellationToken cancellationToken)
     {
-        _httpListenerContext = httpListenerContext;
+        var reqId = Guid.NewGuid();
 
         RequestContext.Set(HttpListenerConsts.ListenerGrainId, this.GetPrimaryKey());
+        RequestContext.Set(HttpListenerConsts.RequestId, reqId);
         
+        _httpListenerContextDictionary.TryAdd(reqId,httpListenerContext);
         //Dont await response
         _pluginOutputCaller.CallOutputs(pluginContext, record, cancellationToken);
     }
@@ -39,23 +42,27 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
     public async Task SetResponse([Immutable] HttpResponseTuple responseTuple,
         GrainCancellationToken cancellationToken)
     {
-        var response = _httpListenerContext!.Response;
+        var reqId = (Guid) RequestContext.Get(HttpListenerConsts.RequestId);
+        
+        if (_httpListenerContextDictionary.TryRemove(reqId, out var httpListenerContext))
+        {
+            var response = httpListenerContext.Response;
 
-        foreach (var header in responseTuple.Headers)
-        {
-            response.AddHeader(header.Key, header.Value);
-        }
+            foreach (var header in responseTuple.Headers)
+            {
+                response.AddHeader(header.Key, header.Value);
+            }
 
-        // returning response 
-        if (responseTuple.ContentBytes is not null)
-        {
-            response.Close(responseTuple.ContentBytes,false);
+            // returning response 
+            if (responseTuple.ContentBytes is not null)
+            {
+                response.Close(responseTuple.ContentBytes,false);
+            }
+            else
+            {
+                response.Close();            
+            }
         }
-        else
-        {
-            response.Close();            
-        }
-                
-        DeactivateOnIdle(); // deactivate grain on finish.
+        // deactivate grain on finish.
     }
 }
