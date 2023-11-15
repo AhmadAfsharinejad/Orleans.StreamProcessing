@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Orleans.Configuration;
 using StreamProcessing.Di;
 using StreamProcessing.Sample;
 using StreamProcessing.Storage;
@@ -27,6 +25,7 @@ IHostBuilder CreateHost(int siloPort, int gatewayPort)
             siloBuilder.UseLocalhostClustering();
             siloBuilder.AddMemoryGrainStorage(StorageConsts.StorageName);
             siloBuilder.AddStreamServices();
+            siloBuilder.UseDashboard();
             // siloBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
             //
             // siloBuilder.UseInMemoryReminderService();
