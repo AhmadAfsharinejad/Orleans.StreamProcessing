@@ -4,7 +4,7 @@ using Workflow.Application.ExecuteCoordinator.Interfaces;
 
 namespace Workflow.Application.ExecuteCoordinator.Commands.Stop;
 
-internal sealed class StopHandler : IRequestHandler<RunCommandConfig>
+public sealed class StopHandler : IRequestHandler<StopCommandConfig>
 {
     private readonly IWorkflowExecuteCoordinator _workflowExecuteCoordinator;
 
@@ -13,7 +13,7 @@ internal sealed class StopHandler : IRequestHandler<RunCommandConfig>
         _workflowExecuteCoordinator = workflowExecuteCoordinator ?? throw new ArgumentNullException(nameof(workflowExecuteCoordinator));
     }
     
-    public ValueTask<Unit> Handle(RunCommandConfig request, CancellationToken cancellationToken)
+    public ValueTask<Unit> Handle(StopCommandConfig request, CancellationToken cancellationToken)
     {
         var executor = _workflowExecuteCoordinator.GetExecutor(request.Id);
         executor.Stop();

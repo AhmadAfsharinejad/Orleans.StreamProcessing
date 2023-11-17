@@ -64,7 +64,7 @@ internal sealed class WorkflowDesigner : IWorkflowDesigner
     {
         if (_links.TryGetValue(config.Id, out _))
         {
-            throw new DuplicateElementIdException(config.Id.Value);
+            throw new DuplicateElementIdException(config.Id.Value.ToString());
         }
 
         _links.Add(config.Id, config);
@@ -74,7 +74,7 @@ internal sealed class WorkflowDesigner : IWorkflowDesigner
     {
         if (!_links.TryGetValue(linkId, out _))
         {
-            throw new NotExistsElementId(linkId.Value);
+            throw new NotExistsElementId(linkId.Value.ToString());
         }
 
         _links.Remove(linkId);

@@ -2,7 +2,7 @@
 using Workflow.Application.DesignCoordinator.Interfaces;
 using Workflow.Domain;
 
-namespace Workflow.Application.DesignCoordinator.Commands.GetPluginConfig;
+namespace Workflow.Application.DesignCoordinator.Queries.GetPluginConfig;
 
 public sealed class GetPluginConfigHandler : IRequestHandler<GetPluginConfigCommandConfig, IPluginConfig>
 {

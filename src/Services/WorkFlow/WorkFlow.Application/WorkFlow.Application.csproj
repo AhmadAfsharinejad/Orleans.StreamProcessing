@@ -20,4 +20,8 @@
       <ProjectReference Include="..\Workflow.Domain\Workflow.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DesignCoordinator\Queries\" />
+    </ItemGroup>
+
 </Project>

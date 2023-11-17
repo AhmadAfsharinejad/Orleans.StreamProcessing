@@ -2,7 +2,7 @@
 
 namespace Workflow.Domain;
 
-[StronglyTypedId(backingType: StronglyTypedIdBackingType.String)]
+[StronglyTypedId(backingType: StronglyTypedIdBackingType.String, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
 public partial struct WorkflowId
 {
     public WorkflowId(){}
