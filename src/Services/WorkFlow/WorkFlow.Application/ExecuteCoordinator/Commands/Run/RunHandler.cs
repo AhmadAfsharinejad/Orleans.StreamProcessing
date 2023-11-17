@@ -14,7 +14,6 @@ public sealed class RunHandler : IRequestHandler<RunCommandConfig>
     
     public ValueTask<Unit> Handle(RunCommandConfig request, CancellationToken cancellationToken)
     {
-        //TODO
         _workflowExecuteCoordinator.Create(request.Id);
         var executor = _workflowExecuteCoordinator.GetExecutor(request.Id);
         executor.Run();
