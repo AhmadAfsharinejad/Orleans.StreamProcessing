@@ -1,9 +1,11 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
 using FluentAssertions;
-using Newtonsoft.Json;
 using Workflow.Domain;
 using Workflow.Domain.Plugins;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.RandomGenerator;
 using Xunit;
 
 namespace Workflow.FunctionalTests;
@@ -91,6 +93,57 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     }
 
     [Fact]
+    public async Task SetPluginConfig_ShouldReturnOk_WhenAll()
+    {
+        // Arrange
+        var workflowId = Guid.NewGuid();
+        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        var pluginId = Guid.NewGuid();
+        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+
+        var config = new RandomGeneratorConfig { Count = 22 };
+        var pluginIdWithConfig = new PluginIdWithConfig(new PluginId(pluginId), config);
+
+        // Act
+        var response = await _httpClient.PutAsJsonAsync($"/Workflow/SetPluginConfig/{workflowId}", pluginIdWithConfig);
+
+        // Assert
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+
+    [Fact]
+    public async Task GetPluginConfig_ShouldReturnSettedConfig_WhenSetConfig()
+    {
+        // Arrange
+        var workflowId = Guid.NewGuid();
+        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        var pluginId = Guid.NewGuid();
+        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+
+        var config = new RandomGeneratorConfig
+        {
+            Count = 1234,
+            Columns = new[]
+            {
+                new RandomColumn(new StreamField("f1", FieldType.Float), RandomType.Age),
+                new RandomColumn(new StreamField("f2", FieldType.Guid), RandomType.Guid)
+            }
+        };
+        var pluginIdWithConfig = new PluginIdWithConfig(new PluginId(pluginId), config);
+        var ___ = await _httpClient.PutAsJsonAsync($"/Workflow/SetPluginConfig/{workflowId}/?pluginId={pluginId}", pluginIdWithConfig);
+
+        // Act
+        var response = await _httpClient.GetAsync($"/Workflow/GetPluginConfig/{workflowId}/?pluginId={pluginId}");
+
+        // Assert
+        var body = await response.Content.ReadAsStringAsync();
+
+        var actual = JsonSerializer.Deserialize<RandomGeneratorConfig>(body);
+        actual.Count.Should().Be(config.Count);
+        actual.Columns.Should().BeEquivalentTo(config.Columns);
+    }
+
+    [Fact]
     public async Task AddLink_ShouldReturnOk_WhenAll()
     {
         // Arrange
@@ -103,8 +156,7 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
         var targetId = new PluginId(Guid.NewGuid());
         var ___ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(targetId, new PluginTypeId(PluginTypeNames.DummyOutput))));
 
-        var link = new Link( new LinkId(Guid.NewGuid()), new PluginIdWithPort(sourceId,  new PortId("p1")), new PluginIdWithPort(targetId, new PortId("p1")));
-        //var link = new LinkString(Guid.NewGuid(), new PluginIdWithPortString(sourceId.Value, "p1"), new PluginIdWithPortString(targetId.Value, "p1"));
+        var link = new Link(new LinkId(Guid.NewGuid()), new PluginIdWithPort(sourceId, new PortId("p1")), new PluginIdWithPort(targetId, new PortId("p1")));
 
         // Act
         var response = await _httpClient.PostAsJsonAsync($"/Workflow/AddLink/{workflowId}", link);

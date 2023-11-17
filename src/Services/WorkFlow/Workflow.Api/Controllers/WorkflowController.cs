@@ -5,6 +5,7 @@ using Workflow.Application.DesignCoordinator.Commands.AddPlugin;
 using Workflow.Application.DesignCoordinator.Commands.CreateWorkFlow;
 using Workflow.Application.DesignCoordinator.Commands.RemoveLink;
 using Workflow.Application.DesignCoordinator.Commands.RemovePlugin;
+using Workflow.Application.DesignCoordinator.Commands.SetPluginConfig;
 using Workflow.Application.DesignCoordinator.Queries.GetPluginConfig;
 using Workflow.Application.ExecuteCoordinator.Commands.Run;
 using Workflow.Application.ExecuteCoordinator.Commands.Stop;
@@ -26,9 +27,9 @@ public class WorkflowController : ControllerBase
     }
 
     [HttpPost]
-    public async Task CreateWorkflow([FromBody] string id)
+    public async Task CreateWorkflow([FromBody] WorkflowId id)
     {
-        await _mediator.Send(new CreateWorkflowCommandConfig(new WorkflowId(id)));
+        await _mediator.Send(new CreateWorkflowCommandConfig(id));
     }
 
     [HttpPost]
@@ -38,15 +39,21 @@ public class WorkflowController : ControllerBase
     }
 
     [HttpPut]
-    public async Task RemovePlugin([FromRoute] WorkflowId workflowId, [FromBody] Guid pluginId)
+    public async Task RemovePlugin([FromRoute] WorkflowId workflowId, [FromBody] PluginId pluginId)
     {
-        await _mediator.Send(new RemovePluginCommandConfig(workflowId, new PluginId(pluginId)));
+        await _mediator.Send(new RemovePluginCommandConfig(workflowId, pluginId));
     }
 
     [HttpGet]
-    public async Task<IPluginConfig> GetPluginConfig([FromRoute] WorkflowId workflowId, [FromQuery] Guid pluginId)
+    public async Task<IPluginConfig> GetPluginConfig([FromRoute] WorkflowId workflowId, [FromQuery] PluginId pluginId)
     {
-        return await _mediator.Send(new GetPluginConfigCommandConfig(workflowId, new PluginId(pluginId)));
+        return await _mediator.Send(new GetPluginConfigCommandConfig(workflowId, pluginId));
+    }
+
+    [HttpPut]
+    public async Task SetPluginConfig([FromRoute] WorkflowId workflowId, [FromBody] PluginIdWithConfig pluginIdWithConfig)
+    {
+        await _mediator.Send(new SetPluginConfigCommandConfig(workflowId, pluginIdWithConfig.Id, pluginIdWithConfig.Config));
     }
 
     [HttpPost]
@@ -56,9 +63,9 @@ public class WorkflowController : ControllerBase
     }
 
     [HttpPut]
-    public async Task RemoveLink([FromRoute] WorkflowId workflowId, [FromBody] Guid linkId)
+    public async Task RemoveLink([FromRoute] WorkflowId workflowId, [FromBody] LinkId linkId)
     {
-        await _mediator.Send(new RemoveLinkCommandConfig(workflowId, new LinkId(linkId)));
+        await _mediator.Send(new RemoveLinkCommandConfig(workflowId, linkId));
     }
 
     [HttpPost]

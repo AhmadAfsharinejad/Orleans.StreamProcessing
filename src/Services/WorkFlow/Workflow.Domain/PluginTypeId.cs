@@ -3,7 +3,7 @@ using Workflow.Domain.Plugins;
 
 namespace Workflow.Domain;
 
-[StronglyTypedId(backingType: StronglyTypedIdBackingType.String)]
+[StronglyTypedId(backingType: StronglyTypedIdBackingType.String, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
 public partial struct PluginTypeId
 {
     public PluginTypeId(){}
