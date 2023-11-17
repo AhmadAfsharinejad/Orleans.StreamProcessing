@@ -46,7 +46,7 @@ public class WorkflowController : ControllerBase
         await _mediator.Send(new RunCommandConfig(workflowId));
     }
 
-    [HttpPost]
+    [HttpPut]
     public async Task Stop([FromRoute] WorkflowId workflowId)
     {
         await _mediator.Send(new StopCommandConfig(workflowId));
