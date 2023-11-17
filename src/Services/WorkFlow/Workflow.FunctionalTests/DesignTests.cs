@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
-using System.Text.Json;
+using System.Text;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Workflow.Domain;
 using Workflow.Domain.Plugins;
 using Workflow.Domain.Plugins.Common;
@@ -104,9 +105,16 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
         var config = new RandomGeneratorConfig { Count = 22 };
         var pluginIdWithConfig = new PluginIdWithConfig(new PluginId(pluginId), config);
 
+        var serializeObject = JsonConvert.SerializeObject(pluginIdWithConfig, new JsonSerializerSettings ()
+        {
+            TypeNameHandling = TypeNameHandling.All,
+        });
+        var content = new StringContent(serializeObject, Encoding.UTF8, "application/json");
+        
         // Act
-        var response = await _httpClient.PutAsJsonAsync($"/Workflow/SetPluginConfig/{workflowId}", pluginIdWithConfig);
+        var response = await _httpClient.PutAsync($"/Workflow/SetPluginConfig/{workflowId}", content);
 
+        
         // Assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -130,15 +138,19 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
             }
         };
         var pluginIdWithConfig = new PluginIdWithConfig(new PluginId(pluginId), config);
-        var ___ = await _httpClient.PutAsJsonAsync($"/Workflow/SetPluginConfig/{workflowId}/?pluginId={pluginId}", pluginIdWithConfig);
-
+        var serializeObject = JsonConvert.SerializeObject(pluginIdWithConfig, new JsonSerializerSettings ()
+        {
+            TypeNameHandling = TypeNameHandling.All,
+        });
+        var content = new StringContent(serializeObject, Encoding.UTF8, "application/json");
+        var ___ = await _httpClient.PutAsync($"/Workflow/SetPluginConfig/{workflowId}", content);
+        
         // Act
         var response = await _httpClient.GetAsync($"/Workflow/GetPluginConfig/{workflowId}/?pluginId={pluginId}");
+        var body = await response.Content.ReadAsStringAsync();
+        var actual = JsonConvert.DeserializeObject<RandomGeneratorConfig>(body);
 
         // Assert
-        var body = await response.Content.ReadAsStringAsync();
-
-        var actual = JsonSerializer.Deserialize<RandomGeneratorConfig>(body);
         actual.Count.Should().Be(config.Count);
         actual.Columns.Should().BeEquivalentTo(config.Columns);
     }
