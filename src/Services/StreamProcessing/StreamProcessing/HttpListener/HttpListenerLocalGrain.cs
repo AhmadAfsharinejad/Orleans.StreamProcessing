@@ -25,7 +25,8 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _httpListenerService = httpListenerService ?? throw new ArgumentNullException(nameof(httpListenerService));
-        _httpListenerOutputFieldTypeGetter = httpListenerOutputFieldTypeGetter ?? throw new ArgumentNullException(nameof(httpListenerOutputFieldTypeGetter));
+        _httpListenerOutputFieldTypeGetter = httpListenerOutputFieldTypeGetter ??
+                                             throw new ArgumentNullException(nameof(httpListenerOutputFieldTypeGetter));
         _httpListenerResponseLocalGrain = _grainFactory.GetGrain<IHttpListenerResponseLocalGrain>(Guid.NewGuid());
     }
 
@@ -41,12 +42,17 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
     {
         var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
 
-        var outPluginContext = pluginContext with { InputFieldTypes = _httpListenerOutputFieldTypeGetter.GetOutputs(config) };
+        var outPluginContext = pluginContext with
+        {
+            InputFieldTypes = _httpListenerOutputFieldTypeGetter.GetOutputs(config)
+        };
 
-        await foreach (var recordListenerContextTuple in _httpListenerService.Listen(config, cancellationToken.CancellationToken))
+        await foreach (var recordListenerContextTuple in _httpListenerService.Listen(config,
+                           cancellationToken.CancellationToken))
         {
             await _httpListenerResponseLocalGrain
-                .CallOutput(outPluginContext, recordListenerContextTuple.Record, recordListenerContextTuple.HttpListenerContext, cancellationToken);
+                .CallOutput(outPluginContext, recordListenerContextTuple.Record,
+                    recordListenerContextTuple.HttpListenerContext, cancellationToken);
         }
     }
 }

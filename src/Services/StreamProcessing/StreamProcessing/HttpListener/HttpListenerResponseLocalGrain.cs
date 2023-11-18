@@ -17,8 +17,8 @@ namespace StreamProcessing.HttpListener;
 internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
-    private readonly ConcurrentDictionary<Guid,HttpListenerContext> _httpListenerContextDictionary = new(); 
-    
+    private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
+
     public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
@@ -33,9 +33,9 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
 
         RequestContext.Set(HttpListenerConsts.ListenerGrainId, this.GetPrimaryKey());
         RequestContext.Set(HttpListenerConsts.RequestId, reqId);
-        
-        _httpListenerContextDictionary.TryAdd(reqId,httpListenerContext);
-        
+
+        _httpListenerContextDictionary.TryAdd(reqId, httpListenerContext);
+
         //Dont await response
         _pluginOutputCaller.CallOutputs(pluginContext, record, cancellationToken);
     }
@@ -43,8 +43,8 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
     public async Task SetResponse([Immutable] HttpResponseTuple responseTuple,
         GrainCancellationToken cancellationToken)
     {
-        var reqId = (Guid) RequestContext.Get(HttpListenerConsts.RequestId);
-        
+        var reqId = (Guid)RequestContext.Get(HttpListenerConsts.RequestId);
+
         if (_httpListenerContextDictionary.TryRemove(reqId, out var httpListenerContext))
         {
             var response = httpListenerContext.Response;
@@ -57,11 +57,11 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
             // returning response 
             if (responseTuple.ContentBytes is not null)
             {
-                response.Close(responseTuple.ContentBytes,false);
+                response.Close(responseTuple.ContentBytes, false);
             }
             else
             {
-                response.Close();            
+                response.Close();
             }
         }
     }
