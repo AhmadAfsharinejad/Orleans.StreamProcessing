@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
+using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
@@ -14,6 +15,7 @@ using StreamProcessing.PluginCommon.Interfaces;
 namespace StreamProcessing.HttpListener;
 
 [PreferLocalPlacement]
+[Reentrant]
 internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
