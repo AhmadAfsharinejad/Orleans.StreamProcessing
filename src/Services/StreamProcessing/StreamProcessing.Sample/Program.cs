@@ -3,16 +3,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StreamProcessing.Sample;
 
-
 var hostBuilder = new HostBuilder()
-    .UseOrleans((ctx, clientBuilder) =>
+    .ConfigureHostConfiguration(configurationBinder => { configurationBinder.AddCommandLine(args); })
+    .ConfigureAppConfiguration((ctx, configurationBinder) =>
+    {
+        var env = ctx.HostingEnvironment.EnvironmentName;
+        configurationBinder.AddJsonFile("appsettings.json", true);
+        configurationBinder.AddJsonFile($"appsettings.{env}.json", true);
+        configurationBinder.AddCommandLine(args);
+    })
+    .UseOrleansClient((ctx, clientBuilder) =>
     {
         int hostGetWayId = ctx.Configuration.GetValue<int>("HostGetWayId");
 
-        Console.WriteLine(hostGetWayId);
-        
         clientBuilder.UseLocalhostClustering(
-            //gatewayPort: 30000 + hostGetWayId
+            gatewayPort: 30000 + hostGetWayId
         );
     });
 

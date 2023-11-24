@@ -5,6 +5,14 @@ using StreamProcessing.Di;
 using StreamProcessing.Storage;
 
 var hostBuilder = new HostBuilder()
+    .ConfigureHostConfiguration(configurationBinder => { configurationBinder.AddCommandLine(args); })
+    .ConfigureAppConfiguration((ctx, configurationBinder) =>
+    {
+        var env = ctx.HostingEnvironment.EnvironmentName;
+        configurationBinder.AddJsonFile("appsettings.json", true);
+        configurationBinder.AddJsonFile($"appsettings.{env}.json", true);
+        configurationBinder.AddCommandLine(args);
+    })
     .UseOrleans((ctx, siloBuilder) =>
     {
         // siloBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
