@@ -45,7 +45,7 @@ internal sealed class StartingHost : BackgroundService
         //await Run(GetWorkflowConfig_Http());
         //await Run(GetWorkflowConfig_Rest());
         await Run(GetWorkflowConfig_Map());
-        //await Run(RunWorkflow_Kafka());
+        //await Run(GetWorkflowConfig_Kafka());
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");
