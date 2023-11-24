@@ -1,6 +1,7 @@
 ﻿using Workflow.Application.ExecuteCoordinator.Interfaces;
 using Workflow.Application.Executer.Interfaces;
 using Workflow.Domain;
+using Workflow.Infrastructure.Executer.Interfaces;
 
 // ReSharper disable InconsistentlySynchronizedField
 

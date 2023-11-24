@@ -1,5 +1,4 @@
 ﻿using Mediator;
-using Workflow.Application.ExecuteCoordinator.Commands.Run;
 using Workflow.Application.ExecuteCoordinator.Interfaces;
 
 namespace Workflow.Application.ExecuteCoordinator.Commands.Stop;

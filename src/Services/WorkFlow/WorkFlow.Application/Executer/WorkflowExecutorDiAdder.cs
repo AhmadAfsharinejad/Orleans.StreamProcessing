@@ -8,7 +8,6 @@ internal sealed class WorkflowExecutorDiAdder : IServiceAdder
 {
     public void AddService(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddTransient<IWorkflowExecutor, WorkflowExecutor>();
         serviceCollection.AddSingleton<IWorkflowExecutorFactory, WorkflowExecutorFactory>();
     }
 }

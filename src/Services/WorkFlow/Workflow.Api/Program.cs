@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Workflow.Application.Di;
+using Workflow.Executor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddWorkflowApplicationServices();
+builder.Services.AddExecutionServices();
 
 var app = builder.Build();
 

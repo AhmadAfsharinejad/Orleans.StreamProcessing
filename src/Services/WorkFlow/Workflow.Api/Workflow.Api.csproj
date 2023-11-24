@@ -19,6 +19,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Workflow.Application\Workflow.Application.csproj" />
+      <ProjectReference Include="..\Workflow.Executor\Workflow.Executor.csproj" />
     </ItemGroup>
 
 </Project>

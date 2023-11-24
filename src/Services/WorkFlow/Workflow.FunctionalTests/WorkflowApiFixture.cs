@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Workflow.Application.Executer.Interfaces;
 using Workflow.FunctionalTests.Mock;
+using Workflow.Infrastructure.Executer.Interfaces;
 
 // ReSharper disable ClassNeverInstantiated.Global
 

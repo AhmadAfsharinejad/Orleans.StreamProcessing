@@ -1,6 +1,6 @@
 ﻿using Workflow.Domain;
 
-namespace Workflow.Application.Executer.Interfaces;
+namespace Workflow.Infrastructure.Executer.Interfaces;
 
 public interface IWorkflowExecutor
 {

@@ -1,9 +1,8 @@
-﻿using Workflow.Application.Executer.Interfaces;
-using Workflow.Domain;
+﻿using Workflow.Domain;
+using Workflow.Infrastructure.Executer.Interfaces;
 
-namespace Workflow.Application.Executer;
+namespace Workflow.Executor;
 
-//TODO
 //TODO Handle Parallelism -- mabey using actor?
 internal sealed class WorkflowExecutor : IWorkflowExecutor
 {

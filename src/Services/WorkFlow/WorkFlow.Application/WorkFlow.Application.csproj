@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Workflow.Domain\Workflow.Domain.csproj" />
+      <ProjectReference Include="..\Workflow.Infrastructure\Workflow.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

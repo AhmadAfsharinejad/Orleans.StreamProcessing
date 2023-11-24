@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Workflow.Application.PluginFinder.Domain;
+﻿using Workflow.Application.PluginFinder.Domain;
 using Workflow.Application.PluginFinder.Interfaces;
 using Workflow.Domain;
 
