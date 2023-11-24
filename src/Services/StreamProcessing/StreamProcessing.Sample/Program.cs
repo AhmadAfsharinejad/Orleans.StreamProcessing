@@ -9,8 +9,10 @@ var hostBuilder = new HostBuilder()
     {
         int hostGetWayId = ctx.Configuration.GetValue<int>("HostGetWayId");
 
+        Console.WriteLine(hostGetWayId);
+        
         clientBuilder.UseLocalhostClustering(
-            gatewayPort: 30000 + hostGetWayId
+            //gatewayPort: 30000 + hostGetWayId
         );
     });
 

@@ -9,6 +9,8 @@ builder.Host.UseOrleansClient((ctx, clientBuilder) =>
 {
     int hostGetWayId = ctx.Configuration.GetValue<int>("HostGetWayId");
 
+    Console.WriteLine(hostGetWayId);
+
     clientBuilder.UseLocalhostClustering(
         gatewayPort: 30000 + hostGetWayId
     );
