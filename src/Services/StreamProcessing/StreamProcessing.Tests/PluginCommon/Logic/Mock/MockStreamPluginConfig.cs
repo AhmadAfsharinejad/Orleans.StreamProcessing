@@ -1,5 +1,4 @@
-﻿using StreamProcessing.PluginCommon.Domain;
-using Workflow.Domain;
+﻿using Workflow.Domain;
 
 // ReSharper disable ClassNeverInstantiated.Global
 

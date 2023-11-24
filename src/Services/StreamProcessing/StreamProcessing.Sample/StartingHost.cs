@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
+using StreamProcessing.Common.Domain;
 using StreamProcessing.Common.Interfaces;
-using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 using Workflow.Domain.Plugins;
 using Workflow.Domain.Plugins.Common;
@@ -22,16 +22,17 @@ namespace StreamProcessing.Sample;
 
 internal sealed class StartingHost : BackgroundService
 {
-    private readonly IWorkflowRunner _workflowRunner;
+    private readonly IClusterClient _clusterClient;
 
-    public StartingHost(IWorkflowRunner workflowRunner)
+    public StartingHost(IClusterClient clusterClient)
     {
-        _workflowRunner = workflowRunner ?? throw new ArgumentNullException(nameof(workflowRunner));
+        _clusterClient = clusterClient ?? throw new ArgumentNullException(nameof(clusterClient));
     }
 
     private async Task Run(WorkflowDesign workflowDesign)
     {
-        await _workflowRunner.Run(workflowDesign);
+        var grain = _clusterClient.GetGrain<IWorkflowRunnerGrain>(workflowDesign.Id.Value);
+        await grain.Run(new ImmutableWrapper<WorkflowDesign>(workflowDesign));
     }
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)

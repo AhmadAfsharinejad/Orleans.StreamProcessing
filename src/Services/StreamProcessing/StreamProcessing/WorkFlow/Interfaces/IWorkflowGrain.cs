@@ -1,5 +1,5 @@
 ﻿using Orleans.Concurrency;
-using StreamProcessing.Common;
+using StreamProcessing.Common.Domain;
 using StreamProcessing.PluginCommon.Domain;
 using Workflow.Domain;
 
@@ -7,7 +7,7 @@ namespace StreamProcessing.WorkFlow.Interfaces;
 
 internal interface IWorkflowGrain : IGrainWithStringKey
 {
-    Task Add(ImmutableWrapper<WorkflowDesign> config);
+    Task Add(ImmutableWrapper<WorkflowDesign> configWrapper);
     
     [AlwaysInterleave]
     [ReadOnly]

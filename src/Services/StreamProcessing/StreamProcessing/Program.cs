@@ -36,8 +36,13 @@ var hostBuilder = new HostBuilder()
         siloBuilder.AddActivityPropagation();
     });
 
+hostBuilder.UseConsoleLifetime();
+
 var host = hostBuilder.Build();
+
+await host.StartAsync();
 
 Console.WriteLine("Press enter to stop the Silo...");
 Console.ReadLine();
+
 await host.StopAsync();

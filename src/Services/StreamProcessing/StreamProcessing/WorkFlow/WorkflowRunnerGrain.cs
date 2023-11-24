@@ -1,4 +1,4 @@
-﻿using StreamProcessing.Common;
+﻿using StreamProcessing.Common.Domain;
 using StreamProcessing.Common.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
@@ -7,22 +7,24 @@ using Workflow.Domain;
 
 namespace StreamProcessing.WorkFlow;
 
-//TODO add stop - cancellation token
-internal class WorkflowRunner : IWorkflowRunner
+//TODO add stop - cancellation token - KeepAlive
+internal sealed class WorkflowRunnerGrain : Grain, IWorkflowRunnerGrain
 {
     private readonly IGrainFactory _grainFactory;
     private readonly IPluginGrainFactory _pluginGrainFactory;
 
-    public WorkflowRunner(IGrainFactory grainFactory, IPluginGrainFactory pluginGrainFactory)
+    public WorkflowRunnerGrain(IGrainFactory grainFactory, IPluginGrainFactory pluginGrainFactory)
     {
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginGrainFactory = pluginGrainFactory ?? throw new ArgumentNullException(nameof(pluginGrainFactory));
     }
 
-    public async Task Run(WorkflowDesign config)
+    public async Task Run(ImmutableWrapper<WorkflowDesign> configWrapper)
     {
-        using var tcs = new GrainCancellationTokenSource();
+        var config = configWrapper.Config;
         
+        using var tcs = new GrainCancellationTokenSource();
+
         var runTasks = new List<Task>();
 
         var workflowGrain = _grainFactory.GetGrain<IWorkflowGrain>(config.Id.Value);

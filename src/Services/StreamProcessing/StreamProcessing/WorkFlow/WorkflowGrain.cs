@@ -1,6 +1,6 @@
 ﻿using Orleans.Concurrency;
 using Orleans.Runtime;
-using StreamProcessing.Common;
+using StreamProcessing.Common.Domain;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.Storage;
 using StreamProcessing.WorkFlow.Interfaces;
@@ -18,9 +18,9 @@ internal sealed class WorkflowGrain : Grain, IWorkflowGrain
         _configState = configState;
     }
     
-    public async Task Add(ImmutableWrapper<WorkflowDesign> config)
+    public async Task Add(ImmutableWrapper<WorkflowDesign> configWrapper)
     {
-        _configState.State = config.Config; 
+        _configState.State = configWrapper.Config; 
         await _configState.WriteStateAsync();
     }
     

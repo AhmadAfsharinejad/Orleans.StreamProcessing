@@ -1,11 +1,12 @@
 ﻿using System;
 using NSubstitute;
 using Orleans;
+using StreamProcessing.Common.Domain;
+using StreamProcessing.Common.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Tests.PluginCommon.Logic.Mock;
 using StreamProcessing.WorkFlow;
-using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 using Xunit;
 
@@ -13,17 +14,17 @@ using Xunit;
 
 namespace StreamProcessing.Tests.Workflow;
 
-public class WorkflowRunnerTests
+public class WorkflowRunnerGrainTests
 {
-    private readonly IWorkflowRunner _sut;
+    private readonly IWorkflowRunnerGrain _sut;
     private readonly IGrainFactory _grainFactory;
     private readonly IPluginGrainFactory _pluginGrainFactory;
 
-    public WorkflowRunnerTests()
+    public WorkflowRunnerGrainTests()
     {
         _grainFactory = Substitute.For<IGrainFactory>();
         _pluginGrainFactory = Substitute.For<IPluginGrainFactory>();
-        _sut = new WorkflowRunner(_grainFactory, _pluginGrainFactory);
+        _sut = new WorkflowRunnerGrain(_grainFactory, _pluginGrainFactory);
     }
 
     [Fact]
@@ -55,7 +56,7 @@ public class WorkflowRunnerTests
         _pluginGrainFactory.GetOrCreateSourcePlugin(source2.PluginTypeId, source2.Id).Returns(sourcePlugin2);
 
         //Act
-        _sut.Run(config);
+        _sut.Run(new ImmutableWrapper<WorkflowDesign>(config));
 
         //Assert
         _pluginGrainFactory.ReceivedWithAnyArgs(2).GetOrCreateSourcePlugin(new PluginTypeId(), Guid.Empty);

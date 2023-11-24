@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using NSubstitute;
 using Orleans;
-using StreamProcessing.Common;
+using StreamProcessing.Common.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.PluginCommon.Logic;
 using StreamProcessing.Tests.PluginCommon.Logic.Mock;
