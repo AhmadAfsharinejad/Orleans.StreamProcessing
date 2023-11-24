@@ -1,4 +1,5 @@
 ﻿using Workflow.Application.Executer.Interfaces;
+using Workflow.Domain;
 
 namespace Workflow.Application.Executer;
 
@@ -6,12 +7,12 @@ namespace Workflow.Application.Executer;
 //TODO Handle Parallelism -- mabey using actor?
 internal sealed class WorkflowExecutor : IWorkflowExecutor
 {
-    public void Run()
+    public void Run(WorkflowDesign workflowDesign)
     {
         throw new NotImplementedException();
     }
 
-    public void Stop()
+    public void Stop(WorkflowId workflowId)
     {
         throw new NotImplementedException();
     }

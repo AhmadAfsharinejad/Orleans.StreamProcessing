@@ -1,7 +1,9 @@
-﻿namespace Workflow.Application.Executer.Interfaces;
+﻿using Workflow.Domain;
+
+namespace Workflow.Application.Executer.Interfaces;
 
 public interface IWorkflowExecutor
 {
-    void Run();
-    void Stop();
+    void Run(WorkflowDesign workflowDesign);
+    void Stop(WorkflowId workflowId);
 }

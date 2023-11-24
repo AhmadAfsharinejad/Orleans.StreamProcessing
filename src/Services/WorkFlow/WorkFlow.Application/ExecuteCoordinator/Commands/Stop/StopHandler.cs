@@ -16,7 +16,7 @@ public sealed class StopHandler : IRequestHandler<StopCommandConfig>
     public ValueTask<Unit> Handle(StopCommandConfig request, CancellationToken cancellationToken)
     {
         var executor = _workflowExecuteCoordinator.GetExecutor(request.Id);
-        executor.Stop();
+        executor.Stop(request.Id);
         
         return Unit.ValueTask;
     }
