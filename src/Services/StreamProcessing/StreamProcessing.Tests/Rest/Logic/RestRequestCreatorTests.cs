@@ -218,7 +218,7 @@ public class RestRequestCreatorTests
         var actual = _sut.Create(config, record, default);
 
         //Assert
-        actual.Method.Should().Be(config.HttpMethod);
+        actual.Method.Method.ToUpper().Should().Be(config.HttpMethod.ToString().ToUpper());
     }
     
     [Fact]
