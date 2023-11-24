@@ -22,6 +22,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Workflow.Api\Workflow.Api.csproj" />
+      <ProjectReference Include="..\Workflow.Infrastructure\Workflow.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
