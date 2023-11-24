@@ -1,5 +1,7 @@
 ﻿using System.Net.Http.Json;
+using System.Text;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Workflow.Domain;
 using Workflow.Executor.Domain;
 using Workflow.Infrastructure.Executer.Interfaces;
@@ -21,7 +23,17 @@ internal sealed class WorkflowExecutor : IWorkflowExecutor
     public async Task Run(WorkflowDesign workflowDesign)
     {
         var client = GetClient();
-        await client.PostAsync("Run", JsonContent.Create(workflowDesign));
+        await client.PostAsync("Run", GetStringContent(workflowDesign));
+    }
+    
+    private static StringContent GetStringContent(object value)
+    {
+        var serializeObject = JsonConvert.SerializeObject(value, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.All,
+        });
+
+        return new StringContent(serializeObject, Encoding.UTF8, "application/json");
     }
 
     public async Task Stop(WorkflowId workflowId)
