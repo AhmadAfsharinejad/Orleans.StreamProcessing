@@ -16,7 +16,7 @@ using Workflow.Domain;
 namespace Workflow.Api.Controllers;
 
 [ApiController]
-[Route("[controller]/[Action]/{workflowId:guid?}")]
+[Route("[controller]/[Action]/{workflowId?}")]
 public class WorkflowController : ControllerBase
 {
     private readonly IMediator _mediator;
