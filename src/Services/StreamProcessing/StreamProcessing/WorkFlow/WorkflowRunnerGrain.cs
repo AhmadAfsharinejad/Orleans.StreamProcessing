@@ -22,7 +22,7 @@ internal sealed class WorkflowRunnerGrain : Grain, IWorkflowRunnerGrain
     public async Task Run(ImmutableWrapper<WorkflowDesign> configWrapper)
     {
         var config = configWrapper.Config;
-        
+
         using var tcs = new GrainCancellationTokenSource();
 
         var runTasks = new List<Task>();
