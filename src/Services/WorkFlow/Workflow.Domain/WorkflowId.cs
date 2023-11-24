@@ -1,13 +1,19 @@
-﻿using StronglyTypedIds;
+﻿#pragma warning disable CS8618
 
 namespace Workflow.Domain;
 
-[Immutable, RegisterSerializer]
-[StronglyTypedId(backingType: StronglyTypedIdBackingType.String, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
-public partial struct WorkflowId
+[Immutable, GenerateSerializer]
+public record struct WorkflowId
 {
+    [Id(0)] public string Value { get; }
+
     public WorkflowId()
     {
+    }
+
+    public WorkflowId(string value)
+    {
+        Value = value ?? throw new ArgumentNullException(nameof(value));
     }
 
     public WorkflowId(Guid id)
@@ -20,4 +26,3 @@ public partial struct WorkflowId
     public static implicit operator Guid(WorkflowId id) => Guid.Parse(id.Value);
     public static explicit operator WorkflowId(Guid id) => new(id.ToString());
 }
-

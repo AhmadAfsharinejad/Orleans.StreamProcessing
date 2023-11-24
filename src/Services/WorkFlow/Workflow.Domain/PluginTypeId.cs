@@ -1,19 +1,27 @@
-﻿using StronglyTypedIds;
-using Workflow.Domain.Plugins;
+﻿using Workflow.Domain.Plugins;
+#pragma warning disable CS8618
 
 namespace Workflow.Domain;
 
 [Immutable, GenerateSerializer]
-[StronglyTypedId(backingType: StronglyTypedIdBackingType.String, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
-public partial struct PluginTypeId
+public record struct PluginTypeId
 {
-    public PluginTypeId(){}
-    
+    [Id(0)] public string Value { get; }
+
+    public PluginTypeId()
+    {
+    }
+
+    public PluginTypeId(string value)
+    {
+        Value = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
     public PluginTypeId(PluginTypeNames pluginTypeName)
     {
         Value = pluginTypeName.ToString();
     }
-    
+
     public static implicit operator string(PluginTypeId id) => id.Value;
     public static explicit operator PluginTypeId(string id) => new(id);
 }

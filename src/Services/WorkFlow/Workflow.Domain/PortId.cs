@@ -1,13 +1,21 @@
-﻿using StronglyTypedIds;
+﻿#pragma warning disable CS8618
 
 namespace Workflow.Domain;
 
 [Immutable, GenerateSerializer]
-[StronglyTypedId(backingType: StronglyTypedIdBackingType.String, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
-public partial struct PortId
+public record struct PortId
 {
-    public PortId(){}
-    
+    [Id(0)] public string Value { get; }
+
+    public PortId()
+    {
+    }
+
+    public PortId(string value)
+    {
+        Value = value ?? throw new ArgumentNullException(nameof(value));
+    }
+
     public static implicit operator string(PortId id) => id.Value;
     public static explicit operator PortId(string id) => new(id);
 }

@@ -1,12 +1,18 @@
-﻿using StronglyTypedIds;
-
-namespace Workflow.Domain;
+﻿namespace Workflow.Domain;
 
 [Immutable, GenerateSerializer]
-[StronglyTypedId(backingType: StronglyTypedIdBackingType.Guid, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
-public partial struct PluginId
+public record struct PluginId
 {
-    public PluginId(){}
+    [Id(0)] public Guid Value { get; }
+
+    public PluginId()
+    {
+    }
+
+    public PluginId(Guid value)
+    {
+        Value = value;
+    }
     
     public static implicit operator Guid(PluginId id) => id.Value;
     public static explicit operator PluginId(Guid id) => new(id);
