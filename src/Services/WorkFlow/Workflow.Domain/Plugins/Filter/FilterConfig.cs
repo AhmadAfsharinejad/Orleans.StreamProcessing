@@ -6,5 +6,6 @@ namespace Workflow.Domain.Plugins.Filter;
 [Config(PluginTypeNames.Filter)]
 public record struct FilterConfig : IPluginConfig
 {
+    [Id(0)]
     public IConstraint Constraint { get; init; }
 }

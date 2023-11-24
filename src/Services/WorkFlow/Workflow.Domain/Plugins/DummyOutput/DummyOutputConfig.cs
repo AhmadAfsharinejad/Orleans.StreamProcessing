@@ -10,7 +10,9 @@ public record struct DummyOutputConfig : IPluginConfig
     {
         RecordCountInterval = 10;
     }
-    
+
+    [Id(0)]
     public bool IsWriteEnabled { get; init; }
+    [Id(1)]
     public int RecordCountInterval { get; init; }
 }
