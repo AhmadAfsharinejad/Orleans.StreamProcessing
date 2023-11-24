@@ -1,8 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using Confluent.Kafka;
-using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.KafkaSink;
 
 namespace StreamProcessing.KafkaSink.Logic;
 

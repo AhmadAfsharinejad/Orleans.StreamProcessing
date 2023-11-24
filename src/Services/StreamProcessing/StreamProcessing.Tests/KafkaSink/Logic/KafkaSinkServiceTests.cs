@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Confluent.Kafka;
 using NSubstitute;
-using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.KafkaSink.Logic;
 using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.KafkaSink;
 using Xunit;
 
 namespace StreamProcessing.Tests.KafkaSink.Logic;

@@ -1,10 +1,10 @@
 ﻿using System.Runtime.CompilerServices;
 using Orleans.Concurrency;
-using StreamProcessing.KafkaSink.Domain;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.KafkaSink;
 
 namespace StreamProcessing.KafkaSink;
 
@@ -65,7 +65,7 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
     {
         if (_hasBeenInitialized) return;
 
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         _KafkaSinkService = _kafkaSinkServiceFactory.Create(config);
         _KafkaSinkService.BuildProducer();

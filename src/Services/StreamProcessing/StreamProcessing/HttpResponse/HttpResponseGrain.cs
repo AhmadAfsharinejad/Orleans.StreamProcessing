@@ -3,11 +3,11 @@ using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
-using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.HttpResponse.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpResponse;
 
 namespace StreamProcessing.HttpResponse;
 
@@ -39,7 +39,7 @@ internal sealed class HttpResponseGrain : PluginGrain, IHttpResponseGrain
         [Immutable] PluginRecord pluginRecord,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         var response = _httpResponseService.GetResponse(config, pluginRecord);
 

@@ -1,5 +1,5 @@
 ﻿using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.RandomGenerator.Domain;
+using Workflow.Domain.Plugins.RandomGenerator;
 
 namespace StreamProcessing.RandomGenerator.Interfaces;
 

@@ -1,5 +1,5 @@
-﻿using StreamProcessing.SqlExecutor.Domain;
-using StreamProcessing.SqlExecutor.Interfaces;
+﻿using StreamProcessing.SqlExecutor.Interfaces;
+using Workflow.Domain.Plugins.SqlExecutor;
 
 namespace StreamProcessing.SqlExecutor.Logic;
 

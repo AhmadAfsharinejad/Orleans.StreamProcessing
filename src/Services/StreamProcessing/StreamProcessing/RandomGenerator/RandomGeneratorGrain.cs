@@ -2,8 +2,8 @@
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.RandomGenerator.Domain;
 using StreamProcessing.RandomGenerator.Interfaces;
+using Workflow.Domain.Plugins.RandomGenerator;
 
 namespace StreamProcessing.RandomGenerator;
 
@@ -36,7 +36,7 @@ internal sealed class RandomGeneratorGrain : PluginGrain, IRandomGeneratorGrain
     public async Task Start([Immutable]PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         var records = new List<PluginRecord>(config.BatchCount);
 

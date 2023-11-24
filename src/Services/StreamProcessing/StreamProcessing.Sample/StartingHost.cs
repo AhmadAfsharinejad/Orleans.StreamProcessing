@@ -1,19 +1,21 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
-using StreamProcessing.DummyOutput.Domain;
-using StreamProcessing.Filter.Domain;
-using StreamProcessing.Filter.Interfaces;
-using StreamProcessing.HttpListener.Domain;
-using StreamProcessing.HttpResponse.Domain;
-using StreamProcessing.KafkaSink.Domain;
-using StreamProcessing.KafkaSource.Domain;
-using StreamProcessing.Map.Domain;
-using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.RandomGenerator.Domain;
-using StreamProcessing.Rest.Domain;
-using StreamProcessing.Scenario.Domain;
-using StreamProcessing.Scenario.Interfaces;
-using StreamProcessing.SqlExecutor.Domain;
+using StreamProcessing.Common.Domain;
+using StreamProcessing.Common.Interfaces;
+using Workflow.Domain;
+using Workflow.Domain.Plugins;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.DummyOutput;
+using Workflow.Domain.Plugins.Filter;
+using Workflow.Domain.Plugins.HttpListener;
+using Workflow.Domain.Plugins.HttpResponse;
+using Workflow.Domain.Plugins.KafkaSink;
+using Workflow.Domain.Plugins.KafkaSource;
+using Workflow.Domain.Plugins.Map;
+using Workflow.Domain.Plugins.RandomGenerator;
+using Workflow.Domain.Plugins.Rest;
+using Workflow.Domain.Plugins.SqlExecutor;
+using HttpMethod = Workflow.Domain.Plugins.Rest.HttpMethod;
 
 // ReSharper disable UnusedMember.Local
 
@@ -21,210 +23,195 @@ namespace StreamProcessing.Sample;
 
 internal sealed class StartingHost : BackgroundService
 {
-    private readonly IScenarioRunner _scenarioRunner;
+    private readonly IClusterClient _clusterClient;
 
-    public StartingHost(IScenarioRunner scenarioRunner)
+    public StartingHost(IClusterClient clusterClient)
     {
-        _scenarioRunner = scenarioRunner ?? throw new ArgumentNullException(nameof(scenarioRunner));
+        _clusterClient = clusterClient ?? throw new ArgumentNullException(nameof(clusterClient));
     }
 
+    private async Task Run(WorkflowDesign workflowDesign)
+    {
+        var grain = _clusterClient.GetGrain<IWorkflowRunnerGrain>(workflowDesign.Id.Value);
+        await grain.Run(new ImmutableWrapper<WorkflowDesign>(workflowDesign));
+    }
+    
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var sw = new Stopwatch();
         sw.Start();
         Console.WriteLine($"Start {DateTime.Now}");
 
-        //await RunScenario();
-        //await RunScenario_Http();
-        //await RunScenario_Rest();
-        await RunScenario_Map();
-        //await RunScenario_Kafka();
+        //await Run(GetWorkflowConfig());
+        //await Run(GetWorkflowConfig_Http());
+        //await Run(GetWorkflowConfig_Rest());
+        await Run(GetWorkflowConfig_Map());
+        //await Run(GetWorkflowConfig_Kafka());
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");
     }
 
-    private async Task RunScenario()
+    private static WorkflowDesign GetWorkflowConfig()
     {
-        var config = GetScenarioConfig();
-        await _scenarioRunner.Run(config);
+        var plugins = new List<Plugin>();
+        var links = new List<Link>();
+
+        var randomPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig);
+
+        var randomPluginConfig2 = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig2);
+
+        var randomPluginConfig3 = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig3);
+
+        var randomPluginConfig4 = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig4);
+
+        var filterPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.Filter), new PluginId(Guid.NewGuid()), GetFilterConfig());
+        plugins.Add(filterPluginConfig);
+
+        var filterPluginConfig2 = new Plugin(new PluginTypeId(PluginTypeNames.Filter), new PluginId(Guid.NewGuid()), GetFilterConfig());
+        plugins.Add(filterPluginConfig2);
+
+        var sqlExecutorConfig = new Plugin(new PluginTypeId(PluginTypeNames.SqlExecutor), new PluginId(Guid.NewGuid()), GetSqlExecutorConfig());
+        plugins.Add(sqlExecutorConfig);
+
+        var dummyOutputPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.DummyOutput), new PluginId(Guid.NewGuid()), GetDummyOutputConfig(10_000));
+        plugins.Add(dummyOutputPluginConfig);
+
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(filterPluginConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig2.Id, new PortId()) ,  
+            new PluginIdWithPort(filterPluginConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig3.Id, new PortId()) ,  
+            new PluginIdWithPort(filterPluginConfig2.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig4.Id, new PortId()) ,  
+            new PluginIdWithPort(filterPluginConfig2.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(filterPluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(filterPluginConfig2.Id, new PortId()) ,  
+            new PluginIdWithPort(sqlExecutorConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(sqlExecutorConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
+
+        return new WorkflowDesign( new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private static ScenarioConfig GetScenarioConfig()
+    private static WorkflowDesign GetWorkflowConfig_Http()
     {
-        var configs = new List<PluginConfig>();
-        var relations = new List<LinkConfig>();
+        var plugins = new List<Plugin>();
+        var links = new List<Link>();
 
-        var randomPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig);
+        var httpPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.HttpListener), new PluginId(Guid.NewGuid()), GetHttpListenerConfig());
+        plugins.Add(httpPluginConfig);
 
-        var randomPluginConfig2 = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig2);
+        var httpResponseConfig = new Plugin(new PluginTypeId(PluginTypeNames.HttpResponse), new PluginId(Guid.NewGuid()), GetHttpResponseConfig());
+        plugins.Add(httpResponseConfig);
 
-        var randomPluginConfig3 = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig3);
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(httpPluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(httpResponseConfig.Id, new PortId())));
 
-        var randomPluginConfig4 = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig4);
-
-        var filterPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Filter), Guid.NewGuid(), GetFilterConfig());
-        configs.Add(filterPluginConfig);
-
-        var filterPluginConfig2 = new PluginConfig(new PluginTypeId(PluginTypeNames.Filter), Guid.NewGuid(), GetFilterConfig());
-        configs.Add(filterPluginConfig2);
-
-        var sqlExecutorConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.SqlExecutor), Guid.NewGuid(), GetSqlExecutorConfig());
-        configs.Add(sqlExecutorConfig);
-
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10_000));
-        configs.Add(dummyOutputPluginConfig);
-
-        relations.Add(new LinkConfig(randomPluginConfig.Id, filterPluginConfig.Id));
-        relations.Add(new LinkConfig(randomPluginConfig2.Id, filterPluginConfig.Id));
-        relations.Add(new LinkConfig(randomPluginConfig3.Id, filterPluginConfig2.Id));
-        relations.Add(new LinkConfig(randomPluginConfig4.Id, filterPluginConfig2.Id));
-        relations.Add(new LinkConfig(filterPluginConfig.Id, dummyOutputPluginConfig.Id));
-        relations.Add(new LinkConfig(filterPluginConfig2.Id, sqlExecutorConfig.Id));
-        relations.Add(new LinkConfig(sqlExecutorConfig.Id, dummyOutputPluginConfig.Id));
-
-        return new ScenarioConfig
-        {
-            Id = Guid.NewGuid(),
-            Configs = configs,
-            Relations = relations
-        };
+        return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunScenario_Http()
+    private static WorkflowDesign GetWorkflowConfig_Rest()
     {
-        var config = GetScenarioConfig_Http();
-        await _scenarioRunner.Run(config);
+        var plugins = new List<Plugin>();
+        var links = new List<Link>();
+
+        var randomPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.Random),  new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig2());
+        plugins.Add(randomPluginConfig);
+
+        var restConfig = new Plugin(new PluginTypeId(PluginTypeNames.Rest), new PluginId(Guid.NewGuid()), GetRestConfig());
+        plugins.Add(restConfig);
+
+        var dummyOutputPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.DummyOutput), new PluginId(Guid.NewGuid()), GetDummyOutputConfig(10_000));
+        plugins.Add(dummyOutputPluginConfig);
+
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(restConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(restConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
+
+        return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private static ScenarioConfig GetScenarioConfig_Http()
+    private static WorkflowDesign GetWorkflowConfig_Map()
     {
-        var configs = new List<PluginConfig>();
-        var relations = new List<LinkConfig>();
+        var plugins = new List<Plugin>();
+        var links = new List<Link>();
 
-        var httpPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.HttpListener), Guid.NewGuid(), GetHttpListenerConfig());
-        configs.Add(httpPluginConfig);
-
-        var httpResponseConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.HttpResponse), Guid.NewGuid(), GetHttpResponseConfig());
-        configs.Add(httpResponseConfig);
-
-        relations.Add(new LinkConfig(httpPluginConfig.Id, httpResponseConfig.Id));
-
-        return new ScenarioConfig
-        {
-            Id = Guid.NewGuid(),
-            Configs = configs,
-            Relations = relations
-        };
-    }
-
-    private async Task RunScenario_Rest()
-    {
-        var config = GetScenarioConfig_Rest();
-        await _scenarioRunner.Run(config);
-    }
-
-    private static ScenarioConfig GetScenarioConfig_Rest()
-    {
-        var configs = new List<PluginConfig>();
-        var relations = new List<LinkConfig>();
-
-        var randomPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig2());
-        configs.Add(randomPluginConfig);
-
-        var restConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Rest), Guid.NewGuid(), GetRestConfig());
-        configs.Add(restConfig);
-
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10_000));
-        configs.Add(dummyOutputPluginConfig);
-
-        relations.Add(new LinkConfig(randomPluginConfig.Id, restConfig.Id));
-        relations.Add(new LinkConfig(restConfig.Id, dummyOutputPluginConfig.Id));
-
-        return new ScenarioConfig
-        {
-            Id = Guid.NewGuid(),
-            Configs = configs,
-            Relations = relations
-        };
-    }
-
-    private async Task RunScenario_Map()
-    {
-        var config = GetScenarioConfig_Map();
-        await _scenarioRunner.Run(config);
-    }
-
-    private static ScenarioConfig GetScenarioConfig_Map()
-    {
-        var configs = new List<PluginConfig>();
-        var relations = new List<LinkConfig>();
-
-        var randomPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig);
+        var randomPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig);
         
-        var randomPluginConfig2 = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig2);
+        var randomPluginConfig2 = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig2);
         
-        var randomPluginConfig3 = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig3);
+        var randomPluginConfig3 = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig3);
         
-        var randomPluginConfig4 = new PluginConfig(new PluginTypeId(PluginTypeNames.Random), Guid.NewGuid(), GetRandomGeneratorConfig());
-        configs.Add(randomPluginConfig4);
+        var randomPluginConfig4 = new Plugin(new PluginTypeId(PluginTypeNames.Random), new PluginId(Guid.NewGuid()), GetRandomGeneratorConfig());
+        plugins.Add(randomPluginConfig4);
 
-        var mapConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.Map), Guid.NewGuid(), GetMapConfig());
-        configs.Add(mapConfig);
+        var mapConfig = new Plugin(new PluginTypeId(PluginTypeNames.Map), new PluginId(Guid.NewGuid()), GetMapConfig());
+        plugins.Add(mapConfig);
         
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(100_000));
-        configs.Add(dummyOutputPluginConfig);
+        var dummyOutputPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.DummyOutput), new PluginId(Guid.NewGuid()), GetDummyOutputConfig(100_000));
+        plugins.Add(dummyOutputPluginConfig);
 
-        relations.Add(new LinkConfig(randomPluginConfig.Id, mapConfig.Id));
-        relations.Add(new LinkConfig(randomPluginConfig2.Id, mapConfig.Id));
-        relations.Add(new LinkConfig(randomPluginConfig3.Id, mapConfig.Id));
-        relations.Add(new LinkConfig(randomPluginConfig4.Id, mapConfig.Id));
-        relations.Add(new LinkConfig(mapConfig.Id, dummyOutputPluginConfig.Id));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(mapConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig2.Id, new PortId()) ,  
+            new PluginIdWithPort(mapConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig3.Id, new PortId()) ,  
+            new PluginIdWithPort(mapConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(randomPluginConfig4.Id, new PortId()) ,  
+            new PluginIdWithPort(mapConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(mapConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
 
-        return new ScenarioConfig
-        {
-            Id = Guid.NewGuid(),
-            Configs = configs,
-            Relations = relations
-        };
+        return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunScenario_Kafka()
+    public static WorkflowDesign GetWorkflowConfig_Kafka()
     {
-        var config = GetScenarioConfig_Kafka();
-        await _scenarioRunner.Run(config);
-    }
+        var plugins = new List<Plugin>();
+        var links = new List<Link>();
 
-    private static ScenarioConfig GetScenarioConfig_Kafka()
-    {
-        var configs = new List<PluginConfig>();
-        var relations = new List<LinkConfig>();
+        var kafkaSourcePluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.KafkaSource), new PluginId(Guid.NewGuid()), GetKafkaSourceConfig());
+        plugins.Add(kafkaSourcePluginConfig);
 
-        var kafkaSourcePluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.KafkaSource), Guid.NewGuid(), GetKafkaSourceConfig());
-        configs.Add(kafkaSourcePluginConfig);
+        var dummyOutputPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.DummyOutput), new PluginId(Guid.NewGuid()), GetDummyOutputConfig(10));
+        plugins.Add(dummyOutputPluginConfig);
 
-        var dummyOutputPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.DummyOutput), Guid.NewGuid(), GetDummyOutputConfig(10));
-        configs.Add(dummyOutputPluginConfig);
+        var kafkaSinkPluginConfig = new Plugin(new PluginTypeId(PluginTypeNames.KafkaSink), new PluginId(Guid.NewGuid()), GetKafkaSinkConfig());
+        plugins.Add(kafkaSinkPluginConfig);
 
-        var kafkaSinkPluginConfig = new PluginConfig(new PluginTypeId(PluginTypeNames.KafkaSink), Guid.NewGuid(), GetKafkaSinkConfig());
-        configs.Add(kafkaSinkPluginConfig);
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(kafkaSourcePluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
+        links.Add(new Link(new LinkId(), 
+            new PluginIdWithPort(kafkaSourcePluginConfig.Id, new PortId()) ,  
+            new PluginIdWithPort(kafkaSinkPluginConfig.Id, new PortId())));
 
-        relations.Add(new LinkConfig(kafkaSourcePluginConfig.Id, dummyOutputPluginConfig.Id));
-        relations.Add(new LinkConfig(kafkaSourcePluginConfig.Id, kafkaSinkPluginConfig.Id));
-
-        return new ScenarioConfig
-        {
-            Id = Guid.NewGuid(),
-            Configs = configs,
-            Relations = relations
-        };
+        return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
     
     private static KafkaSinkConfig GetKafkaSinkConfig()
@@ -380,18 +367,20 @@ internal sealed class StartingHost : BackgroundService
             },
             FunctionName = "Map",
             FullClassName = "MapNameSpace.MapClass",
-            Code = @"using System.Collections.Generic;
+            Code = """
+using System.Collections.Generic;
 namespace MapNameSpace;
 public class MapClass
 {
     public static IReadOnlyDictionary<string, object> Map(IReadOnlyDictionary<string, object> input)
     {
         var output = new Dictionary<string, object>(input);
-        output[""FullName""] = input[""Name""].ToString() + "" ""+ input[""LastName""].ToString();
-        output[""IsChild""] = (int)input[""Age""] < 13;
+        output["FullName"] = input["Name"].ToString() + " "+ input["LastName"].ToString();
+        output["IsChild"] = (int)input["Age"] < 13;
         return output;
     }
-}"
+}
+"""
         };
     }
 }

@@ -1,9 +1,9 @@
 ﻿using Orleans.Concurrency;
 using Orleans.Placement;
-using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpListener;
 
 namespace StreamProcessing.HttpListener;
 
@@ -40,7 +40,7 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
     public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         var outPluginContext = pluginContext with
         {

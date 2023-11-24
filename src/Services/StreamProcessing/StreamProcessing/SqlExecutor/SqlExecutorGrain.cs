@@ -4,8 +4,9 @@ using Orleans.Concurrency;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.SqlExecutor;
 
 namespace StreamProcessing.SqlExecutor;
 
@@ -137,7 +138,7 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task<SqlExecutorConfig> Init(PluginExecutionContext pluginContext, CancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         await Init(pluginContext, config, cancellationToken);
         return config;
     }

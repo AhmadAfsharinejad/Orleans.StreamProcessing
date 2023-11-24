@@ -3,9 +3,9 @@ using System.Data.Odbc;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using NSubstitute;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
 using StreamProcessing.SqlExecutor.Logic;
+using Workflow.Domain.Plugins.SqlExecutor;
 using Xunit;
 
 namespace StreamProcessing.Tests.SqlExecutor.Logic;

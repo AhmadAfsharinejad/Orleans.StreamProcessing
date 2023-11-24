@@ -1,4 +1,6 @@
-﻿namespace StreamProcessing.PluginCommon.Domain;
+﻿using Workflow.Domain.Plugins.Common;
+
+namespace StreamProcessing.PluginCommon.Domain;
 
 internal interface IRecordJoiner
 {

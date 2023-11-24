@@ -1,6 +1,8 @@
-﻿namespace StreamProcessing.PluginCommon.Interfaces;
+﻿using Workflow.Domain;
+
+namespace StreamProcessing.PluginCommon.Interfaces;
 
 internal interface IPluginConfigFetcher<TConfig>
 {
-    Task<TConfig> GetConfig(Guid scenarioId, Guid pluginId);
+    Task<TConfig> GetConfig(WorkflowId workflowId, PluginId pluginId);
 }

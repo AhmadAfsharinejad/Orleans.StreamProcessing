@@ -5,6 +5,7 @@ using StreamProcessing.KafkaSource.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Silo.Interfaces;
+using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource;
 
@@ -33,7 +34,7 @@ internal sealed class KafkaSourceGrain: Grain, IKafkaSourceGrain
     public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         RequestContext.Set(KafkaSourceConsts.KafkaSourceGrainId, this.GetPrimaryKey());
 
