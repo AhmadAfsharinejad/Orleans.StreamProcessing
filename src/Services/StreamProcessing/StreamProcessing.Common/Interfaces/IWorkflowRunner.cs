@@ -1,6 +1,6 @@
 ﻿using Workflow.Domain;
 
-namespace StreamProcessing.WorkFlow.Interfaces;
+namespace StreamProcessing.Common.Interfaces;
 
 public interface IWorkflowRunner
 {

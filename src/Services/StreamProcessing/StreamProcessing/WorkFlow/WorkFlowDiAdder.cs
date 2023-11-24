@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using StreamProcessing.Common.Interfaces;
 using StreamProcessing.Di;
 using StreamProcessing.WorkFlow.Interfaces;
 

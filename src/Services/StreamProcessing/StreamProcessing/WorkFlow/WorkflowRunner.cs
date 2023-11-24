@@ -1,4 +1,5 @@
 ﻿using StreamProcessing.Common;
+using StreamProcessing.Common.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.WorkFlow.Interfaces;

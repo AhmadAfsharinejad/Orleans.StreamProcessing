@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.Extensions.Hosting;
+using StreamProcessing.Common.Interfaces;
 using StreamProcessing.WorkFlow.Interfaces;
 using Workflow.Domain;
 using Workflow.Domain.Plugins;
@@ -28,26 +29,25 @@ internal sealed class StartingHost : BackgroundService
         _workflowRunner = workflowRunner ?? throw new ArgumentNullException(nameof(workflowRunner));
     }
 
+    private async Task Run(WorkflowDesign workflowDesign)
+    {
+        await _workflowRunner.Run(workflowDesign);
+    }
+    
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         var sw = new Stopwatch();
         sw.Start();
         Console.WriteLine($"Start {DateTime.Now}");
 
-        //await RunWorkflow();
-        //await RunWorkflow_Http();
-        //await RunWorkflow_Rest();
-        await RunWorkflow_Map();
-        //await RunWorkflow_Kafka();
+        //await Run(GetWorkflowConfig());
+        //await Run(GetWorkflowConfig_Http());
+        //await Run(GetWorkflowConfig_Rest());
+        await Run(GetWorkflowConfig_Map());
+        //await Run(RunWorkflow_Kafka());
 
         sw.Stop();
         Console.WriteLine($"Finished {DateTime.Now} {sw.Elapsed.TotalMilliseconds}");
-    }
-
-    private async Task RunWorkflow()
-    {
-        var config = GetWorkflowConfig();
-        await _workflowRunner.Run(config);
     }
 
     private static WorkflowDesign GetWorkflowConfig()
@@ -104,12 +104,6 @@ internal sealed class StartingHost : BackgroundService
         return new WorkflowDesign( new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
     }
 
-    private async Task RunWorkflow_Http()
-    {
-        var config = GetWorkflowConfig_Http();
-        await _workflowRunner.Run(config);
-    }
-
     private static WorkflowDesign GetWorkflowConfig_Http()
     {
         var plugins = new List<Plugin>();
@@ -126,12 +120,6 @@ internal sealed class StartingHost : BackgroundService
             new PluginIdWithPort(httpResponseConfig.Id, new PortId())));
 
         return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
-    }
-
-    private async Task RunWorkflow_Rest()
-    {
-        var config = GetWorkflowConfig_Rest();
-        await _workflowRunner.Run(config);
     }
 
     private static WorkflowDesign GetWorkflowConfig_Rest()
@@ -156,12 +144,6 @@ internal sealed class StartingHost : BackgroundService
             new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
 
         return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
-    }
-
-    private async Task RunWorkflow_Map()
-    {
-        var config = GetWorkflowConfig_Map();
-        await _workflowRunner.Run(config);
     }
 
     private static WorkflowDesign GetWorkflowConfig_Map()
@@ -204,12 +186,6 @@ internal sealed class StartingHost : BackgroundService
             new PluginIdWithPort(dummyOutputPluginConfig.Id, new PortId())));
 
         return new WorkflowDesign(new WorkflowId(Guid.NewGuid()), new PluginAndLinks(plugins, links));
-    }
-
-    private async Task RunWorkflow_Kafka()
-    {
-        var config = GetWorkflowConfig_Kafka();
-        await _workflowRunner.Run(config);
     }
 
     public static WorkflowDesign GetWorkflowConfig_Kafka()
@@ -389,18 +365,20 @@ internal sealed class StartingHost : BackgroundService
             },
             FunctionName = "Map",
             FullClassName = "MapNameSpace.MapClass",
-            Code = @"using System.Collections.Generic;
+            Code = """
+using System.Collections.Generic;
 namespace MapNameSpace;
 public class MapClass
 {
     public static IReadOnlyDictionary<string, object> Map(IReadOnlyDictionary<string, object> input)
     {
         var output = new Dictionary<string, object>(input);
-        output[""FullName""] = input[""Name""].ToString() + "" ""+ input[""LastName""].ToString();
-        output[""IsChild""] = (int)input[""Age""] < 13;
+        output["FullName"] = input["Name"].ToString() + " "+ input["LastName"].ToString();
+        output["IsChild"] = (int)input["Age"] < 13;
         return output;
     }
-}"
+}
+"""
         };
     }
 }
