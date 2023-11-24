@@ -9,7 +9,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.10" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-        <PackageReference Include="StronglyTypedId" Version="1.0.0-beta06" />
         <PackageReference Include="Mediator.Abstractions" Version="3.0.0-preview.11" />
         <PackageReference Include="Mediator.SourceGenerator" Version="3.0.0-preview.11">
             <PrivateAssets>all</PrivateAssets>
