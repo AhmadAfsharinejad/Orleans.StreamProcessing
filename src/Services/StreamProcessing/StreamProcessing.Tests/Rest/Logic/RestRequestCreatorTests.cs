@@ -10,6 +10,7 @@ using StreamProcessing.Rest.Logic;
 using Workflow.Domain.Plugins.HttpListener;
 using Workflow.Domain.Plugins.Rest;
 using Xunit;
+using HttpMethod = Workflow.Domain.Plugins.Rest.HttpMethod;
 
 namespace StreamProcessing.Tests.Rest.Logic;
 

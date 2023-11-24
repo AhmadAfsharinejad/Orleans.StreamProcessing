@@ -15,6 +15,7 @@ using Workflow.Domain.Plugins.Map;
 using Workflow.Domain.Plugins.RandomGenerator;
 using Workflow.Domain.Plugins.Rest;
 using Workflow.Domain.Plugins.SqlExecutor;
+using HttpMethod = Workflow.Domain.Plugins.Rest.HttpMethod;
 
 // ReSharper disable UnusedMember.Local
 
