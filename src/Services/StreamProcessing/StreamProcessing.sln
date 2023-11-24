@@ -28,7 +28,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Sample", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow.Domain", "..\Workflow\Workflow.Domain\Workflow.Domain.csproj", "{D9C262DD-C2EF-40C1-B497-FB56DC327354}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Client", "StreamProcessing.Client\StreamProcessing.Client.csproj", "{00C81C86-0090-4096-BD2A-64947B34087C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Api", "StreamProcessing.Api\StreamProcessing.Api.csproj", "{00C81C86-0090-4096-BD2A-64947B34087C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Common", "StreamProcessing.Common\StreamProcessing.Common.csproj", "{7762FA5C-48FF-4AEF-8F1F-06FF7F41A92D}"
 EndProject
