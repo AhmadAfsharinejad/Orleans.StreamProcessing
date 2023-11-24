@@ -24,8 +24,9 @@ var hostBuilder = new HostBuilder()
 
         siloBuilder.UseLocalhostClustering(
             siloPort: 11111 + instanceId,
-            gatewayPort: 30000 + instanceId,
-            primarySiloEndpoint: new IPEndPoint(IPAddress.Loopback, 11111));
+            gatewayPort: 30000 + instanceId
+            //primarySiloEndpoint: new IPEndPoint(IPAddress.Loopback, 11111)
+            );
 
         // siloBuilder.UseInMemoryReminderService();
         //
