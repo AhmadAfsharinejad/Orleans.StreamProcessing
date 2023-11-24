@@ -15,6 +15,7 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
     private readonly IPluginConfigFetcher<HttpListenerConfig> _pluginConfigFetcher;
     private readonly IHttpListenerService _httpListenerService;
     private readonly IHttpListenerOutputFieldTypeGetter _httpListenerOutputFieldTypeGetter;
+    private readonly IHttpListenerResponseLocalGrain _httpListenerResponseLocalGrain;
 
     public HttpListenerLocalGrain(IGrainFactory grainFactory,
         IPluginConfigFetcher<HttpListenerConfig> pluginConfigFetcher,
@@ -24,7 +25,9 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _httpListenerService = httpListenerService ?? throw new ArgumentNullException(nameof(httpListenerService));
-        _httpListenerOutputFieldTypeGetter = httpListenerOutputFieldTypeGetter ?? throw new ArgumentNullException(nameof(httpListenerOutputFieldTypeGetter));
+        _httpListenerOutputFieldTypeGetter = httpListenerOutputFieldTypeGetter ??
+                                             throw new ArgumentNullException(nameof(httpListenerOutputFieldTypeGetter));
+        _httpListenerResponseLocalGrain = _grainFactory.GetGrain<IHttpListenerResponseLocalGrain>(Guid.NewGuid());
     }
 
     public override Task OnActivateAsync(CancellationToken cancellationToken)
@@ -39,12 +42,17 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
     {
         var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
-        var outPluginContext = pluginContext with { InputFieldTypes = _httpListenerOutputFieldTypeGetter.GetOutputs(config) };
-
-        await foreach (var recordListenerContextTuple in _httpListenerService.Listen(config, cancellationToken.CancellationToken))
+        var outPluginContext = pluginContext with
         {
-            var grain = _grainFactory.GetGrain<IHttpListenerResponseLocalGrain>(Guid.NewGuid());
-            await grain.CallOutput(outPluginContext, recordListenerContextTuple.Record, recordListenerContextTuple.HttpListenerContext, cancellationToken);
+            InputFieldTypes = _httpListenerOutputFieldTypeGetter.GetOutputs(config)
+        };
+
+        await foreach (var recordListenerContextTuple in _httpListenerService.Listen(config,
+                           cancellationToken.CancellationToken))
+        {
+            await _httpListenerResponseLocalGrain
+                .CallOutput(outPluginContext, recordListenerContextTuple.Record,
+                    recordListenerContextTuple.HttpListenerContext, cancellationToken);
         }
     }
 }
