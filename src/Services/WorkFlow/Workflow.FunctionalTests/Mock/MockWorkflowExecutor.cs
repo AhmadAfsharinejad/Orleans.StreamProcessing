@@ -5,14 +5,13 @@ namespace Workflow.FunctionalTests.Mock;
 
 internal sealed class MockWorkflowExecutor : IWorkflowExecutor
 {
-    public void Run(WorkflowDesign workflowDesign)
+    public async Task Run(WorkflowDesign workflowDesign)
     {
-        //Nothing TODO
+        await Task.CompletedTask;
     }
 
-    public void Stop(WorkflowId workflowId)
-
+    public async Task Stop(WorkflowId workflowId)
     {
-        //Nothing TODO
+        await Task.CompletedTask;
     }
 }
