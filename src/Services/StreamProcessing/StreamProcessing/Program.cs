@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using StreamProcessing.Di;
 using StreamProcessing.Storage;
@@ -43,6 +42,8 @@ var hostBuilder = new HostBuilder()
         //  siloBuilder.ConfigureEndpoints(siloPort: 11111 + instanceId, gatewayPort: 30000 + instanceId);
 
         siloBuilder.AddActivityPropagation();
+        
+        siloBuilder.UseDashboard();
     });
 
 hostBuilder.UseConsoleLifetime();
