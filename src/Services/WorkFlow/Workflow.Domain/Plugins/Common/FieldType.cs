@@ -1,5 +1,6 @@
 ﻿namespace Workflow.Domain.Plugins.Common;
 
+[GenerateSerializer]
 public enum FieldType
 {
     Text,

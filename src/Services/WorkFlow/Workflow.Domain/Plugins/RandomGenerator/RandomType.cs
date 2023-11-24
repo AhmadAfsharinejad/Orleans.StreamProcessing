@@ -1,5 +1,6 @@
 ﻿namespace Workflow.Domain.Plugins.RandomGenerator;
 
+[GenerateSerializer]
 public enum RandomType
 {
     Text,

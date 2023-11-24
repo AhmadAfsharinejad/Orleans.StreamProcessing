@@ -4,6 +4,7 @@ using Workflow.Domain.Plugins.HttpListener;
 
 namespace Workflow.Domain.Plugins.Rest;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.Rest)]
 public record struct RestConfig : IPluginConfig
 {

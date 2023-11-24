@@ -2,6 +2,7 @@
 
 namespace Workflow.Domain.Plugins.Filter;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.Filter)]
 public record struct FilterConfig : IPluginConfig
 {

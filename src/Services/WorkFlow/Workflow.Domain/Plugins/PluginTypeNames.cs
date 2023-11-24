@@ -1,5 +1,6 @@
 ﻿namespace Workflow.Domain.Plugins;
 
+[GenerateSerializer]
 public enum PluginTypeNames
 {
     Random,

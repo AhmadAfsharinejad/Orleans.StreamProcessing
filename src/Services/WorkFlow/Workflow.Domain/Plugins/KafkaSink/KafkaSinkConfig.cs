@@ -2,6 +2,7 @@
 
 namespace Workflow.Domain.Plugins.KafkaSink;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.KafkaSink)]
 public record struct KafkaSinkConfig : IPluginConfig
 {

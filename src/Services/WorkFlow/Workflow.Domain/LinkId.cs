@@ -2,6 +2,7 @@
 
 namespace Workflow.Domain;
 
+[Immutable, GenerateSerializer]
 [StronglyTypedId(backingType: StronglyTypedIdBackingType.Guid, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
 public partial struct LinkId
 {

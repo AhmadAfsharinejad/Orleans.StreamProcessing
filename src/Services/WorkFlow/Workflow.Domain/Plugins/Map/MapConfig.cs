@@ -3,6 +3,7 @@ using Workflow.Domain.Plugins.Common;
 
 namespace Workflow.Domain.Plugins.Map;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.Map)]
 public record struct MapConfig : IPluginConfig
 {

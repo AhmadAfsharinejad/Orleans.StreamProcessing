@@ -2,6 +2,7 @@
 
 namespace Workflow.Domain;
 
+[Immutable, GenerateSerializer]
 [StronglyTypedId(backingType: StronglyTypedIdBackingType.String, StronglyTypedIdConverter.TypeConverter | StronglyTypedIdConverter.NewtonsoftJson | StronglyTypedIdConverter.SystemTextJson)]
 public partial struct PortId
 {

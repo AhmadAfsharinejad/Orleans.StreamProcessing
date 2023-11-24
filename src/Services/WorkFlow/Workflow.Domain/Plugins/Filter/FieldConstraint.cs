@@ -1,5 +1,6 @@
 ﻿namespace Workflow.Domain.Plugins.Filter;
 
+[Immutable, GenerateSerializer]
 public record struct FieldConstraint : IConstraint
 {
     public string FieldName { get; init; }

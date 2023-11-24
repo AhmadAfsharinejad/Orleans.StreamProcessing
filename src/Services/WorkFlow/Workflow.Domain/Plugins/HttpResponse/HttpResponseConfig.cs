@@ -3,6 +3,7 @@ using Workflow.Domain.Plugins.HttpListener;
 
 namespace Workflow.Domain.Plugins.HttpResponse;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.HttpResponse)]
 public record struct HttpResponseConfig : IPluginConfig
 {

@@ -3,6 +3,7 @@ using Workflow.Domain.Plugins.Common;
 
 namespace Workflow.Domain.Plugins.SqlExecutor;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.SqlExecutor)]
 public record struct SqlExecutorConfig : IPluginConfig
 {

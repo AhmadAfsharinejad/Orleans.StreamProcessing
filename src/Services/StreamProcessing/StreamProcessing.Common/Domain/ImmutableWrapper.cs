@@ -2,5 +2,5 @@
 
 namespace StreamProcessing.Common.Domain;
 
-[Immutable]
+[Immutable, GenerateSerializer]
 public record struct ImmutableWrapper<TConfig>(TConfig Config);

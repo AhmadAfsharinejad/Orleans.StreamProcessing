@@ -2,6 +2,7 @@
 
 namespace Workflow.Domain.Plugins.HttpListener;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.HttpListener)]
 public record struct HttpListenerConfig : IPluginConfig
 {

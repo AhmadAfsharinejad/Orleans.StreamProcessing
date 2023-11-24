@@ -2,6 +2,7 @@
 
 namespace Workflow.Domain.Plugins.DummyOutput;
 
+[Immutable, GenerateSerializer]
 [Config(PluginTypeNames.DummyOutput)]
 public record struct DummyOutputConfig : IPluginConfig
 {

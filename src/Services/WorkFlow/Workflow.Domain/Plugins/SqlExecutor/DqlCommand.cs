@@ -1,5 +1,6 @@
 namespace Workflow.Domain.Plugins.SqlExecutor;
 
+[Immutable, GenerateSerializer]
 public record struct DqlCommand
 {
     public string CommandText { get; init; }
