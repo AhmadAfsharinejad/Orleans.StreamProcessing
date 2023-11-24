@@ -8,14 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Orleans.Clustering.Redis" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Orleans.Clustering.Redis" Version="7.2.2" />
         <PackageReference Include="Microsoft.Orleans.Client" Version="7.2.2" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\StreamProcessing.Common\StreamProcessing.Common.csproj" />
-      <ProjectReference Include="..\StreamProcessing\StreamProcessing.csproj" />
     </ItemGroup>
 
     <ItemGroup>
