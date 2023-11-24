@@ -38,7 +38,7 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
 
         // Act
         var response2 = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
@@ -52,7 +52,7 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
 
         // Act
         var response = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(Guid.NewGuid()), new PluginTypeId(PluginTypeNames.Random))));
@@ -66,9 +66,9 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
 
         // Act
         var response = await _httpClient.PutAsync($"/Workflow/RemovePlugin/{workflowId}", JsonContent.Create(pluginId));
@@ -82,9 +82,9 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
 
         // Act
         var response = await _httpClient.GetAsync($"/Workflow/GetPluginConfig/{workflowId}/?pluginId={pluginId}");
@@ -98,14 +98,14 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
 
         var config = new RandomGeneratorConfig { Count = 22 };
         var pluginIdWithConfig = new PluginIdWithConfig(new PluginId(pluginId), config);
 
-        var serializeObject = JsonConvert.SerializeObject(pluginIdWithConfig, new JsonSerializerSettings ()
+        var serializeObject = JsonConvert.SerializeObject(pluginIdWithConfig, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
         });
@@ -124,9 +124,9 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
 
         var config = new RandomGeneratorConfig
         {
@@ -138,12 +138,12 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
             }
         };
         var pluginIdWithConfig = new PluginIdWithConfig(new PluginId(pluginId), config);
-        var serializeObject = JsonConvert.SerializeObject(pluginIdWithConfig, new JsonSerializerSettings ()
+        var serializeObject = JsonConvert.SerializeObject(pluginIdWithConfig, new JsonSerializerSettings
         {
             TypeNameHandling = TypeNameHandling.All,
         });
         var content = new StringContent(serializeObject, Encoding.UTF8, "application/json");
-        var ___ = await _httpClient.PutAsync($"/Workflow/SetPluginConfig/{workflowId}", content);
+        await _httpClient.PutAsync($"/Workflow/SetPluginConfig/{workflowId}", content);
         
         // Act
         var response = await _httpClient.GetAsync($"/Workflow/GetPluginConfig/{workflowId}/?pluginId={pluginId}");
@@ -160,13 +160,13 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
 
         var sourceId = new PluginId(Guid.NewGuid());
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(sourceId, new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(sourceId, new PluginTypeId(PluginTypeNames.Random))));
 
         var targetId = new PluginId(Guid.NewGuid());
-        var ___ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(targetId, new PluginTypeId(PluginTypeNames.DummyOutput))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(targetId, new PluginTypeId(PluginTypeNames.DummyOutput))));
 
         var link = new Link(new LinkId(Guid.NewGuid()), new PluginIdWithPort(sourceId, new PortId("p1")), new PluginIdWithPort(targetId, new PortId("p1")));
 
@@ -182,17 +182,17 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
 
         var sourceId = new PluginId(Guid.NewGuid());
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(sourceId, new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(sourceId, new PluginTypeId(PluginTypeNames.Random))));
 
         var targetId = new PluginId(Guid.NewGuid());
-        var ___ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(targetId, new PluginTypeId(PluginTypeNames.DummyOutput))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(targetId, new PluginTypeId(PluginTypeNames.DummyOutput))));
 
         var linkId = Guid.NewGuid();
         var link = new Link(new LinkId(linkId), new PluginIdWithPort(sourceId, new PortId("p1")), new PluginIdWithPort(sourceId, new PortId("p1")));
-        var ____ = await _httpClient.PostAsync($"/Workflow/AddLink/{workflowId}", JsonContent.Create(link));
+        await _httpClient.PostAsync($"/Workflow/AddLink/{workflowId}", JsonContent.Create(link));
 
         // Act
         var response = await _httpClient.PutAsync($"/Workflow/RemoveLink/{workflowId}", JsonContent.Create(linkId));
@@ -206,9 +206,9 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
 
         // Act
         var response = await _httpClient.PostAsync($"/Workflow/Run/{workflowId}", null);
@@ -222,10 +222,10 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
-        var ___ = await _httpClient.PostAsync($"/Workflow/Run/{workflowId}", null);
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/Run/{workflowId}", null);
 
         // Act
         var response = await _httpClient.PostAsync($"/Workflow/Run/{workflowId}", null);
@@ -239,10 +239,10 @@ public class DesignTests : IClassFixture<WorkflowApiFixture>
     {
         // Arrange
         var workflowId = Guid.NewGuid();
-        var _ = await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
+        await _httpClient.PostAsync("/Workflow/CreateWorkflow", JsonContent.Create(workflowId));
         var pluginId = Guid.NewGuid();
-        var __ = await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
-        var ___ = await _httpClient.PostAsync($"/Workflow/Run/{workflowId}", null);
+        await _httpClient.PostAsync($"/Workflow/AddPlugin/{workflowId}", JsonContent.Create(new PluginIdWithTypeId(new PluginId(pluginId), new PluginTypeId(PluginTypeNames.Random))));
+        await _httpClient.PostAsync($"/Workflow/Run/{workflowId}", null);
 
         // Act
         var response = await _httpClient.PutAsync($"/Workflow/Stop/{workflowId}", null);
