@@ -1,7 +1,9 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.KafkaSource.Interfaces;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Silo.Interfaces;
@@ -9,7 +11,7 @@ using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource;
 
-internal sealed class KafkaSourceGrain: Grain, IKafkaSourceGrain
+internal sealed class KafkaSourceGrain: PluginGrain, IKafkaSourceGrain
 {
     private readonly IKafkaPartition _kafkaPartition;
     private readonly IPluginConfigFetcher<KafkaSourceConfig> _pluginConfigFetcher;
@@ -17,7 +19,7 @@ internal sealed class KafkaSourceGrain: Grain, IKafkaSourceGrain
 
     public KafkaSourceGrain(IKafkaPartition kafkaPartition,
         IPluginConfigFetcher<KafkaSourceConfig> pluginConfigFetcher,
-        IIterativeSiloCaller iterativeSiloCaller)
+        IIterativeSiloCaller iterativeSiloCaller,ILogger<KafkaSourceGrain> logger) : base(logger)
     {
         _kafkaPartition = kafkaPartition ?? throw new ArgumentNullException(nameof(kafkaPartition));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));

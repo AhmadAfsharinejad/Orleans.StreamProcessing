@@ -1,9 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.KafkaSource.Interfaces;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using Workflow.Domain.Plugins.Common;
@@ -13,7 +15,7 @@ namespace StreamProcessing.KafkaSource;
 
 [KeepAlive]
 [PreferLocalPlacement]
-internal sealed class KafkaSourceLocalGrain : Grain, IKafkaSourceLocalGrain
+internal sealed class KafkaSourceLocalGrain : PluginGrain, IKafkaSourceLocalGrain
 {
     private readonly IGrainFactory _grainFactory;
     private readonly IPluginConfigFetcher<KafkaSourceConfig> _pluginConfigFetcher;
@@ -23,7 +25,7 @@ internal sealed class KafkaSourceLocalGrain : Grain, IKafkaSourceLocalGrain
     public KafkaSourceLocalGrain(IGrainFactory grainFactory,
         IPluginConfigFetcher<KafkaSourceConfig> pluginConfigFetcher,
         IKafkaSourceService kafkaSourceService,
-        IPluginOutputCaller pluginOutputCaller)
+        IPluginOutputCaller pluginOutputCaller, ILogger<KafkaSourceLocalGrain> logger) : base(logger)
     {
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
