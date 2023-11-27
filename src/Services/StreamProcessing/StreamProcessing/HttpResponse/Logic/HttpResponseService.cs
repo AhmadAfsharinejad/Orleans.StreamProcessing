@@ -49,7 +49,7 @@ internal sealed class HttpResponseService : IHttpResponseService
     private byte[]? GetContent(HttpResponseConfig config, PluginRecord record)
     {
         byte[]? content = null;
-        var stringContent = _stringReplacer.Replace(config.Content, config.ContentFields, record);
+        var stringContent = _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record);
         if (!string.IsNullOrWhiteSpace(stringContent))
         {
             content = Encoding.UTF8.GetBytes(stringContent);

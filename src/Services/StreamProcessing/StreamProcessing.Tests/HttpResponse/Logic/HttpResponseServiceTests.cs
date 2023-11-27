@@ -90,13 +90,13 @@ public class HttpResponseServiceTests
         //Arrange
         var config = new HttpResponseConfig
         {
-            Content = "Content",
+            ContentTemplate = "Content",
             ContentFields = new []{"f1"}
         };
 
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "fv1" } });
 
-        _stringReplacer.Replace(config.Content, config.ContentFields, record).Returns("result");
+        _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record).Returns("result");
 
         var expected = Encoding.UTF8.GetBytes("result");
 

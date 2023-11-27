@@ -14,10 +14,11 @@ public record struct HttpResponseConfig : IPluginConfig
 
     /// <summary>
     /// We replace ContentFields using string.Format
-    /// For example Conent is like: { "age": {0}, "name": {1}}
+    /// For example Content is like: {{ "age": {0}, "name": {1} }}
+    /// Note: Use double '{' to escape '{' 
     /// </summary>
     [Id(2)]
-    public string? Content { get; init; }
+    public string? ContentTemplate { get; init; }
     [Id(3)]
     public IReadOnlyCollection<string>? ContentFields { get; set; }
     //TODO status
