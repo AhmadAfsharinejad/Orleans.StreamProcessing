@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Orleans;
 using StreamProcessing.PluginCommon.Domain;
@@ -26,6 +27,7 @@ public sealed class SqlExecutorGrainTests
     private readonly IConnectionFactory _connectionFactory;
     private readonly ISqlExecutorService _sqlExecutorService;
     private readonly IFieldTypeJoiner _fieldTypeJoiner;
+    private readonly ILogger<SqlExecutorGrain> _logger;
 
     public SqlExecutorGrainTests()
     {
@@ -34,7 +36,8 @@ public sealed class SqlExecutorGrainTests
         _connectionFactory = Substitute.For<IConnectionFactory>();
         _sqlExecutorService = Substitute.For<ISqlExecutorService>();
         _fieldTypeJoiner = Substitute.For<IFieldTypeJoiner>();
-        _sut = new SqlExecutorGrain(_pluginOutputCaller, _pluginConfigFetcher, _connectionFactory, _sqlExecutorService, _fieldTypeJoiner);
+        _logger = Substitute.For<ILogger<SqlExecutorGrain>>();
+        _sut = new SqlExecutorGrain(_pluginOutputCaller, _pluginConfigFetcher, _connectionFactory, _sqlExecutorService, _fieldTypeJoiner,_logger);
     }
     
     [Fact]

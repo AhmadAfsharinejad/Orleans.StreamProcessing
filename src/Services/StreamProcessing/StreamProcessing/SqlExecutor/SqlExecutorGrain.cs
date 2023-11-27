@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
@@ -29,7 +30,7 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         IPluginConfigFetcher<SqlExecutorConfig> pluginConfigFetcher,
         IConnectionFactory connectionFactory,
         ISqlExecutorService sqlExecutorService,
-        IFieldTypeJoiner fieldTypeJoiner)
+        IFieldTypeJoiner fieldTypeJoiner,ILogger<SqlExecutorGrain> logger) : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
@@ -37,13 +38,7 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         _sqlExecutorService = sqlExecutorService ?? throw new ArgumentNullException(nameof(sqlExecutorService));
         _fieldTypeJoiner = fieldTypeJoiner ?? throw new ArgumentNullException(nameof(fieldTypeJoiner));
     }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"SqlExecutorGrain Activated  {this.GetGrainId()}");
-
-        return base.OnActivateAsync(cancellationToken);
-    }
+    
 
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {

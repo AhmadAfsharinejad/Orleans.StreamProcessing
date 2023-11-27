@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
@@ -21,18 +22,13 @@ internal sealed class HttpResponseGrain : PluginGrain, IHttpResponseGrain
 
     public HttpResponseGrain(IPluginConfigFetcher<HttpResponseConfig> pluginConfigFetcher,
         IHttpResponseService httpResponseService,
-        IGrainFactory grainFactory)
+        IGrainFactory grainFactory,Logger<HttpResponseGrain> logger) : base(logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _httpResponseService = httpResponseService ?? throw new ArgumentNullException(nameof(httpResponseService));
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
     }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"HttpResponseGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
+    
 
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,
