@@ -51,7 +51,7 @@ hostBuilder.UseConsoleLifetime();
 
 
 // Logging Configuration
-var conf = new ConfigurationBuilder().AddJsonFile("logsettings.json").Build();
+var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(conf)
     .CreateLogger();
