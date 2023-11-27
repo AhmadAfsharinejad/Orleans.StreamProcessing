@@ -7,10 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseOrleansClient((ctx, clientBuilder) =>
 {
-    int hostGetWayId = ctx.Configuration.GetValue<int>("HostGetWayId");
+    int hostGatewayInstanceId = ctx.Configuration.GetValue<int>("HostGatewayInstanceId");
 
     clientBuilder.UseLocalhostClustering(
-        gatewayPort: 30000 + hostGetWayId
+        gatewayPort: 30000 + hostGatewayInstanceId
     );
 
     // clientBuilder.Configure<ClusterOptions>(options =>

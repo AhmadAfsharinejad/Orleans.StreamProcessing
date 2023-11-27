@@ -9,7 +9,7 @@ dotnet StreamProcessing.dll --InstanceId 1
 ```
 3. Go to StreamProcessing.Sample output folder and run following command:
 ```dotnetcli
-dotnet StreamProcessing.Sample.dll --HostGetWayId 1
+dotnet StreamProcessing.Sample.dll --HostGatewayInstanceId 1
 ```
 ---
 **Note**

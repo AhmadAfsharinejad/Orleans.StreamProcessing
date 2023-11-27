@@ -14,10 +14,10 @@ var hostBuilder = new HostBuilder()
     })
     .UseOrleansClient((ctx, clientBuilder) =>
     {
-        int hostGetWayId = ctx.Configuration.GetValue<int>("HostGetWayId");
+        int hostGatewayInstanceId = ctx.Configuration.GetValue<int>("HostGatewayInstanceId");
 
         clientBuilder.UseLocalhostClustering(
-            gatewayPort: 30000 + hostGetWayId
+            gatewayPort: 30000 + hostGatewayInstanceId
         );
     });
 
