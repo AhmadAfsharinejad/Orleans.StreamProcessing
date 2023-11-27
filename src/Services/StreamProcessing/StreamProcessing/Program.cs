@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using StreamProcessing.Di;
 using StreamProcessing.Storage;
 
@@ -42,14 +43,21 @@ var hostBuilder = new HostBuilder()
         //  siloBuilder.ConfigureEndpoints(siloPort: 11111 + instanceId, gatewayPort: 30000 + instanceId);
 
         siloBuilder.AddActivityPropagation();
-        
+
         siloBuilder.UseDashboard();
     });
 
 hostBuilder.UseConsoleLifetime();
 
-var host = hostBuilder.Build();
 
+// Logging Configuration
+var conf = new ConfigurationBuilder().AddJsonFile("logsettings.json").Build();
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(conf)
+    .CreateLogger();
+hostBuilder.UseSerilog();
+
+var host = hostBuilder.Build();
 await host.StartAsync();
 
 Console.WriteLine("Press enter to stop the Silo...");
