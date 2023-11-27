@@ -1,11 +1,13 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.HttpResponse.Domain;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 
@@ -16,12 +18,12 @@ namespace StreamProcessing.HttpListener;
 
 [PreferLocalPlacement]
 [Reentrant]
-internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
+internal sealed class HttpListenerResponseLocalGrain : PluginGrain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
 
-    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller)
+    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,ILogger<HttpListenerResponseLocalGrain> logger) : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
     }
@@ -32,7 +34,7 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
         GrainCancellationToken cancellationToken)
     {
         var reqId = Guid.NewGuid();
-
+        _logger.HttpRequestReceived(reqId);
         RequestContext.Set(HttpListenerConsts.ListenerGrainId, this.GetPrimaryKey());
         RequestContext.Set(HttpListenerConsts.RequestId, reqId);
 
@@ -67,4 +69,13 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
             }
         }
     }
+}
+public static partial class Log
+{
+    [LoggerMessage(
+        EventId = 0,
+        Level = LogLevel.Information,
+        Message = "HttpRequest {ReqId} Received.")]
+    public static partial void HttpRequestReceived(this ILogger logger,Guid reqId);
+
 }
