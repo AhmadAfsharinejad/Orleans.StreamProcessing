@@ -36,7 +36,7 @@ internal sealed class RestRequestCreator : IRestRequestCreator
 
     private void AddContent(HttpRequestMessage request, RestConfig config, PluginRecord pluginRecord)
     {
-        var content = _stringReplacer.Replace(config.Content, config.ContentFields, pluginRecord);
+        var content = _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, pluginRecord);
 
         if (string.IsNullOrWhiteSpace(content)) return;
 

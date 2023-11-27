@@ -37,12 +37,12 @@ public class RestRequestCreatorTests
         {
             Uri = "Uri",
             HttpMethod = HttpMethod.Get,
-            Content = "Content",
+            ContentTemplate = "Content",
             ContentFields = new[] { "f1" }
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", 1 }, { "f2", 2 } });
 
-        _stringReplacer.Replace(config.Content, config.ContentFields, record).Returns(content);
+        _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record).Returns(content);
 
         //Act
         var actual = _sut.Create(config, record, default);
@@ -59,12 +59,12 @@ public class RestRequestCreatorTests
         {
             Uri = "Uri",
             HttpMethod = HttpMethod.Get,
-            Content = "Content",
+            ContentTemplate = "Content",
             ContentFields = new[] { "f1" }
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", 1 }, { "f2", 2 } });
 
-        _stringReplacer.Replace(config.Content, config.ContentFields, record).Returns("xxx");
+        _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record).Returns("xxx");
 
         //Act
         var actual = _sut.Create(config, record, default);

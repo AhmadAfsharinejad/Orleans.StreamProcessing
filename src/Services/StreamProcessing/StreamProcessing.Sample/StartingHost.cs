@@ -255,7 +255,7 @@ internal sealed class StartingHost : BackgroundService
     {
         return new HttpResponseConfig
         {
-            Content = "By",
+            ContentTemplate = "By",
             StaticHeaders = new[] { new KeyValuePair<string, string>("id1", "1") },
             Headers = new[] { new HeaderField("resId", "fieldId") }
         };

@@ -25,10 +25,11 @@ public record struct RestConfig : IPluginConfig
 
     /// <summary>
     /// We replace ContentFields using string.Format
-    /// For example Conent is like: { "age": {0}, "name": {1}}
+    /// For example Content is like: {{ "age": {0}, "name": {1} }}
+    /// Note: Use double '{' to escape '{' 
     /// </summary>
     [Id(7)]
-    public string? Content { get; set; }
+    public string? ContentTemplate { get; set; }
     [Id(8)]
     public IReadOnlyCollection<string>? ContentFields { get; set; }
     [Id(9)]
