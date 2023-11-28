@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest.Interfaces;
@@ -10,7 +12,7 @@ namespace StreamProcessing.Rest;
 
 [StatelessWorker]
 [Reentrant]
-internal sealed class RestGrain : Grain, IRestGrain
+internal sealed class RestGrain : LoggableGrain, IRestGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly IPluginConfigFetcher<RestConfig> _pluginConfigFetcher;
@@ -22,7 +24,7 @@ internal sealed class RestGrain : Grain, IRestGrain
     public RestGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RestConfig> pluginConfigFetcher,
         IRestService restService,
-        IRestOutputFieldTypeGetter restOutputFieldTypeGetter)
+        IRestOutputFieldTypeGetter restOutputFieldTypeGetter,ILogger<RestGrain> logger) : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
