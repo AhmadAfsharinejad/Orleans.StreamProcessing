@@ -16,7 +16,6 @@ var hostBuilder = new HostBuilder()
     .UseOrleans((ctx, siloBuilder) =>
     {
         // siloBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
-
         siloBuilder.AddMemoryGrainStorage(StorageConsts.StorageName);
         siloBuilder.AddStreamServices();
 
@@ -27,7 +26,6 @@ var hostBuilder = new HostBuilder()
             gatewayPort: 30000 + instanceId
             //primarySiloEndpoint: new IPEndPoint(IPAddress.Loopback, 11111)
             );
-
         // siloBuilder.UseInMemoryReminderService();
         //
         //  siloBuilder.Configure<ClusterOptions>(options =>
@@ -41,14 +39,36 @@ var hostBuilder = new HostBuilder()
         //      opt.Database = 4;
         //  });
         //  siloBuilder.ConfigureEndpoints(siloPort: 11111 + instanceId, gatewayPort: 30000 + instanceId);
-
-        siloBuilder.AddActivityPropagation();
-
+        
+        
+        // This is used for Telemetry
+        // siloBuilder.AddActivityPropagation();
+        
+        
         siloBuilder.UseDashboard();
     });
 
 hostBuilder.UseConsoleLifetime();
 
+// Open Telemetry 
+// hostBuilder.ConfigureServices(collection =>
+// {
+//     collection.AddOpenTelemetry()
+//         .WithTracing(tracing =>
+//         {
+//             tracing.SetResourceBuilder(
+//                 ResourceBuilder.CreateDefault()
+//                     .AddService(serviceName: "StreamProcessing", serviceVersion: "1.0"));
+//
+//             tracing.AddSource("Microsoft.Orleans.Runtime");
+//             tracing.AddSource("Microsoft.Orleans.Application");
+//             
+//             tracing.AddZipkinExporter(zipkin =>
+//             {
+//                 zipkin.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+//             });
+//         });
+// });
 
 // Logging Configuration
 var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
