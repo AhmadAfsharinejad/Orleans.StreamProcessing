@@ -20,13 +20,7 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
     }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"DummyOutputGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
-
+    
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,
         [Immutable] PluginRecords pluginRecords,

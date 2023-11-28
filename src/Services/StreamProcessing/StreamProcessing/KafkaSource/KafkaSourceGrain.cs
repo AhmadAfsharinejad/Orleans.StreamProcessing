@@ -25,12 +25,6 @@ internal sealed class KafkaSourceGrain: LoggableGrain, IKafkaSourceGrain
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _iterativeSiloCaller = iterativeSiloCaller ?? throw new ArgumentNullException(nameof(iterativeSiloCaller));
     }
-    
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"KafkaSourceGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
 
     [ReadOnly]
     public async Task Start([Immutable] PluginExecutionContext pluginContext,

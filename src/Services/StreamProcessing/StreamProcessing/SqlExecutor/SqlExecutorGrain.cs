@@ -39,13 +39,6 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         _fieldTypeJoiner = fieldTypeJoiner ?? throw new ArgumentNullException(nameof(fieldTypeJoiner));
     }
 
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"SqlExecutorGrain Activated  {this.GetGrainId()}");
-
-        return base.OnActivateAsync(cancellationToken);
-    }
-
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
         await Dispose();

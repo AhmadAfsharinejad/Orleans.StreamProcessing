@@ -29,17 +29,10 @@ internal sealed class RestGrain : Grain, IRestGrain
         _restService = restService ?? throw new ArgumentNullException(nameof(restService));
         _restOutputFieldTypeGetter = restOutputFieldTypeGetter ?? throw new ArgumentNullException(nameof(restOutputFieldTypeGetter));
     }
-    
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"RestGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
 
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
         Dispose();
-
         await base.OnDeactivateAsync(reason, cancellationToken);
     }
 

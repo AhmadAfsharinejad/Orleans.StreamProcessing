@@ -33,12 +33,6 @@ internal sealed class KafkaSourceLocalGrain : LoggableGrain, IKafkaSourceLocalGr
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
     }
 
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"KafkaSourceLocalGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
-
     [ReadOnly]
     public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
