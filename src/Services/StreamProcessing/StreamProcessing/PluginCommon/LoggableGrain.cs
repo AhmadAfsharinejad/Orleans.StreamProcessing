@@ -5,7 +5,7 @@ namespace StreamProcessing.PluginCommon;
 internal abstract class LoggableGrain : Grain
 {
     
-    private readonly ILogger _logger;
+    protected readonly ILogger _logger;
 
     protected LoggableGrain(ILogger logger)
     {

@@ -23,7 +23,8 @@ internal sealed class HttpListenerResponseLocalGrain : LoggableGrain, IHttpListe
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
 
-    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,ILogger<HttpListenerResponseLocalGrain> logger) : base(logger)
+    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,
+        ILogger<HttpListenerResponseLocalGrain> logger) : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
     }
@@ -34,6 +35,7 @@ internal sealed class HttpListenerResponseLocalGrain : LoggableGrain, IHttpListe
         GrainCancellationToken cancellationToken)
     {
         var reqId = Guid.NewGuid();
+        _logger.HttpRequestReceived(reqId);
 
         RequestContext.Set(HttpListenerConsts.ListenerGrainId, this.GetPrimaryKey());
         RequestContext.Set(HttpListenerConsts.RequestId, reqId);
@@ -68,5 +70,24 @@ internal sealed class HttpListenerResponseLocalGrain : LoggableGrain, IHttpListe
                 response.Close();
             }
         }
+
+        _logger.HttpResponseSent(reqId);
     }
+}
+
+public static partial class Log
+{
+    [LoggerMessage(
+        EventId = 0,
+        Level = LogLevel.Debug,
+        Message = "HttpRequest {ID} Received.")]
+    public static partial void HttpRequestReceived(
+        this ILogger logger, Guid reqId);
+
+    [LoggerMessage(
+        EventId = 0,
+        Level = LogLevel.Debug,
+        Message = "HttpResponse {ID} Sent.")]
+    public static partial void HttpResponseSent(
+        this ILogger logger, Guid reqId);
 }
