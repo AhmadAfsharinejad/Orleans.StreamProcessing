@@ -2,7 +2,6 @@
 using NSubstitute;
 using StreamProcessing.KafkaSink;
 using StreamProcessing.KafkaSink.Interfaces;
-using StreamProcessing.Map;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using Workflow.Domain.Plugins.KafkaSink;
