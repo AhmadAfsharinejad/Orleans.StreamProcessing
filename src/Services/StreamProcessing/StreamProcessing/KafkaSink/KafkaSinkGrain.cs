@@ -25,12 +25,6 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
         _kafkaSinkServiceFactory = kafkaSinkServiceFactory ?? throw new ArgumentNullException(nameof(kafkaSinkServiceFactory));
     }
 
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"KafkaSinkGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
-
     public override Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
         _KafkaSinkService?.Dispose();

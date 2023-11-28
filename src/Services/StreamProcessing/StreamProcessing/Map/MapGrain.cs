@@ -29,12 +29,7 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _compiler = compiler ?? throw new ArgumentNullException(nameof(compiler));
     }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"MapGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
+    
 
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,

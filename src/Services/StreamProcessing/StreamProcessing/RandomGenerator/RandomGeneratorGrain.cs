@@ -45,7 +45,7 @@ internal sealed class RandomGeneratorGrain : PluginGrain, IRandomGeneratorGrain
             if (config.BatchCount == records.Count)
             {
                 await TryCallOutputs(outPluginContext, records, cancellationToken);
-
+            
                 records = new List<PluginRecord>(config.BatchCount);
             }
         }

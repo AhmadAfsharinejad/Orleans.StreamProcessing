@@ -26,13 +26,7 @@ internal sealed class FilterGrain : PluginGrain, IFilterGrain
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _filterService = filterService ?? throw new ArgumentNullException(nameof(filterService));
     }
-    
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"FilterGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
-    
+
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext, 
         [Immutable] PluginRecords pluginRecords, 
