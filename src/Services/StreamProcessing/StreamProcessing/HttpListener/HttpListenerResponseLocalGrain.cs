@@ -82,12 +82,12 @@ public static partial class Log
         Level = LogLevel.Debug,
         Message = "HttpRequest {ID} Received.")]
     public static partial void HttpRequestReceived(
-        this ILogger logger, Guid reqId);
+        this ILogger logger, Guid id);
 
     [LoggerMessage(
-        EventId = 0,
+        EventId = 1,
         Level = LogLevel.Debug,
         Message = "HttpResponse {ID} Sent.")]
     public static partial void HttpResponseSent(
-        this ILogger logger, Guid reqId);
+        this ILogger logger, Guid id);
 }
