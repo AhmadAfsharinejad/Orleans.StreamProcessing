@@ -1,6 +1,8 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.Logging;
+using NSubstitute;
 using StreamProcessing.KafkaSink;
 using StreamProcessing.KafkaSink.Interfaces;
+using StreamProcessing.Map;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using Workflow.Domain.Plugins.KafkaSink;
@@ -13,12 +15,14 @@ public class KafkaSinkGrainTests
     private readonly IKafkaSinkGrain _sut;
     private readonly IPluginConfigFetcher<KafkaSinkConfig> _pluginConfigFetcher;
     private readonly IKafkaSinkServiceFactory _kafkaSinkServiceFactory;
-    
+    private readonly ILogger<KafkaSinkGrain> _logger;
+
     public KafkaSinkGrainTests()
     {
         _pluginConfigFetcher = Substitute.For<IPluginConfigFetcher<KafkaSinkConfig>>();
         _kafkaSinkServiceFactory = Substitute.For<IKafkaSinkServiceFactory>();
-        _sut = new KafkaSinkGrain(_pluginConfigFetcher, _kafkaSinkServiceFactory);
+        _logger = Substitute.For<ILogger<KafkaSinkGrain>>();
+        _sut = new KafkaSinkGrain(_pluginConfigFetcher, _kafkaSinkServiceFactory,_logger);
     }
     
     [Fact]

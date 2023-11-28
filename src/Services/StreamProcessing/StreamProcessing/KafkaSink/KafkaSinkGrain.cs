@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using StreamProcessing.KafkaSink.Interfaces;
 using StreamProcessing.PluginCommon;
@@ -18,7 +19,7 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
     private IKafkaSinkService? _KafkaSinkService;
 
     public KafkaSinkGrain(IPluginConfigFetcher<KafkaSinkConfig> pluginConfigFetcher,
-        IKafkaSinkServiceFactory kafkaSinkServiceFactory)
+        IKafkaSinkServiceFactory kafkaSinkServiceFactory,ILogger<KafkaSinkGrain> logger) : base(logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _kafkaSinkServiceFactory = kafkaSinkServiceFactory ?? throw new ArgumentNullException(nameof(kafkaSinkServiceFactory));

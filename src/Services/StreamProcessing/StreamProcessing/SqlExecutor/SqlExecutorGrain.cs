@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
@@ -29,7 +30,7 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         IPluginConfigFetcher<SqlExecutorConfig> pluginConfigFetcher,
         IConnectionFactory connectionFactory,
         ISqlExecutorService sqlExecutorService,
-        IFieldTypeJoiner fieldTypeJoiner)
+        IFieldTypeJoiner fieldTypeJoiner,ILogger<SqlExecutorGrain> logger)  : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));

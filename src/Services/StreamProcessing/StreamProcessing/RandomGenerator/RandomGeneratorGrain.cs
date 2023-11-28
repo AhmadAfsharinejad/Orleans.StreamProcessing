@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
@@ -18,18 +19,11 @@ internal sealed class RandomGeneratorGrain : PluginGrain, IRandomGeneratorGrain
 
     public RandomGeneratorGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RandomGeneratorConfig> pluginConfigFetcher,
-        IRandomRecordCreator randomRecordCreator)
+        IRandomRecordCreator randomRecordCreator, ILogger<RandomGeneratorGrain> logger) : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _randomRecordCreator = randomRecordCreator ?? throw new ArgumentNullException(nameof(randomRecordCreator));
-    }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        //TODO change console with log
-        Console.WriteLine($"RandomGeneratorGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
     }
 
     [ReadOnly]

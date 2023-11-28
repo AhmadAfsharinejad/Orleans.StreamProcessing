@@ -1,5 +1,10 @@
-﻿namespace StreamProcessing.PluginCommon;
+﻿using Microsoft.Extensions.Logging;
 
-internal abstract class PluginGrain : Grain
+namespace StreamProcessing.PluginCommon;
+
+internal abstract class PluginGrain : LoggableGrain
 {
+    protected PluginGrain(ILogger logger) : base(logger)
+    {
+    }
 }

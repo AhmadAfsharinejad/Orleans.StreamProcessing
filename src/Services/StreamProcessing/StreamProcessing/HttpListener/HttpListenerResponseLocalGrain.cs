@@ -1,11 +1,13 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.HttpResponse.Domain;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 
@@ -16,12 +18,12 @@ namespace StreamProcessing.HttpListener;
 
 [PreferLocalPlacement]
 [Reentrant]
-internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
+internal sealed class HttpListenerResponseLocalGrain : LoggableGrain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
 
-    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller)
+    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,ILogger<HttpListenerResponseLocalGrain> logger) : base(logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
     }
