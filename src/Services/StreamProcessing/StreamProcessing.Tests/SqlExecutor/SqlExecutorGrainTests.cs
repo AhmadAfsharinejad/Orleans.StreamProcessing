@@ -9,8 +9,10 @@ using Orleans;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.SqlExecutor;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
+using Workflow.Domain;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.SqlExecutor;
 using Xunit;
 
 namespace StreamProcessing.Tests.SqlExecutor;
@@ -44,7 +46,7 @@ public sealed class SqlExecutorGrainTests
         {
             ConnectionString = "ConnectionString"
         };
-        _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId).Returns(pluginConfig);
+        _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId).Returns(pluginConfig);
 
         // Act
         using var tcs = new GrainCancellationTokenSource();
@@ -72,7 +74,7 @@ public sealed class SqlExecutorGrainTests
                 }
             }
         };
-        _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId).Returns(pluginConfig);
+        _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId).Returns(pluginConfig);
 
         // Act
         using var tcs = new GrainCancellationTokenSource();
@@ -93,7 +95,7 @@ public sealed class SqlExecutorGrainTests
         // Arrange
         var pluginContext = GetPluginContext();
         var pluginConfig = new SqlExecutorConfig();
-        _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId).Returns(pluginConfig);
+        _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId).Returns(pluginConfig);
 
         // Act
         using var tcs = new GrainCancellationTokenSource();
@@ -114,7 +116,7 @@ public sealed class SqlExecutorGrainTests
         // Arrange
         var pluginContext = GetPluginContext();
         var pluginConfig = new SqlExecutorConfig();
-        _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId).Returns(pluginConfig);
+        _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId).Returns(pluginConfig);
         var records = GetRecords();
 
         // Act
@@ -140,7 +142,7 @@ public sealed class SqlExecutorGrainTests
         // Arrange
         var pluginContext = GetPluginContext();
         var pluginConfig = new SqlExecutorConfig();
-        _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId).Returns(pluginConfig);
+        _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId).Returns(pluginConfig);
         var records = GetRecords();
         
         // Act
@@ -157,7 +159,7 @@ public sealed class SqlExecutorGrainTests
         // Arrange
         var pluginContext = GetPluginContext();
         var pluginConfig = new SqlExecutorConfig();
-        _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId).Returns(pluginConfig);
+        _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId).Returns(pluginConfig);
 
         // Act
         using var tcs = new GrainCancellationTokenSource();
@@ -183,8 +185,8 @@ public sealed class SqlExecutorGrainTests
     {
         return new PluginExecutionContext
         {
-            PluginId = Guid.NewGuid(),
-            ScenarioId = Guid.NewGuid(),
+            PluginId = new PluginId(Guid.NewGuid()),
+            WorkFlowId = new WorkflowId(Guid.NewGuid()),
             InputFieldTypes = new Dictionary<string, FieldType>
             {
                 { "f1", FieldType.Date }, { "f2", FieldType.Guid }

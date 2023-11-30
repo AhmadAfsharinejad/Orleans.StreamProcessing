@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using FluentAssertions;
 using NSubstitute;
-using StreamProcessing.HttpListener.Domain;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
 using StreamProcessing.Rest.Logic;
+using Workflow.Domain.Plugins.HttpListener;
+using Workflow.Domain.Plugins.Rest;
 using Xunit;
+using HttpMethod = Workflow.Domain.Plugins.Rest.HttpMethod;
 
 namespace StreamProcessing.Tests.Rest.Logic;
 
@@ -37,12 +37,12 @@ public class RestRequestCreatorTests
         {
             Uri = "Uri",
             HttpMethod = HttpMethod.Get,
-            Content = "Content",
+            ContentTemplate = "Content",
             ContentFields = new[] { "f1" }
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", 1 }, { "f2", 2 } });
 
-        _stringReplacer.Replace(config.Content, config.ContentFields, record).Returns(content);
+        _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record).Returns(content);
 
         //Act
         var actual = _sut.Create(config, record, default);
@@ -59,12 +59,12 @@ public class RestRequestCreatorTests
         {
             Uri = "Uri",
             HttpMethod = HttpMethod.Get,
-            Content = "Content",
+            ContentTemplate = "Content",
             ContentFields = new[] { "f1" }
         };
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", 1 }, { "f2", 2 } });
 
-        _stringReplacer.Replace(config.Content, config.ContentFields, record).Returns("xxx");
+        _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record).Returns("xxx");
 
         //Act
         var actual = _sut.Create(config, record, default);
@@ -218,7 +218,7 @@ public class RestRequestCreatorTests
         var actual = _sut.Create(config, record, default);
 
         //Assert
-        actual.Method.Should().Be(config.HttpMethod);
+        actual.Method.Method.ToUpper().Should().Be(config.HttpMethod.ToString().ToUpper());
     }
     
     [Fact]

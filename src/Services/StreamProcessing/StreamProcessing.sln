@@ -4,6 +4,39 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing", "StreamP
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Tests", "StreamProcessing.Tests\StreamProcessing.Tests.csproj", "{5FB0C07F-E11E-472E-85FC-B442D1B757D7}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{36C064CC-4279-41FB-BA0C-0EAD91F67126}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\docker-compose.yml = Docker\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClickHouse", "ClickHouse", "{F21D3036-7C5B-4F3E-BDC9-E4B8ECD4E168}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Clickhouse\docker-compose.yml = Docker\Clickhouse\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Redis", "Redis", "{149E1305-4F17-4E1C-B1FF-E9A24B4A98CB}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Redis\docker-compose.yml = Docker\Redis\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Kafka", "Kafka", "{9A0D68F6-74BF-4343-AE07-7C1948C07FEF}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Kafka\docker-compose.yml = Docker\Kafka\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Sample", "StreamProcessing.Sample\StreamProcessing.Sample.csproj", "{5751B59D-CA34-467A-9098-C34735605E78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Workflow.Domain", "..\Workflow\Workflow.Domain\Workflow.Domain.csproj", "{D9C262DD-C2EF-40C1-B497-FB56DC327354}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Api", "StreamProcessing.Api\StreamProcessing.Api.csproj", "{00C81C86-0090-4096-BD2A-64947B34087C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamProcessing.Common", "StreamProcessing.Common\StreamProcessing.Common.csproj", "{7762FA5C-48FF-4AEF-8F1F-06FF7F41A92D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFolder", "SolutionFolder", "{87958A6C-944F-4B6D-9DBA-9118602EE956}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\README.md = ..\..\..\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +51,26 @@ Global
 		{5FB0C07F-E11E-472E-85FC-B442D1B757D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FB0C07F-E11E-472E-85FC-B442D1B757D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FB0C07F-E11E-472E-85FC-B442D1B757D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5751B59D-CA34-467A-9098-C34735605E78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9C262DD-C2EF-40C1-B497-FB56DC327354}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9C262DD-C2EF-40C1-B497-FB56DC327354}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9C262DD-C2EF-40C1-B497-FB56DC327354}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9C262DD-C2EF-40C1-B497-FB56DC327354}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00C81C86-0090-4096-BD2A-64947B34087C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00C81C86-0090-4096-BD2A-64947B34087C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00C81C86-0090-4096-BD2A-64947B34087C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00C81C86-0090-4096-BD2A-64947B34087C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7762FA5C-48FF-4AEF-8F1F-06FF7F41A92D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7762FA5C-48FF-4AEF-8F1F-06FF7F41A92D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7762FA5C-48FF-4AEF-8F1F-06FF7F41A92D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7762FA5C-48FF-4AEF-8F1F-06FF7F41A92D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F21D3036-7C5B-4F3E-BDC9-E4B8ECD4E168} = {36C064CC-4279-41FB-BA0C-0EAD91F67126}
+		{149E1305-4F17-4E1C-B1FF-E9A24B4A98CB} = {36C064CC-4279-41FB-BA0C-0EAD91F67126}
+		{9A0D68F6-74BF-4343-AE07-7C1948C07FEF} = {36C064CC-4279-41FB-BA0C-0EAD91F67126}
 	EndGlobalSection
 EndGlobal

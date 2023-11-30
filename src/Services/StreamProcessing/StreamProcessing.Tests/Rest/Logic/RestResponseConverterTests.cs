@@ -4,10 +4,10 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using StreamProcessing.HttpListener.Domain;
-using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
 using StreamProcessing.Rest.Logic;
+using Workflow.Domain.Plugins.HttpListener;
+using Workflow.Domain.Plugins.Rest;
 using Xunit;
 
 namespace StreamProcessing.Tests.Rest.Logic;

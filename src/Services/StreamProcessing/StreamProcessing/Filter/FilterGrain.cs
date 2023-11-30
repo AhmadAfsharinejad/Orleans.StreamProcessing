@@ -1,10 +1,11 @@
 ﻿using System.Data;
+using System.Runtime.CompilerServices;
 using Orleans.Concurrency;
-using StreamProcessing.Filter.Domain;
 using StreamProcessing.Filter.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.Filter;
 
 namespace StreamProcessing.Filter;
 
@@ -64,10 +65,11 @@ internal sealed class FilterGrain : PluginGrain, IFilterGrain
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task<FilterConfig> GetConfig(PluginExecutionContext pluginContext)
     {
         if (pluginContext.InputFieldTypes is null) throw new NoNullAllowedException("'InputFieldTypes' can't be null.");
 
-        return await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        return await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
     }
 }

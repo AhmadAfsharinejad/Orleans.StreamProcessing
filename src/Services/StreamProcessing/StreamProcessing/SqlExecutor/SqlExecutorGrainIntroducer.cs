@@ -1,6 +1,7 @@
-﻿using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.PluginCommon.Interfaces;
+﻿using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.SqlExecutor.Interfaces;
+using Workflow.Domain;
+using Workflow.Domain.Plugins;
 
 namespace StreamProcessing.SqlExecutor;
 

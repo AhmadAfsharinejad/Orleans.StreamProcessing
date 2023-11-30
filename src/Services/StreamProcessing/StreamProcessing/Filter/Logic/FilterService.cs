@@ -1,6 +1,7 @@
-﻿using StreamProcessing.Filter.Domain;
-using StreamProcessing.Filter.Interfaces;
+﻿using StreamProcessing.Filter.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.Filter;
 
 namespace StreamProcessing.Filter.Logic;
 

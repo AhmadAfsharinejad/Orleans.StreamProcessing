@@ -3,6 +3,7 @@ using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.HttpResponse.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpResponse;
 
 namespace StreamProcessing.HttpResponse.Logic;
 
@@ -39,7 +40,7 @@ internal sealed class HttpResponseService : IHttpResponseService
 
         foreach (var header in config.Headers)
         {
-            headers.Add(new KeyValuePair<string, string>(header.NameInHeader, record.Record[header.FieldName].ToString()!));
+            headers.Add(new KeyValuePair<string, string>(header.NameInHeader, record.Record[header.FieldName]?.ToString()!));
         }
 
         return headers;
@@ -48,7 +49,7 @@ internal sealed class HttpResponseService : IHttpResponseService
     private byte[]? GetContent(HttpResponseConfig config, PluginRecord record)
     {
         byte[]? content = null;
-        var stringContent = _stringReplacer.Replace(config.Content, config.ContentFields, record);
+        var stringContent = _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record);
         if (!string.IsNullOrWhiteSpace(stringContent))
         {
             content = Encoding.UTF8.GetBytes(stringContent);

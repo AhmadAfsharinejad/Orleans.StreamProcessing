@@ -1,7 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
 using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.SqlExecutor;
 
 namespace StreamProcessing.SqlExecutor.Logic;
 

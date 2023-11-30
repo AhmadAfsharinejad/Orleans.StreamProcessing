@@ -1,9 +1,9 @@
 ﻿using Orleans.Concurrency;
-using StreamProcessing.DummyOutput.Domain;
 using StreamProcessing.DummyOutput.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.DummyOutput;
 
 namespace StreamProcessing.DummyOutput;
 
@@ -31,7 +31,7 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
         [Immutable] PluginRecords pluginRecords,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         if (!config.IsWriteEnabled) return;
 
@@ -51,7 +51,7 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
         [Immutable] PluginRecord pluginRecord,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         if (!config.IsWriteEnabled) return;
 

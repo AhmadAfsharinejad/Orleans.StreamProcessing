@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.PluginCommon.Logic;
+using Workflow.Domain.Plugins.Common;
 using Xunit;
 
 namespace StreamProcessing.Tests.PluginCommon.Logic;

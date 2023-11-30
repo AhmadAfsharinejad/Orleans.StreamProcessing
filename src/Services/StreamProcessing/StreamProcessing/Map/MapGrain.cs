@@ -1,9 +1,11 @@
-﻿using Orleans.Concurrency;
-using StreamProcessing.Map.Domain;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using StreamProcessing.Map.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.Map;
 
 namespace StreamProcessing.Map;
 
@@ -65,11 +67,12 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
             cancellationToken);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task Init(PluginExecutionContext pluginContext)
     {
         if (_hasBeenInitialized) return;
 
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
 
         _func = _compiler.CreateFunction(config.Code, config.FullClassName, config.FunctionName);
 
@@ -78,6 +81,7 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
         _hasBeenInitialized = true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext)
     {
         return pluginContext with { InputFieldTypes = _outputFieldTypes };

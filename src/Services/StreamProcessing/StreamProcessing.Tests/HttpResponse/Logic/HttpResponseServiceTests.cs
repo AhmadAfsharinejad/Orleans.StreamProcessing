@@ -2,12 +2,12 @@
 using System.Text;
 using FluentAssertions;
 using NSubstitute;
-using StreamProcessing.HttpListener.Domain;
-using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.HttpResponse.Interfaces;
 using StreamProcessing.HttpResponse.Logic;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
+using Workflow.Domain.Plugins.HttpListener;
+using Workflow.Domain.Plugins.HttpResponse;
 using Xunit;
 
 namespace StreamProcessing.Tests.HttpResponse.Logic;
@@ -90,13 +90,13 @@ public class HttpResponseServiceTests
         //Arrange
         var config = new HttpResponseConfig
         {
-            Content = "Content",
+            ContentTemplate = "Content",
             ContentFields = new []{"f1"}
         };
 
         var record = new PluginRecord(new Dictionary<string, object> { { "f1", "fv1" } });
 
-        _stringReplacer.Replace(config.Content, config.ContentFields, record).Returns("result");
+        _stringReplacer.Replace(config.ContentTemplate, config.ContentFields, record).Returns("result");
 
         var expected = Encoding.UTF8.GetBytes("result");
 

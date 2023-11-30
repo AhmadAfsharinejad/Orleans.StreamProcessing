@@ -1,49 +1,58 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Orleans.Configuration;
-using StreamProcessing;
 using StreamProcessing.Di;
-using StreamProcessing.Silo;
+using StreamProcessing.Storage;
 
+var hostBuilder = new HostBuilder()
+    .ConfigureHostConfiguration(configurationBinder => { configurationBinder.AddCommandLine(args); })
+    .ConfigureAppConfiguration((ctx, configurationBinder) =>
+    {
+        var env = ctx.HostingEnvironment.EnvironmentName;
+        configurationBinder.AddJsonFile("appsettings.json", true);
+        configurationBinder.AddJsonFile($"appsettings.{env}.json", true);
+        configurationBinder.AddCommandLine(args);
+    })
+    .UseOrleans((ctx, siloBuilder) =>
+    {
+        // siloBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
 
-var host = CreateHost(12111, 30000).Build();
+        siloBuilder.AddMemoryGrainStorage(StorageConsts.StorageName);
+        siloBuilder.AddStreamServices();
+
+        int instanceId = ctx.Configuration.GetValue<int>("InstanceId");
+
+        siloBuilder.UseLocalhostClustering(
+            siloPort: 11111 + instanceId,
+            gatewayPort: 30000 + instanceId
+            //primarySiloEndpoint: new IPEndPoint(IPAddress.Loopback, 11111)
+            );
+
+        // siloBuilder.UseInMemoryReminderService();
+        //
+        //  siloBuilder.Configure<ClusterOptions>(options =>
+        //  {
+        //      options.ClusterId = "ClusterId";
+        //      options.ServiceId = "ServiceId";
+        //  });
+        //  siloBuilder.UseRedisClustering(opt =>
+        //  {
+        //      opt.ConnectionString = "localhost:6379";
+        //      opt.Database = 4;
+        //  });
+        //  siloBuilder.ConfigureEndpoints(siloPort: 11111 + instanceId, gatewayPort: 30000 + instanceId);
+
+        siloBuilder.AddActivityPropagation();
+        
+        siloBuilder.UseDashboard();
+    });
+
+hostBuilder.UseConsoleLifetime();
+
+var host = hostBuilder.Build();
+
 await host.StartAsync();
-
-
-// var host2 = CreateHost(12112, 30001).Build();
-// await host2.StartAsync();
-
 
 Console.WriteLine("Press enter to stop the Silo...");
 Console.ReadLine();
+
 await host.StopAsync();
-
-IHostBuilder CreateHost(int siloPort, int gatewayPort)
-{
-    var hostBuilder = new HostBuilder()
-        .UseOrleans(siloBuilder =>
-        {
-            siloBuilder.UseLocalhostClustering();
-            siloBuilder.AddMemoryGrainStorage(SiloConsts.StorageName);
-            siloBuilder.Services.AddStreamServices();
-            //siloBuilder.ConfigureLogging(loggingBuilder => loggingBuilder.AddConsole());
-            siloBuilder.AddGrainService<LocalGrainIntroducerService>();
-
-            //siloBuilder.UseInMemoryReminderService();
-
-            // siloBuilder.Configure<ClusterOptions>(options =>
-            // {
-            //     options.ClusterId = "dev";
-            //     options.ServiceId = "ServiceApp";
-            // });
-            // siloBuilder.UseRedisClustering(opt =>
-            // {
-            //     opt.ConnectionString = "localhost:6379";
-            //     opt.Database = 4;
-            // });
-            // siloBuilder.ConfigureEndpoints(siloPort: siloPort, gatewayPort: gatewayPort);
-        });
-    hostBuilder.ConfigureServices(services => { services.AddHostedService<StartingHost>(); });
-
-    return hostBuilder;
-}

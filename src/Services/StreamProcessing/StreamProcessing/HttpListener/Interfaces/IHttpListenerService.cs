@@ -1,4 +1,5 @@
 ﻿using StreamProcessing.HttpListener.Domain;
+using Workflow.Domain.Plugins.HttpListener;
 
 namespace StreamProcessing.HttpListener.Interfaces;
 

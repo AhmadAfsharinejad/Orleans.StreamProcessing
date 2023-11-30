@@ -1,6 +1,6 @@
-﻿using StreamProcessing.PluginCommon.Domain;
-using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Scenario.Interfaces;
+﻿using StreamProcessing.PluginCommon.Interfaces;
+using StreamProcessing.WorkFlow.Interfaces;
+using Workflow.Domain;
 
 namespace StreamProcessing.PluginCommon.Logic;
 
@@ -15,14 +15,14 @@ where TConfig : IPluginConfig
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
     }
 
-    public async Task<TConfig> GetConfig(Guid scenarioId, Guid pluginId)
+    public async Task<TConfig> GetConfig(WorkflowId workflowId, PluginId pluginId)
     {
         if (!(_config is null || _config!.Equals(default(TConfig)))) return _config;
 
-        var scenarioGrain = _grainFactory.GetGrain<IScenarioGrain>(scenarioId);
-        var config = await scenarioGrain.GetPluginConfig(pluginId);
+        var workflowGrain = _grainFactory.GetGrain<IWorkflowGrain>(workflowId);
+        var config = await workflowGrain.GetPluginConfig(pluginId);
 
-        if (config is not TConfig tConfig) throw new InvalidCastException($"Can't cast plugin '{pluginId}' to specific type.");
+        if (config.Config is not TConfig tConfig) throw new InvalidCastException($"Can't cast plugin '{pluginId}' to specific type.");
 
         _config = tConfig;
         return _config;

@@ -1,10 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Orleans.Concurrency;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.SqlExecutor.Domain;
 using StreamProcessing.SqlExecutor.Interfaces;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.SqlExecutor;
 
 namespace StreamProcessing.SqlExecutor;
 
@@ -114,6 +116,7 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task<List<PluginRecord>> Execute(PluginRecord? record, SqlExecutorConfig config, CancellationToken cancellationToken)
     {
         var records = new List<PluginRecord>();
@@ -126,18 +129,21 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         return records;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext)
     {
         return pluginContext with { InputFieldTypes = _outputFieldTypes };
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task<SqlExecutorConfig> Init(PluginExecutionContext pluginContext, CancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         await Init(pluginContext, config, cancellationToken);
         return config;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task Init(PluginExecutionContext pluginContext,
         SqlExecutorConfig config,
         CancellationToken cancellationToken)
@@ -153,12 +159,14 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         _hasBeenInit = true;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task InitConnection(SqlExecutorConfig config, CancellationToken cancellationToken)
     {
         _connection = _connectionFactory.Create(config.ConnectionString);
         await _connection.OpenAsync(cancellationToken);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void InitOutputFieldTypes(PluginExecutionContext pluginContext, SqlExecutorConfig config)
     {
         _outputFieldTypes = _fieldTypeJoiner.Join(pluginContext.InputFieldTypes,

@@ -16,7 +16,7 @@ internal sealed class LocalSiloGrain : Grain, ILocalSiloGrain
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginGrainFactory = pluginGrainFactory ?? throw new ArgumentNullException(nameof(pluginGrainFactory));
     }
-    
+
     public async Task SubscribeToCoordinator()
     {
         var coordinatorGrain = _grainFactory.GetGrain<ILocalGrainCoordinator>(SiloConsts.CoordinatorGrainId);
@@ -29,11 +29,13 @@ internal sealed class LocalSiloGrain : Grain, ILocalSiloGrain
         await coordinatorGrain.UnSubscribe(this.GetPrimaryKey());
     }
 
-    public async Task StartPlugin([Immutable] Type startingPluginType, 
-        [Immutable] PluginExecutionContext pluginContext, 
+    public Task StartPlugin([Immutable] Type startingPluginType,
+        [Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
         var grain = _pluginGrainFactory.GetOrCreateSourcePlugin(startingPluginType, Guid.NewGuid());
-        await grain.Start(pluginContext, cancellationToken);
+        //Dont await source plugins
+        grain.Start(pluginContext, cancellationToken);
+        return Task.CompletedTask;
     }
 }

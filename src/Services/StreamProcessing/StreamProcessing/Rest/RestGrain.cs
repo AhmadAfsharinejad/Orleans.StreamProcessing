@@ -1,8 +1,10 @@
-﻿using Orleans.Concurrency;
+﻿using System.Runtime.CompilerServices;
+using Orleans.Concurrency;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
-using StreamProcessing.Rest.Domain;
 using StreamProcessing.Rest.Interfaces;
+using Workflow.Domain.Plugins.Common;
+using Workflow.Domain.Plugins.Rest;
 
 namespace StreamProcessing.Rest;
 
@@ -57,7 +59,7 @@ internal sealed class RestGrain : Grain, IRestGrain
         [Immutable] PluginRecords pluginRecords,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         Init(pluginContext, config);
 
         var records = new List<PluginRecord>(pluginRecords.Records.Count);
@@ -77,7 +79,7 @@ internal sealed class RestGrain : Grain, IRestGrain
         [Immutable] PluginRecord pluginRecord,
         GrainCancellationToken cancellationToken)
     {
-        var config = await _pluginConfigFetcher.GetConfig(pluginContext.ScenarioId, pluginContext.PluginId);
+        var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
         Init(pluginContext, config);
 
         var record = await _restService.Call(_httpClient!, config, pluginRecord, cancellationToken.CancellationToken);
@@ -85,11 +87,13 @@ internal sealed class RestGrain : Grain, IRestGrain
         await _pluginOutputCaller.CallOutputs(GetOutPluginContext(pluginContext), record, cancellationToken);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private PluginExecutionContext GetOutPluginContext(PluginExecutionContext pluginContext)
     {
         return pluginContext with { InputFieldTypes = _outputFieldTypes };
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void Init(PluginExecutionContext pluginContext, RestConfig config)
     {
         if (_httpClient is not null)
