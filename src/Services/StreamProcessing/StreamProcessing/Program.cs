@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Orleans.TestingHost;
 using Serilog;
 using StreamProcessing.Di;
 using StreamProcessing.Storage;
@@ -25,7 +26,7 @@ var hostBuilder = new HostBuilder()
             siloPort: 11111 + instanceId,
             gatewayPort: 30000 + instanceId
             //primarySiloEndpoint: new IPEndPoint(IPAddress.Loopback, 11111)
-            );
+        );
         // siloBuilder.UseInMemoryReminderService();
         //
         //  siloBuilder.Configure<ClusterOptions>(options =>
@@ -39,12 +40,12 @@ var hostBuilder = new HostBuilder()
         //      opt.Database = 4;
         //  });
         //  siloBuilder.ConfigureEndpoints(siloPort: 11111 + instanceId, gatewayPort: 30000 + instanceId);
-        
-        
+
+
         // This is used for Telemetry
         // siloBuilder.AddActivityPropagation();
-        
-        
+
+
         siloBuilder.UseDashboard();
     });
 
@@ -71,11 +72,12 @@ hostBuilder.UseConsoleLifetime();
 // });
 
 // Logging Configuration
-var conf = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(conf)
-    .CreateLogger();
-hostBuilder.UseSerilog();
+
+hostBuilder.UseSerilog((context, services, loggerConfiguration) =>
+    loggerConfiguration
+        .ReadFrom
+        .Configuration(context.Configuration)
+    );
 
 var host = hostBuilder.Build();
 await host.StartAsync();
