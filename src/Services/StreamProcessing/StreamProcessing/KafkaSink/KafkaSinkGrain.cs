@@ -18,12 +18,15 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
     private bool _hasBeenInitialized;
     private IKafkaSinkService? _KafkaSinkService;
     private readonly ILogger<KafkaSinkGrain> _logger;
+
     public KafkaSinkGrain(IPluginConfigFetcher<KafkaSinkConfig> pluginConfigFetcher,
-        IKafkaSinkServiceFactory kafkaSinkServiceFactory,ILogger<KafkaSinkGrain> logger)
+        IKafkaSinkServiceFactory kafkaSinkServiceFactory,
+        ILogger<KafkaSinkGrain> logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
-        _kafkaSinkServiceFactory = kafkaSinkServiceFactory ?? throw new ArgumentNullException(nameof(kafkaSinkServiceFactory));
-        _logger = logger  ?? throw new ArgumentNullException(nameof(logger)) ;
+        _kafkaSinkServiceFactory =
+            kafkaSinkServiceFactory ?? throw new ArgumentNullException(nameof(kafkaSinkServiceFactory));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
@@ -55,7 +58,7 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
 
         _KafkaSinkService!.Produce(pluginRecord);
     }
-    
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private async Task Init(PluginExecutionContext pluginContext)
     {

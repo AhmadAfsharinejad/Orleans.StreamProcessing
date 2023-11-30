@@ -16,13 +16,14 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
     private int _counter;
     private int _totalCounter;
     private readonly ILogger<DummyOutputGrain> _logger;
-    public DummyOutputGrain(IPluginConfigFetcher<DummyOutputConfig> pluginConfigFetcher,ILogger<DummyOutputGrain> logger)
+
+    public DummyOutputGrain(IPluginConfigFetcher<DummyOutputConfig> pluginConfigFetcher,
+        ILogger<DummyOutputGrain> logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
-        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
-
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-    
+
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,
         [Immutable] PluginRecords pluginRecords,
@@ -42,7 +43,7 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
             _counter = 0;
         }
     }
-    
+
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,
         [Immutable] PluginRecord pluginRecord,

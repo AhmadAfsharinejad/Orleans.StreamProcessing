@@ -18,24 +18,25 @@ internal sealed class FilterGrain : PluginGrain, IFilterGrain
     private readonly IPluginConfigFetcher<FilterConfig> _pluginConfigFetcher;
     private readonly IFilterService _filterService;
     private readonly ILogger<FilterGrain> _logger;
+
     public FilterGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<FilterConfig> pluginConfigFetcher,
-        IFilterService filterService,ILogger<FilterGrain> logger) 
+        IFilterService filterService,
+        ILogger<FilterGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _filterService = filterService ?? throw new ArgumentNullException(nameof(filterService));
-        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
-
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]
-    public async Task Compute([Immutable] PluginExecutionContext pluginContext, 
-        [Immutable] PluginRecords pluginRecords, 
+    public async Task Compute([Immutable] PluginExecutionContext pluginContext,
+        [Immutable] PluginRecords pluginRecords,
         GrainCancellationToken cancellationToken)
     {
         var config = await GetConfig(pluginContext);
-        
+
         var records = new List<PluginRecord>(pluginRecords.Records.Count);
 
         foreach (var pluginRecord in pluginRecords.Records)
@@ -50,8 +51,8 @@ internal sealed class FilterGrain : PluginGrain, IFilterGrain
     }
 
     [ReadOnly]
-    public async Task Compute(PluginExecutionContext pluginContext, 
-        PluginRecord pluginRecord, 
+    public async Task Compute(PluginExecutionContext pluginContext,
+        PluginRecord pluginRecord,
         GrainCancellationToken cancellationToken)
     {
         var config = await GetConfig(pluginContext);

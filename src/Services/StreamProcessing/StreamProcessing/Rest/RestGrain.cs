@@ -21,15 +21,18 @@ internal sealed class RestGrain : Grain, IRestGrain
     private HttpClient? _httpClient;
     private IReadOnlyDictionary<string, FieldType>? _outputFieldTypes;
     private readonly ILogger<RestGrain> _logger;
+
     public RestGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RestConfig> pluginConfigFetcher,
         IRestService restService,
-        IRestOutputFieldTypeGetter restOutputFieldTypeGetter,ILogger<RestGrain> logger)
+        IRestOutputFieldTypeGetter restOutputFieldTypeGetter,
+        ILogger<RestGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _restService = restService ?? throw new ArgumentNullException(nameof(restService));
-        _restOutputFieldTypeGetter = restOutputFieldTypeGetter ?? throw new ArgumentNullException(nameof(restOutputFieldTypeGetter));
+        _restOutputFieldTypeGetter = restOutputFieldTypeGetter ??
+                                     throw new ArgumentNullException(nameof(restOutputFieldTypeGetter));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -62,7 +65,8 @@ internal sealed class RestGrain : Grain, IRestGrain
 
         foreach (var pluginRecord in pluginRecords.Records)
         {
-            var record = await _restService.Call(_httpClient!, config, pluginRecord, cancellationToken.CancellationToken);
+            var record =
+                await _restService.Call(_httpClient!, config, pluginRecord, cancellationToken.CancellationToken);
 
             records.Add(record);
         }

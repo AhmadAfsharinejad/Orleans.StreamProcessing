@@ -23,11 +23,12 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
     private readonly ILogger<HttpListenerResponseLocalGrain> _logger;
+
     public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,
         ILogger<HttpListenerResponseLocalGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
-        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task CallOutput([Immutable] PluginExecutionContext pluginContext,

@@ -31,7 +31,8 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
         IPluginConfigFetcher<SqlExecutorConfig> pluginConfigFetcher,
         IConnectionFactory connectionFactory,
         ISqlExecutorService sqlExecutorService,
-        IFieldTypeJoiner fieldTypeJoiner,ILogger<SqlExecutorGrain> logger) 
+        IFieldTypeJoiner fieldTypeJoiner,
+        ILogger<SqlExecutorGrain> logger) 
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));

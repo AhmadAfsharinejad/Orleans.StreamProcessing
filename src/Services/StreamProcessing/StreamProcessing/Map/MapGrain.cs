@@ -24,7 +24,8 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
 
     public MapGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<MapConfig> pluginConfigFetcher,
-        ICompiler compiler, ILogger<MapGrain> logger)
+        ICompiler compiler,
+        ILogger<MapGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
