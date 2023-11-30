@@ -27,7 +27,8 @@ jobs:
         run: npm run build-storybook
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@3.6.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./src/Web/storybook-static
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: feature/Web
+          FOLDER: ./src/Web/storybook-static
