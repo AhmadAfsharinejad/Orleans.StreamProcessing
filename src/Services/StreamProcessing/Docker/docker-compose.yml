@@ -1,6 +1,0 @@
-version: '3.7'
-
-include:
-  - ./Clickhouse/docker-compose.yml
-  - ./Kafka/docker-compose.yml
-  - ./Redis/docker-compose.yml
