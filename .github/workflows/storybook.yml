@@ -19,12 +19,15 @@ jobs:
           node-version: '18'
 
       - name: Install dependencies
+        working-directory: ./src/Web
         run: npm install
 
       - name: Build Storybook
+        working-directory: ./src/Web
         run: npm run build-storybook
 
       - name: Deploy to GitHub Pages
+        working-directory: ./src/Web
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
