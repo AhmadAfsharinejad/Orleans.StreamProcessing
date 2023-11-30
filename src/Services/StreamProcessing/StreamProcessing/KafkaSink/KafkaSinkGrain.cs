@@ -29,7 +29,7 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
+    public override Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
         _KafkaSinkService?.Dispose();
         _KafkaSinkService = null;
