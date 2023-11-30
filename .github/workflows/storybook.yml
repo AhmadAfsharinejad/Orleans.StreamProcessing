@@ -31,4 +31,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: feature/Web
-          FOLDER: ./src/Web/storybook-static
+          FOLDER: src/Web/storybook-static
