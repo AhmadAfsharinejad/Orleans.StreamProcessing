@@ -11,19 +11,21 @@ using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource;
 
-internal sealed class KafkaSourceGrain: LoggableGrain, IKafkaSourceGrain
+internal sealed class KafkaSourceGrain: Grain, IKafkaSourceGrain
 {
     private readonly IKafkaPartition _kafkaPartition;
     private readonly IPluginConfigFetcher<KafkaSourceConfig> _pluginConfigFetcher;
     private readonly IIterativeSiloCaller _iterativeSiloCaller;
-
+    private readonly ILogger<KafkaSourceGrain> _logger;
     public KafkaSourceGrain(IKafkaPartition kafkaPartition,
         IPluginConfigFetcher<KafkaSourceConfig> pluginConfigFetcher,
-        IIterativeSiloCaller iterativeSiloCaller,ILogger<KafkaSourceGrain> logger) : base(logger)
+        IIterativeSiloCaller iterativeSiloCaller,ILogger<KafkaSourceGrain> logger)
     {
         _kafkaPartition = kafkaPartition ?? throw new ArgumentNullException(nameof(kafkaPartition));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _iterativeSiloCaller = iterativeSiloCaller ?? throw new ArgumentNullException(nameof(iterativeSiloCaller));
+        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
+
     }
 
     [ReadOnly]

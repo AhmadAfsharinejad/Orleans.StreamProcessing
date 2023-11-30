@@ -8,13 +8,15 @@ using StreamProcessing.Silo.Interfaces;
 namespace StreamProcessing.HttpListener;
 
 [StatelessWorker]
-internal sealed class HttpListenerGrain : LoggableGrain, IHttpListenerGrain
+internal sealed class HttpListenerGrain :Grain,IHttpListenerGrain
 {
     private readonly IEverySiloCaller _everySiloCaller;
-
-    public HttpListenerGrain(IEverySiloCaller everySiloCaller,ILogger<HttpListenerGrain> logger) : base(logger)
+    private readonly ILogger<HttpListenerGrain> _logger;
+    
+    public HttpListenerGrain(IEverySiloCaller everySiloCaller,ILogger<HttpListenerGrain> logger)
     {
         _everySiloCaller = everySiloCaller ?? throw new ArgumentNullException(nameof(everySiloCaller));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]

@@ -19,14 +19,15 @@ internal sealed class HttpResponseGrain : PluginGrain, IHttpResponseGrain
     private readonly IPluginConfigFetcher<HttpResponseConfig> _pluginConfigFetcher;
     private readonly IHttpResponseService _httpResponseService;
     private readonly IGrainFactory _grainFactory;
-
+    private readonly ILogger<HttpResponseGrain> _logger;
     public HttpResponseGrain(IPluginConfigFetcher<HttpResponseConfig> pluginConfigFetcher,
         IHttpResponseService httpResponseService,
-        IGrainFactory grainFactory,ILogger<HttpResponseGrain> logger) : base(logger)
+        IGrainFactory grainFactory,ILogger<HttpResponseGrain> logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _httpResponseService = httpResponseService ?? throw new ArgumentNullException(nameof(httpResponseService));
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
+        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]

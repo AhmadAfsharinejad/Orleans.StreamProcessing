@@ -12,7 +12,7 @@ namespace StreamProcessing.Rest;
 
 [StatelessWorker]
 [Reentrant]
-internal sealed class RestGrain : LoggableGrain, IRestGrain
+internal sealed class RestGrain : Grain, IRestGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly IPluginConfigFetcher<RestConfig> _pluginConfigFetcher;
@@ -20,16 +20,17 @@ internal sealed class RestGrain : LoggableGrain, IRestGrain
     private readonly IRestOutputFieldTypeGetter _restOutputFieldTypeGetter;
     private HttpClient? _httpClient;
     private IReadOnlyDictionary<string, FieldType>? _outputFieldTypes;
-
+    private readonly ILogger<RestGrain> _logger;
     public RestGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RestConfig> pluginConfigFetcher,
         IRestService restService,
-        IRestOutputFieldTypeGetter restOutputFieldTypeGetter,ILogger<RestGrain> logger) : base(logger)
+        IRestOutputFieldTypeGetter restOutputFieldTypeGetter,ILogger<RestGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _restService = restService ?? throw new ArgumentNullException(nameof(restService));
         _restOutputFieldTypeGetter = restOutputFieldTypeGetter ?? throw new ArgumentNullException(nameof(restOutputFieldTypeGetter));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)

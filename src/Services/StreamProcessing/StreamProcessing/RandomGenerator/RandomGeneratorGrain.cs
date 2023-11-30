@@ -16,14 +16,16 @@ internal sealed class RandomGeneratorGrain : PluginGrain, IRandomGeneratorGrain
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly IPluginConfigFetcher<RandomGeneratorConfig> _pluginConfigFetcher;
     private readonly IRandomRecordCreator _randomRecordCreator;
-
+    private readonly ILogger<RandomGeneratorGrain> _logger;
     public RandomGeneratorGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RandomGeneratorConfig> pluginConfigFetcher,
-        IRandomRecordCreator randomRecordCreator, ILogger<RandomGeneratorGrain> logger) : base(logger)
+        IRandomRecordCreator randomRecordCreator, ILogger<RandomGeneratorGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _randomRecordCreator = randomRecordCreator ?? throw new ArgumentNullException(nameof(randomRecordCreator));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
     }
 
     [ReadOnly]

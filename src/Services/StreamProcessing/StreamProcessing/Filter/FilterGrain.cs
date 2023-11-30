@@ -17,14 +17,16 @@ internal sealed class FilterGrain : PluginGrain, IFilterGrain
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly IPluginConfigFetcher<FilterConfig> _pluginConfigFetcher;
     private readonly IFilterService _filterService;
-
+    private readonly ILogger<FilterGrain> _logger;
     public FilterGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<FilterConfig> pluginConfigFetcher,
-        IFilterService filterService,ILogger<FilterGrain> logger) : base(logger)
+        IFilterService filterService,ILogger<FilterGrain> logger) 
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _filterService = filterService ?? throw new ArgumentNullException(nameof(filterService));
+        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
+
     }
 
     [ReadOnly]

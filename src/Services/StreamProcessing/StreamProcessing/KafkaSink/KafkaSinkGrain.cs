@@ -17,15 +17,16 @@ internal sealed class KafkaSinkGrain : PluginGrain, IKafkaSinkGrain
     private readonly IKafkaSinkServiceFactory _kafkaSinkServiceFactory;
     private bool _hasBeenInitialized;
     private IKafkaSinkService? _KafkaSinkService;
-
+    private readonly ILogger<KafkaSinkGrain> _logger;
     public KafkaSinkGrain(IPluginConfigFetcher<KafkaSinkConfig> pluginConfigFetcher,
-        IKafkaSinkServiceFactory kafkaSinkServiceFactory,ILogger<KafkaSinkGrain> logger) : base(logger)
+        IKafkaSinkServiceFactory kafkaSinkServiceFactory,ILogger<KafkaSinkGrain> logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _kafkaSinkServiceFactory = kafkaSinkServiceFactory ?? throw new ArgumentNullException(nameof(kafkaSinkServiceFactory));
+        _logger = logger  ?? throw new ArgumentNullException(nameof(logger)) ;
     }
 
-    public override Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
+    public Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
         _KafkaSinkService?.Dispose();
         _KafkaSinkService = null;

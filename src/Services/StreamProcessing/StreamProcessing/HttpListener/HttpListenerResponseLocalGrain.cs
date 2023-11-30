@@ -18,15 +18,16 @@ namespace StreamProcessing.HttpListener;
 
 [PreferLocalPlacement]
 [Reentrant]
-internal sealed class HttpListenerResponseLocalGrain : LoggableGrain, IHttpListenerResponseLocalGrain
+internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
-
+    private readonly ILogger<HttpListenerResponseLocalGrain> _logger;
     public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,
-        ILogger<HttpListenerResponseLocalGrain> logger) : base(logger)
+        ILogger<HttpListenerResponseLocalGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
+        _logger =  logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task CallOutput([Immutable] PluginExecutionContext pluginContext,

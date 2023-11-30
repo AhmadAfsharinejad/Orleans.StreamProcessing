@@ -25,18 +25,21 @@ internal sealed class SqlExecutorGrain : PluginGrain, ISqlExecutorGrain
     private IStreamDbCommand? _command;
     private IReadOnlyDictionary<string, FieldType>? _outputFieldTypes;
     private bool _hasBeenInit;
-
+    private readonly ILogger<SqlExecutorGrain> _logger;
+    
     public SqlExecutorGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<SqlExecutorConfig> pluginConfigFetcher,
         IConnectionFactory connectionFactory,
         ISqlExecutorService sqlExecutorService,
-        IFieldTypeJoiner fieldTypeJoiner,ILogger<SqlExecutorGrain> logger)  : base(logger)
+        IFieldTypeJoiner fieldTypeJoiner,ILogger<SqlExecutorGrain> logger) 
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         _sqlExecutorService = sqlExecutorService ?? throw new ArgumentNullException(nameof(sqlExecutorService));
         _fieldTypeJoiner = fieldTypeJoiner ?? throw new ArgumentNullException(nameof(fieldTypeJoiner));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
     }
 
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)

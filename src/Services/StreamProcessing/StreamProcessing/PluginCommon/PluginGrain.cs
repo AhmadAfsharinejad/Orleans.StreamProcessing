@@ -2,9 +2,6 @@
 
 namespace StreamProcessing.PluginCommon;
 
-internal abstract class PluginGrain : LoggableGrain
+internal abstract class PluginGrain : Grain
 {
-    protected PluginGrain(ILogger logger) : base(logger)
-    {
-    }
 }

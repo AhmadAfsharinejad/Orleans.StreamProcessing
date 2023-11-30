@@ -11,24 +11,25 @@ namespace StreamProcessing.HttpListener;
 
 [KeepAlive]
 [PreferLocalPlacement]
-internal sealed class HttpListenerLocalGrain : LoggableGrain, IHttpListenerLocalGrain
+internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
 {
     private readonly IGrainFactory _grainFactory;
     private readonly IPluginConfigFetcher<HttpListenerConfig> _pluginConfigFetcher;
     private readonly IHttpListenerService _httpListenerService;
     private readonly IHttpListenerOutputFieldTypeGetter _httpListenerOutputFieldTypeGetter;
     private readonly IHttpListenerResponseLocalGrain _httpListenerResponseLocalGrain;
-
+    private readonly ILogger<HttpListenerLocalGrain> _logger;
     public HttpListenerLocalGrain(IGrainFactory grainFactory,
         IPluginConfigFetcher<HttpListenerConfig> pluginConfigFetcher,
         IHttpListenerService httpListenerService,
-        IHttpListenerOutputFieldTypeGetter httpListenerOutputFieldTypeGetter,ILogger<HttpListenerLocalGrain> logger) : base(logger)
+        IHttpListenerOutputFieldTypeGetter httpListenerOutputFieldTypeGetter,ILogger<HttpListenerLocalGrain> logger)
     {
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _httpListenerService = httpListenerService ?? throw new ArgumentNullException(nameof(httpListenerService));
         _httpListenerOutputFieldTypeGetter = httpListenerOutputFieldTypeGetter ??
                                              throw new ArgumentNullException(nameof(httpListenerOutputFieldTypeGetter));
+        _logger = logger  ?? throw new ArgumentNullException(nameof(logger));;
         _httpListenerResponseLocalGrain = _grainFactory.GetGrain<IHttpListenerResponseLocalGrain>(Guid.NewGuid());
     }
 
