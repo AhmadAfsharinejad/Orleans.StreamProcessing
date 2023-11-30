@@ -2,7 +2,7 @@
     <div *ngIf="plugin.iconPath"
          class="image-wrapper">
 
-        <img ngSrc="{{plugin.iconPath}}"
+        <img [src]="plugin.iconPath"
              alt="{{plugin.displayName}} plugin icon"
              fill="true"
              priority="true"

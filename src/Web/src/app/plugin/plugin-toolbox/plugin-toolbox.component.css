@@ -5,7 +5,10 @@
 }
 
 .image-wrapper {
+    position: relative;
+}
+
+img{
     height: 5rem;
     width: 5rem;
-    position: relative;
 }

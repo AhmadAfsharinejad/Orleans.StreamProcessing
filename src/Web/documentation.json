@@ -2453,13 +2453,13 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".container {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n}\r\n\r\n.image-wrapper {\r\n    height: 5rem;\r\n    width: 5rem;\r\n    position: relative;\r\n}\r\n",
+                    "data": ".container {\r\n    display: flex;\r\n    flex-direction: column;\r\n    align-items: center;\r\n}\r\n\r\n.image-wrapper {\r\n    position: relative;\r\n}\r\n\r\nimg{\r\n    height: 5rem;\r\n    width: 5rem;\r\n}\r\n",
                     "styleUrl": "./plugin-toolbox.component.css"
                 }
             ],
             "stylesData": "",
             "extends": [],
-            "templateData": "<div *ngIf=\"plugin\" class=\"container\">\r\n    <div *ngIf=\"plugin.iconPath\"\r\n         class=\"image-wrapper\">\r\n\r\n        <img ngSrc=\"{{plugin.iconPath}}\"\r\n             alt=\"{{plugin.displayName}} plugin icon\"\r\n             fill=\"true\"\r\n             priority=\"true\"\r\n        />\r\n\r\n    </div>\r\n\r\n    <div>\r\n        {{plugin.displayName}}\r\n    </div>\r\n\r\n</div>\r\n"
+            "templateData": "<div *ngIf=\"plugin\" class=\"container\">\r\n    <div *ngIf=\"plugin.iconPath\"\r\n         class=\"image-wrapper\">\r\n\r\n        <img [src]=\"plugin.iconPath\"\r\n             alt=\"{{plugin.displayName}} plugin icon\"\r\n             fill=\"true\"\r\n             priority=\"true\"\r\n        />\r\n\r\n    </div>\r\n\r\n    <div>\r\n        {{plugin.displayName}}\r\n    </div>\r\n\r\n</div>\r\n"
         },
         {
             "name": "ScenarioDesignerComponent",
@@ -2827,6 +2827,16 @@
     "miscellaneous": {
         "variables": [
             {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    plugin: {\r\n      displayName: 'Sql Executor',\r\n      pluginTypeId: {\r\n        value : 'SqlExecutor'\r\n      },\r\n      iconPath: '/img/plugin-icons/sql-executor.png',\r\n    },\r\n  },\r\n}"
+            },
+            {
                 "name": "Large",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2907,6 +2917,16 @@
                 "defaultValue": "{\n  title: 'Example/Page',\n  component: Page,\n  parameters: {\n    // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout\n    layout: 'fullscreen',\n  },\n  decorators: [\n    moduleMetadata({\n      declarations: [Button, Header],\n      imports: [CommonModule],\n    }),\n  ],\n}"
             },
             {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<PluginToolboxComponent>",
+                "defaultValue": "{\r\n  title: 'PluginToolbox',\r\n  component: PluginToolboxComponent,\r\n  excludeStories: /.*Data$/,\r\n  // tags: ['autodocs'],\r\n  render: (args: PluginToolboxComponent) => ({\r\n    props: {\r\n      ...args\r\n    },\r\n    template: `<app-plugin-toolbox ${argsToTemplate(args)}></app-plugin-toolbox>`,\r\n  }),\r\n}"
+            },
+            {
                 "name": "preview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -2981,6 +3001,17 @@
                 "deprecationMessage": "",
                 "description": "",
                 "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<PluginToolboxComponent>",
+                "file": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
             }
         ],
         "enumerations": [
@@ -3045,6 +3076,28 @@
             }
         ],
         "groupedVariables": {
+            "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    plugin: {\r\n      displayName: 'Sql Executor',\r\n      pluginTypeId: {\r\n        value : 'SqlExecutor'\r\n      },\r\n      iconPath: '/img/plugin-icons/sql-executor.png',\r\n    },\r\n  },\r\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<PluginToolboxComponent>",
+                    "defaultValue": "{\r\n  title: 'PluginToolbox',\r\n  component: PluginToolboxComponent,\r\n  excludeStories: /.*Data$/,\r\n  // tags: ['autodocs'],\r\n  render: (args: PluginToolboxComponent) => ({\r\n    props: {\r\n      ...args\r\n    },\r\n    template: `<app-plugin-toolbox ${argsToTemplate(args)}></app-plugin-toolbox>`,\r\n  }),\r\n}"
+                }
+            ],
             "src/stories/Button.stories.ts": [
                 {
                     "name": "Large",
@@ -3277,6 +3330,19 @@
                     "description": "",
                     "kind": 183
                 }
+            ],
+            "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<PluginToolboxComponent>",
+                    "file": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
             ]
         }
     },
@@ -3501,6 +3567,26 @@
                 "name": "PluginPropertiesComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/plugin/plugin-toolbox/plugin-toolbox.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
