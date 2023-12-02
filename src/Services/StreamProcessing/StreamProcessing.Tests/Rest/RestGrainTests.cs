@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.Logging;
+using NSubstitute;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest;
@@ -16,14 +17,17 @@ public class RestGrainTests
     private readonly IPluginConfigFetcher<RestConfig> _pluginConfigFetcher;
     private readonly IRestService _restService;
     private readonly IRestOutputFieldTypeGetter _restOutputFieldTypeGetter;
-    
+    private readonly ILogger<RestGrain> _logger;
+
     public RestGrainTests()
     {
         _pluginOutputCaller = Substitute.For<IPluginOutputCaller>();
         _pluginConfigFetcher = Substitute.For<IPluginConfigFetcher<RestConfig> >();
         _restService = Substitute.For<IRestService>();
         _restOutputFieldTypeGetter = Substitute.For<IRestOutputFieldTypeGetter>();
-        _sut = new RestGrain(_pluginOutputCaller, _pluginConfigFetcher, _restService, _restOutputFieldTypeGetter);
+        _logger = Substitute.For<ILogger<RestGrain>>();
+        
+        _sut = new RestGrain(_pluginOutputCaller, _pluginConfigFetcher, _restService, _restOutputFieldTypeGetter,_logger);
     }
 
     [Fact]

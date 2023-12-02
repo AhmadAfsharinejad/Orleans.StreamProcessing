@@ -1,9 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.Net;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
+using StreamProcessing.HttpListener.Extensions;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.PluginCommon.Domain;
@@ -20,10 +22,13 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
+    private readonly ILogger<HttpListenerResponseLocalGrain> _logger;
 
-    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller)
+    public HttpListenerResponseLocalGrain(IPluginOutputCaller pluginOutputCaller,
+        ILogger<HttpListenerResponseLocalGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task CallOutput([Immutable] PluginExecutionContext pluginContext,
@@ -33,6 +38,7 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
     {
         var reqId = Guid.NewGuid();
 
+        _logger.HttpRequestReceived(reqId);
         RequestContext.Set(HttpListenerConsts.ListenerGrainId, this.GetPrimaryKey());
         RequestContext.Set(HttpListenerConsts.RequestId, reqId);
 
@@ -66,5 +72,7 @@ internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerRespo
                 response.Close();
             }
         }
+
+        _logger.HttpResponseSent(reqId);
     }
 }

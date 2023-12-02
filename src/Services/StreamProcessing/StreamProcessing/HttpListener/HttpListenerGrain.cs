@@ -1,5 +1,7 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using StreamProcessing.HttpListener.Interfaces;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.Silo.Interfaces;
 
@@ -9,16 +11,13 @@ namespace StreamProcessing.HttpListener;
 internal sealed class HttpListenerGrain : Grain, IHttpListenerGrain
 {
     private readonly IEverySiloCaller _everySiloCaller;
+    private readonly ILogger<HttpListenerGrain> _logger;
 
-    public HttpListenerGrain(IEverySiloCaller everySiloCaller)
+    public HttpListenerGrain(IEverySiloCaller everySiloCaller,
+        ILogger<HttpListenerGrain> logger)
     {
         _everySiloCaller = everySiloCaller ?? throw new ArgumentNullException(nameof(everySiloCaller));
-    }
-    
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"HttpListenerGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]

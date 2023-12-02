@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
@@ -15,25 +16,21 @@ internal sealed class RandomGeneratorGrain : PluginGrain, IRandomGeneratorGrain
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly IPluginConfigFetcher<RandomGeneratorConfig> _pluginConfigFetcher;
     private readonly IRandomRecordCreator _randomRecordCreator;
+    private readonly ILogger<RandomGeneratorGrain> _logger;
 
     public RandomGeneratorGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RandomGeneratorConfig> pluginConfigFetcher,
-        IRandomRecordCreator randomRecordCreator)
+        IRandomRecordCreator randomRecordCreator,
+        ILogger<RandomGeneratorGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _randomRecordCreator = randomRecordCreator ?? throw new ArgumentNullException(nameof(randomRecordCreator));
-    }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        //TODO change console with log
-        Console.WriteLine($"RandomGeneratorGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]
-    public async Task Start([Immutable]PluginExecutionContext pluginContext,
+    public async Task Start([Immutable] PluginExecutionContext pluginContext,
         GrainCancellationToken cancellationToken)
     {
         var config = await _pluginConfigFetcher.GetConfig(pluginContext.WorkFlowId, pluginContext.PluginId);
@@ -42,7 +39,10 @@ internal sealed class RandomGeneratorGrain : PluginGrain, IRandomGeneratorGrain
 
         var columnTypeByName = config.Columns.ToDictionary(x => x.Field.Name, y => y.Type);
 
-        var outPluginContext = pluginContext with { InputFieldTypes = config.Columns.ToDictionary(x => x.Field.Name, y => y.Field.Type) };
+        var outPluginContext = pluginContext with
+        {
+            InputFieldTypes = config.Columns.ToDictionary(x => x.Field.Name, y => y.Field.Type)
+        };
 
         for (int i = 0; i < config.Count; i++)
         {
