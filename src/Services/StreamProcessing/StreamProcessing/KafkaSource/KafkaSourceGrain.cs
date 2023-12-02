@@ -3,7 +3,6 @@ using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.KafkaSource.Interfaces;
-using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Silo.Interfaces;

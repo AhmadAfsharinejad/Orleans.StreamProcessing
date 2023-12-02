@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace StreamProcessing.PluginCommon;
+﻿namespace StreamProcessing.PluginCommon;
 
 internal abstract class PluginGrain : Grain
 {

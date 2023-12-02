@@ -5,6 +5,7 @@ using Orleans.Concurrency;
 using Orleans.Placement;
 using Orleans.Runtime;
 using StreamProcessing.HttpListener.Domain;
+using StreamProcessing.HttpListener.Extensions;
 using StreamProcessing.HttpListener.Interfaces;
 using StreamProcessing.HttpResponse.Domain;
 using StreamProcessing.PluginCommon.Domain;
@@ -17,7 +18,7 @@ namespace StreamProcessing.HttpListener;
 
 [PreferLocalPlacement]
 [Reentrant]
-internal sealed partial class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
+internal sealed class HttpListenerResponseLocalGrain : Grain, IHttpListenerResponseLocalGrain
 {
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly ConcurrentDictionary<Guid, HttpListenerContext> _httpListenerContextDictionary = new();
@@ -36,8 +37,8 @@ internal sealed partial class HttpListenerResponseLocalGrain : Grain, IHttpListe
         GrainCancellationToken cancellationToken)
     {
         var reqId = Guid.NewGuid();
-        HttpRequestReceivedLog(reqId);
 
+        _logger.HttpRequestReceived(reqId);
         RequestContext.Set(HttpListenerConsts.ListenerGrainId, this.GetPrimaryKey());
         RequestContext.Set(HttpListenerConsts.RequestId, reqId);
 
@@ -72,6 +73,6 @@ internal sealed partial class HttpListenerResponseLocalGrain : Grain, IHttpListe
             }
         }
 
-        HttpResponseSentLog(reqId);
+        _logger.HttpResponseSent(reqId);
     }
 }
