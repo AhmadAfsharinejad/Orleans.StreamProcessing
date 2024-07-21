@@ -6,7 +6,7 @@ using Workflow.Domain;
 namespace Workflow.Application.ExecuteCoordinator.Commands.Run;
 
 public sealed class RunHandler : IRequestHandler<RunCommandConfig>
-{
+{//todo: scenrio persistance is not implemented for now
     private readonly IWorkflowExecuteCoordinator _workflowExecuteCoordinator;
     private readonly IWorkflowDesignCoordinator _workflowDesignCoordinator;
 

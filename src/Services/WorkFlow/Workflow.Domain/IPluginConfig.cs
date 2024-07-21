@@ -2,5 +2,5 @@
 
 public interface IPluginConfig
 {
-    
+    //todo: we should limit the design structure
 }

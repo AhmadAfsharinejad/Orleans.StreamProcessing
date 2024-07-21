@@ -81,7 +81,7 @@ RandomGeneratorConfig GetRandomGeneratorConfig()
             new(new("DateTime", FieldType.DateTime), RandomType.DateTime)
         },
         Count = 1_000_000,
-        BatchCount = 10
+        BatchCount = 1
     };
 }
 

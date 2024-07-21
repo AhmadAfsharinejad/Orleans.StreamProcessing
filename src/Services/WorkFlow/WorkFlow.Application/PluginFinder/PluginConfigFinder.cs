@@ -6,17 +6,14 @@ namespace Workflow.Application.PluginFinder;
 
 internal sealed class PluginConfigFinder : IPluginConfigFinder
 {
-    private readonly IServiceProvider _serviceProvider;
     private readonly IReadOnlyDictionary<PluginTypeId, Type> _pluginTypesById;
 
-    public PluginConfigFinder(IServiceProvider serviceProvider, IEnumerable<PluginConfigTypeWithId> plugins)
+    public PluginConfigFinder(IEnumerable<PluginConfigTypeWithId> plugins)
     {
         if (plugins == null)
         {
             throw new ArgumentNullException(nameof(plugins));
         }
-
-        _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
 
         _pluginTypesById = plugins.ToDictionary(x => x.TypeId, z => z.ConfigType);
     }
