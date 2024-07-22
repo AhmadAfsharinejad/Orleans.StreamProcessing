@@ -3,6 +3,7 @@ using StreamProcessing.Silo.Interfaces;
 
 namespace StreamProcessing.Silo;
 
+//todo:  based on the fact that the locality is not guaranteed, we should consider mixing the silo id in the grain id
 internal sealed class EverySiloCaller : IEverySiloCaller
 {
     private readonly IGrainFactory _grainFactory;
