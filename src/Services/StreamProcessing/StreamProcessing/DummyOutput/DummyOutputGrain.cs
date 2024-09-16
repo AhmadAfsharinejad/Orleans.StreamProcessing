@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using StreamProcessing.DummyOutput.Interfaces;
 using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
@@ -14,16 +15,13 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
     private readonly IPluginConfigFetcher<DummyOutputConfig> _pluginConfigFetcher;
     private int _counter;
     private int _totalCounter;
+    private readonly ILogger<DummyOutputGrain> _logger;
 
-    public DummyOutputGrain(IPluginConfigFetcher<DummyOutputConfig> pluginConfigFetcher)
+    public DummyOutputGrain(IPluginConfigFetcher<DummyOutputConfig> pluginConfigFetcher,
+        ILogger<DummyOutputGrain> logger)
     {
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
-    }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"DummyOutputGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]
@@ -45,7 +43,7 @@ internal sealed class DummyOutputGrain : PluginGrain, IDummyOutputGrain
             _counter = 0;
         }
     }
-    
+
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,
         [Immutable] PluginRecord pluginRecord,

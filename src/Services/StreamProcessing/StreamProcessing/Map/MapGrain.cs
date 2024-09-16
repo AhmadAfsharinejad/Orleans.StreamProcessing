@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
 using StreamProcessing.Map.Interfaces;
 using StreamProcessing.PluginCommon;
@@ -19,21 +20,19 @@ internal sealed class MapGrain : PluginGrain, IMapGrain
     private bool _hasBeenInitialized;
     private IReadOnlyDictionary<string, FieldType>? _outputFieldTypes;
     private Func<IReadOnlyDictionary<string, object>, IReadOnlyDictionary<string, object>>? _func;
+    private readonly ILogger<MapGrain> _logger;
 
     public MapGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<MapConfig> pluginConfigFetcher,
-        ICompiler compiler)
+        ICompiler compiler,
+        ILogger<MapGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _compiler = compiler ?? throw new ArgumentNullException(nameof(compiler));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"MapGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
-    }
 
     [ReadOnly]
     public async Task Compute([Immutable] PluginExecutionContext pluginContext,

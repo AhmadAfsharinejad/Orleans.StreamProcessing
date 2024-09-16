@@ -1,6 +1,8 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using Orleans.Placement;
 using StreamProcessing.HttpListener.Interfaces;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using Workflow.Domain.Plugins.HttpListener;
@@ -16,24 +18,22 @@ internal sealed class HttpListenerLocalGrain : Grain, IHttpListenerLocalGrain
     private readonly IHttpListenerService _httpListenerService;
     private readonly IHttpListenerOutputFieldTypeGetter _httpListenerOutputFieldTypeGetter;
     private readonly IHttpListenerResponseLocalGrain _httpListenerResponseLocalGrain;
+    private readonly ILogger<HttpListenerLocalGrain> _logger;
 
     public HttpListenerLocalGrain(IGrainFactory grainFactory,
         IPluginConfigFetcher<HttpListenerConfig> pluginConfigFetcher,
         IHttpListenerService httpListenerService,
-        IHttpListenerOutputFieldTypeGetter httpListenerOutputFieldTypeGetter)
+        IHttpListenerOutputFieldTypeGetter httpListenerOutputFieldTypeGetter,
+        ILogger<HttpListenerLocalGrain> logger)
     {
         _grainFactory = grainFactory ?? throw new ArgumentNullException(nameof(grainFactory));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _httpListenerService = httpListenerService ?? throw new ArgumentNullException(nameof(httpListenerService));
         _httpListenerOutputFieldTypeGetter = httpListenerOutputFieldTypeGetter ??
                                              throw new ArgumentNullException(nameof(httpListenerOutputFieldTypeGetter));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        ;
         _httpListenerResponseLocalGrain = _grainFactory.GetGrain<IHttpListenerResponseLocalGrain>(Guid.NewGuid());
-    }
-
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"HttpListenerLocalGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
     }
 
     [ReadOnly]

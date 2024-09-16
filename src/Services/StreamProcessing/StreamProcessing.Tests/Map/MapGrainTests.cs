@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using Microsoft.Extensions.Logging;
+using NSubstitute;
 using StreamProcessing.Map;
 using StreamProcessing.Map.Interfaces;
 using StreamProcessing.PluginCommon.Domain;
@@ -17,13 +18,15 @@ public class MapGrainTests
     private readonly IPluginOutputCaller _pluginOutputCaller;
     private readonly IPluginConfigFetcher<MapConfig> _pluginConfigFetcher;
     private readonly ICompiler _compiler;
-    
+    private readonly ILogger<MapGrain> _logger;
+
     public MapGrainTests()
     {
         _pluginOutputCaller = Substitute.For<IPluginOutputCaller>();
         _pluginConfigFetcher = Substitute.For<IPluginConfigFetcher<MapConfig>>();
         _compiler = Substitute.For<ICompiler>();
-        _sut = new MapGrain(_pluginOutputCaller, _pluginConfigFetcher, _compiler);
+        _logger = Substitute.For<ILogger<MapGrain>>();
+        _sut = new MapGrain(_pluginOutputCaller, _pluginConfigFetcher, _compiler,_logger);
     }
     
     [Fact]

@@ -1,5 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 using Orleans.Concurrency;
+using StreamProcessing.PluginCommon;
 using StreamProcessing.PluginCommon.Domain;
 using StreamProcessing.PluginCommon.Interfaces;
 using StreamProcessing.Rest.Interfaces;
@@ -18,28 +20,25 @@ internal sealed class RestGrain : Grain, IRestGrain
     private readonly IRestOutputFieldTypeGetter _restOutputFieldTypeGetter;
     private HttpClient? _httpClient;
     private IReadOnlyDictionary<string, FieldType>? _outputFieldTypes;
+    private readonly ILogger<RestGrain> _logger;
 
     public RestGrain(IPluginOutputCaller pluginOutputCaller,
         IPluginConfigFetcher<RestConfig> pluginConfigFetcher,
         IRestService restService,
-        IRestOutputFieldTypeGetter restOutputFieldTypeGetter)
+        IRestOutputFieldTypeGetter restOutputFieldTypeGetter,
+        ILogger<RestGrain> logger)
     {
         _pluginOutputCaller = pluginOutputCaller ?? throw new ArgumentNullException(nameof(pluginOutputCaller));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _restService = restService ?? throw new ArgumentNullException(nameof(restService));
-        _restOutputFieldTypeGetter = restOutputFieldTypeGetter ?? throw new ArgumentNullException(nameof(restOutputFieldTypeGetter));
-    }
-    
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"RestGrain Activated  {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
+        _restOutputFieldTypeGetter = restOutputFieldTypeGetter ??
+                                     throw new ArgumentNullException(nameof(restOutputFieldTypeGetter));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public override async Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
     {
         Dispose();
-
         await base.OnDeactivateAsync(reason, cancellationToken);
     }
 
@@ -66,7 +65,8 @@ internal sealed class RestGrain : Grain, IRestGrain
 
         foreach (var pluginRecord in pluginRecords.Records)
         {
-            var record = await _restService.Call(_httpClient!, config, pluginRecord, cancellationToken.CancellationToken);
+            var record =
+                await _restService.Call(_httpClient!, config, pluginRecord, cancellationToken.CancellationToken);
 
             records.Add(record);
         }

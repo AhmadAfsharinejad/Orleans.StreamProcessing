@@ -1,4 +1,5 @@
-﻿using Orleans.Concurrency;
+﻿using Microsoft.Extensions.Logging;
+using Orleans.Concurrency;
 using Orleans.Runtime;
 using StreamProcessing.KafkaSource.Domain;
 using StreamProcessing.KafkaSource.Interfaces;
@@ -9,25 +10,22 @@ using Workflow.Domain.Plugins.KafkaSource;
 
 namespace StreamProcessing.KafkaSource;
 
-internal sealed class KafkaSourceGrain: Grain, IKafkaSourceGrain
+internal sealed class KafkaSourceGrain : Grain, IKafkaSourceGrain
 {
     private readonly IKafkaPartition _kafkaPartition;
     private readonly IPluginConfigFetcher<KafkaSourceConfig> _pluginConfigFetcher;
     private readonly IIterativeSiloCaller _iterativeSiloCaller;
+    private readonly ILogger<KafkaSourceGrain> _logger;
 
     public KafkaSourceGrain(IKafkaPartition kafkaPartition,
         IPluginConfigFetcher<KafkaSourceConfig> pluginConfigFetcher,
-        IIterativeSiloCaller iterativeSiloCaller)
+        IIterativeSiloCaller iterativeSiloCaller,
+        ILogger<KafkaSourceGrain> logger)
     {
         _kafkaPartition = kafkaPartition ?? throw new ArgumentNullException(nameof(kafkaPartition));
         _pluginConfigFetcher = pluginConfigFetcher ?? throw new ArgumentNullException(nameof(pluginConfigFetcher));
         _iterativeSiloCaller = iterativeSiloCaller ?? throw new ArgumentNullException(nameof(iterativeSiloCaller));
-    }
-    
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        Console.WriteLine($"KafkaSourceGrain Activated {this.GetGrainId()}");
-        return base.OnActivateAsync(cancellationToken);
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     [ReadOnly]
